@@ -1,9 +1,11 @@
 import React from 'react';
+import * as Constants from '../Constants/Constants'
+
 
 const NotFound = () => {
     return (
         <div>
-            <strong>404 - Page Not Found</strong>
+            <strong>{Constants.PAGE_NOT_FOUND}</strong>
         </div>
     );
 }

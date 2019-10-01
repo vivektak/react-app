@@ -11,7 +11,7 @@ const localStorage = {
     },
 
     removeItem: function (key) {
-        ls.removeItem(key);
+        ls.remove(key);
     }
 }
 

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import './login.css'
+import '../styles/login.css'
 import { Link } from 'react-router-dom';
 import http from '../services/httpService';
+import { toast } from 'react-toastify';
+import * as Constants from '../Constants/Constants';
 
 
 const Register = () => {
@@ -14,10 +16,10 @@ const Register = () => {
     const validate = () => {
         const emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}";
         if (email.trim() === "") {
-            setEmailError('Email is Required');
+            setEmailError(Constants.EMAIL_REQUIRE);
             return false;
         } else if (email.match(emailRegex) === null) {
-            setEmailError('Please Enter Valid Email');
+            setEmailError(Constants.INVALID_EMAIL);
             return false;
         }
         else {
@@ -26,10 +28,10 @@ const Register = () => {
 
 
         if (password.trim() === "") {
-            setPassError('Password is Required');
+            setPassError(Constants.PASSWORD_REQUIRE);
             return false;
         } else if (password.trim().length < 8) {
-            setPassError('Password minimum length should be 8');
+            setPassError(Constants.INVALID_PASSWORD);
             return false;
         }
         else {
@@ -49,15 +51,19 @@ const Register = () => {
         }
 
         if (isValid !== false) {
-            await http.post('user/signup', data).then(res => console.log(res))
+            await http.post('user/signup', data).then(res => {
+                console.log(res)
+                if (res.status === 200)
+                    toast.success(Constants.REGISTER_SUCCESS);
+            })
         }
     };
 
     const handleChange = e => {
-        if (e.name === 'email') {
+        if (e.name === Constants.EMAIL.toLowerCase()) {
             setEmail(e.value)
         }
-        if (e.name === 'password') {
+        if (e.name === Constants.PASSWORD.toLowerCase()) {
             setPassword(e.value);
         }
 
@@ -72,7 +78,7 @@ const Register = () => {
 
             <div className="container header-container" style={inlinestyle} >
 
-                <span className="label-header">Register</span>
+                <span className="label-header">{Constants.REGISTER}</span>
 
 
             </div>
@@ -80,27 +86,29 @@ const Register = () => {
                 <img src="/nagarro.png" alt="Avatar" className="avatar" />
             </div>
             <div className="container">
-                <label htmlFor="exampleInputEmail1">Email address</label>
+                <label htmlFor={Constants.EMAIL.toLowerCase()}>Email address</label>
                 <input
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id={Constants.EMAIL.toLowerCase()}
                     aria-describedby="emailHelp"
                     placeholder="Enter email"
                     value={email}
-                    name="email"
+                    name={Constants.EMAIL.toLowerCase()}
+                    onBlur={() => validate()}
                     onChange={(e) => handleChange(e.target)}
                 />
                 {emailError &&
                     <div className="alert alert-danger">{emailError}</div>
                 }
 
-                <label htmlFor="exampleInputPassword1">Password</label>
+                <label htmlFor={Constants.PASSWORD.toLowerCase()}>{Constants.PASSWORD}</label>
                 <input
                     className="form-control"
-                    id="exampleInputPassword1"
-                    name="password"
-                    placeholder="Password"
+                    id={Constants.PASSWORD.toLowerCase()}
+                    name={Constants.PASSWORD.toLowerCase()}
+                    placeholder={Constants.PASSWORD}
                     value={password}
+                    onBlur={() => validate()}
                     onChange={(e) => handleChange(e.target)}
 
                 />
@@ -111,9 +119,9 @@ const Register = () => {
 
             <div className="container" style={inlinestyle} >
                 <button type="submit" className="cancelbtn">
-                    Register
-            </button>
-                <span className="psw">Already have an Account? <Link to='/login'>Login here</Link></span>
+                    {Constants.REGISTER}
+                </button>
+                <span className="psw">{Constants.ALREADY_ACCOUNT} <Link to='/login'>{Constants.LOG_IN} {Constants.HERE}</Link></span>
             </div>
 
 

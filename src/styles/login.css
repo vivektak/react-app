@@ -88,3 +88,9 @@ span.psw {
 .header-container {
     text-align: center;
 }
+
+.header-avatar {
+    height: 22px;
+    width: 100px;
+    background-color: transparent;
+}

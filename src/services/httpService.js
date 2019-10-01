@@ -14,6 +14,12 @@ const http = {
     },
     postWithHeader: async function (url, data, headers) {
         return await Axios.post(process.env.REACT_APP_API_URL + url, data, headers);
+    },
+    putWithHeader: async function (url, data, headers) {
+        return await Axios.put(process.env.REACT_APP_API_URL + url, data, headers);
+    },
+    patchWithHeader: async function (url, data, headers) {
+        return await Axios.patch(process.env.REACT_APP_API_URL + url, data, headers);
     }
 }
 

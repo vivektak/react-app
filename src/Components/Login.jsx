@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
-import './login.css';
+import React, { useState, useContext } from 'react';
+import '../styles/login.css';
 import localStorage from '../services/storageService';
 import { Link } from 'react-router-dom';
 import http from '../services/httpService';
+import { toast } from 'react-toastify';
+import * as Constants from '../Constants/Constants';
+import { userContext } from '../services/Context';
 
 
-const Login = (props) => {
+
+export const Login = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passError, setPassError] = useState('');
+    //const [loginData, setloginData] = useState({});
+
+    const { data, setData } = useContext(userContext);
+
+    console.log(data);
 
     const validate = () => {
-        // let isVaid = true;
         const emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}";
         if (email.trim() === "") {
-            setEmailError('Email is Required');
+            setEmailError(Constants.EMAIL_REQUIRE);
             return false;
         } else if (email.match(emailRegex) === null) {
-            setEmailError('Please Enter Valid Email');
+            setEmailError(Constants.INVALID_EMAIL);
             return false;
         }
         else {
@@ -27,10 +35,10 @@ const Login = (props) => {
 
 
         if (password.trim() === "") {
-            setPassError('Password is Required');
+            setPassError(Constants.PASSWORD_REQUIRE);
             return false;
         } else if (password.trim().length < 8) {
-            setPassError('Password minimum length should be 8');
+            setPassError(Constants.INVALID_PASSWORD);
             return false;
         }
         else {
@@ -40,7 +48,6 @@ const Login = (props) => {
     };
 
     const handleSubmit = async e => {
-        console.log(process)
         e.preventDefault();
         const isValid = validate();
         const data = {
@@ -51,20 +58,20 @@ const Login = (props) => {
         if (isValid !== false) {
             await http.post('user/login', data).then(res => {
                 if (res.status === 200) {
-                    localStorage.set('token', res.data.data.token);
-                    console.log(props)
-                    console.log(props.state);
+                    toast.success(Constants.LOGGED_IN_SUCCESS);
+                    localStorage.set(Constants.TOKEN, res.data.data.token);
                     props.history.push('/openings');
+                    setData(res.data.data)
                 }
             })
         }
     };
 
     const handleChange = e => {
-        if (e.name === 'email') {
+        if (e.name === Constants.EMAIL.toLowerCase()) {
             setEmail(e.value)
         }
-        if (e.name === 'password') {
+        if (e.name === Constants.PASSWORD.toLowerCase()) {
             setPassword(e.value);
         }
     };
@@ -73,39 +80,40 @@ const Login = (props) => {
         backgroundColor: "#f1f1f1"
     }
 
+
+
     return (
         <form onSubmit={(e) => handleSubmit(e)} >
             <div className="container header-container" style={inlinestyle} >
-
-                <span className="label-header">Login</span>
-
-
+                <span className="label-header">{Constants.LOG_IN}</span>
             </div>
             <div className="imgcontainer">
                 <img src="/nagarro.png" alt="Avatar" className="avatar" />
             </div>
             <div className="container">
-                <label htmlFor="exampleInputEmail1">Email address</label>
+                <label htmlFor={Constants.EMAIL.toLowerCase()}>Email address</label>
                 <input
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id={Constants.EMAIL.toLowerCase()}
                     aria-describedby="emailHelp"
                     placeholder="Enter email"
                     value={email}
-                    name="email"
+                    name={Constants.EMAIL.toLowerCase()}
+                    onBlur={() => validate()}
                     onChange={(e) => handleChange(e.target)}
                 />
                 {emailError &&
                     <div className="alert alert-danger">{emailError}</div>
                 }
 
-                <label htmlFor="exampleInputPassword1">Password</label>
+                <label htmlFor={Constants.PASSWORD.toLowerCase()}>Password</label>
                 <input
                     className="form-control"
-                    id="exampleInputPassword1"
-                    name="password"
-                    placeholder="Password"
+                    id={Constants.PASSWORD.toLowerCase()}
+                    name={Constants.PASSWORD.toLowerCase()}
+                    placeholder={Constants.PASSWORD}
                     value={password}
+                    onBlur={() => validate()}
                     onChange={(e) => handleChange(e.target)}
 
                 />
@@ -119,17 +127,18 @@ const Login = (props) => {
 
             <div className="container" style={inlinestyle} >
                 <button type="submit" className="cancelbtn mt-2">
-                    Login
-            </button>
-                <span className="psw">Don't have an Account? <Link to='/register'>Register here</Link></span>
+                    {Constants.LOG_IN}
+                </button>
+                <span className="psw">{Constants.DONT_HAVE_AN_ACCOUNT} <Link to='/register'>{Constants.REGISTER} {Constants.HERE}</Link></span>
             </div>
 
 
 
         </form>
+
     );
 
 
 }
 
-export default Login;
+//export default   Login, userContext;
