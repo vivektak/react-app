@@ -4,6 +4,24 @@ import localStorage from '../../../services/storageService';
 import http from '../../../services/httpService';
 import * as Constants from '../../../Constants/Constants';
 
+import {
+    AppBar,
+    Toolbar,
+    IconButton,
+    Typography,
+    Button,
+    Container,
+    Dialog,
+    Slide,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Menu,
+    MenuItem
+} from "@material-ui/core";
+
+import MaterialTable from "material-table";
 
 const ViewReferredPopup = (props) => {
 
@@ -14,8 +32,8 @@ const ViewReferredPopup = (props) => {
         let headers = {
             token: res
         }
-        console.log(props.referralData)
-        const data = http.getWithHeader(`refer/${props.referralData._id}`, { headers })
+        console.log(props)
+        const data = http.getWithHeader(`refer/${props.rowData._id}`, { headers })
         data.then(res => {
             setReferrals(res.data.data);
         })
@@ -25,43 +43,60 @@ const ViewReferredPopup = (props) => {
         props.toggleReferrals();
     }
 
-    useEffect(props => {
+    useEffect(() => {
         getReferrals();
-    })
+    }, [])
 
+    const handleEdit = (event, rowData) => {
+        console.log(rowData)
+    }
 
 
     return (
-        <div className='popup'>
-            <div className='popup\_inner'>
-                <div className="container">
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Mobile Number</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+        <div>
+            <Dialog
+                open={props.showReferralPopup}
+                keepMounted
+                aria-labelledby="alert-dialog-slide-title"
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogContent>
+                    <MaterialTable
+                        columns={[
+                            { title: "Name", field: "name" },
+                            { title: "Email", field: "email" },
+                            { title: "Mobile", field: "mobile", type: "numeric" },
 
+                        ]}
+                        data={referrals}
+                        title="Referrals"
+                        actions={[
                             {
-                                referrals.map(referral =>
-                                    <tr key={referral._id}>
-
-                                        <td>{referral.name}</td>
-                                        <td>{referral.email}</td>
-                                        <td>{referral.mobile}</td>
-
-                                    </tr>)
+                                icon: "edit",
+                                tooltip: "Edit User",
+                                onClick: (event, rowData) => {
+                                    // Do save operation
+                                    handleEdit(event, rowData)
+                                }
                             }
+                        ]}
+                        options={{
+                            actionsColumnIndex: -1
+                        }}
+                    />
 
-                        </tbody>
-                    </table>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={props.toggleReferrals}
+                        color="secondary"
+                        variant="contained"
+                    >
+                        {Constants.CLOSE}
+                    </Button>
+                </DialogActions>
 
-                    <button className="btn btn-danger cancelbtn" onClick={() => closePopup()} >{Constants.CLOSE}</button>
-                </div>
-            </div>
+            </Dialog>
         </div>
 
     );

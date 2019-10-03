@@ -27,7 +27,7 @@ import MaterialTable from "material-table";
 
 import Loader from 'react-loader-spinner';
 
-const Skills = () => {
+const Skills = (props) => {
 
     const [skills, setSkills] = useState([]);
     const [popup, setPopup] = useState(false);
@@ -80,7 +80,7 @@ const Skills = () => {
 
     return (
         <div>
-            <Header />
+            <Header {...props} />
             <Container>
                 <div style={{ textAlign: "right", margin: "30px 0 15px 0" }}>
                     <Button
@@ -121,7 +121,7 @@ const Skills = () => {
                 />
             </Container>
             {
-                popup ? <AddEditSkillsPopup togglePopup={() => togglePopup()} getSkills={getSkills} editData={editData}></AddEditSkillsPopup> : null
+                popup ? <AddEditSkillsPopup popup={popup} togglePopup={() => togglePopup()} getSkills={getSkills} editData={editData}></AddEditSkillsPopup> : null
             }
 
             {/* { openModal ? <AddOpening handleCloseModal={handleCloseModal} openModal={openModal} rowData={rowData}></AddOpening> : null }

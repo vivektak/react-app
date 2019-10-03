@@ -43,13 +43,12 @@ const AddEditSkillsPopup = (props) => {
         }
     }
 
-    useEffect(props => {
+    useEffect(() => {
         console.log(props)
-        // if (props.editData) {
-        //     console.log(props.editData);
-        //     setSkill(props.editData.name);
-        //     setIsEdit(Constants.EDIT)
-        // }
+        if (props.editData) {
+            setSkill(props.editData.name);
+            setIsEdit(Constants.EDIT)
+        }
     }, [])
 
     const handleSubmit = () => {
@@ -106,22 +105,19 @@ const AddEditSkillsPopup = (props) => {
     //     backgroundColor: "#f1f1f1"
     // }
 
-    const Transition = React.forwardRef(function Transition(props, ref) {
-        return <Slide direction="up" ref={ref} {...props} />;
-    });
 
 
     return (
 
         <Dialog
-            open={props.togglePopup}
-            TransitionComponent={Transition}
+            open={props.popup}
+
             keepMounted
             // onClose={props.handleCloseModal}
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle id="alert-dialog-slide-title">Add Skill</DialogTitle>
+            <DialogTitle id="alert-dialog-slide-title">{props.editData ? 'Edit' : 'Add'} Skill</DialogTitle>
             <DialogContent>
                 <TextField
                     id="standard-name"
@@ -146,8 +142,8 @@ const AddEditSkillsPopup = (props) => {
                     color="primary"
                     variant="contained"
                 >
-                    Save
-          </Button>
+                    {props.editData ? 'Update' : 'Save'}
+                </Button>
                 <Button
                     onClick={props.togglePopup}
                     color="secondary"

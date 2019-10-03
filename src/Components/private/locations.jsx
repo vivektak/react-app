@@ -26,7 +26,7 @@ import {
 } from "@material-ui/core";
 import MaterialTable from "material-table";
 
-const Locations = () => {
+const Locations = (props) => {
 
     const [locations, setLocation] = useState([]);
     const [popup, setPopup] = useState(false);
@@ -81,7 +81,7 @@ const Locations = () => {
     return (
 
         <div>
-            <Header />
+            <Header {...props} />
             <Container>
                 <div style={{ textAlign: "right", margin: "30px 0 15px 0" }}>
                     <Button
@@ -122,7 +122,7 @@ const Locations = () => {
                 />
             </Container>
             {
-                popup ? <AddLocation togglePopup={togglePopup} getLocations={getLocations} editData={editData}></AddLocation> : null
+                popup ? <AddLocation popup={popup} togglePopup={togglePopup} getLocations={getLocations} editData={editData}></AddLocation> : null
             }
         </div>
         // <div className="container-fluid">

@@ -66,8 +66,10 @@ const AddOpening = (props) => {
 
             let data = [];
             res.data.data.map(res => {
+                console.log(res)
                 data.push(res.name);
             })
+            console.log(data)
             setSkills(data);
         })
 
@@ -165,9 +167,11 @@ const AddOpening = (props) => {
 
 
     const handleSubmit = e => {
+        console.log(e)
         setSubmitDisable(true);
-        e.preventDefault();
-        const isValid = validate();
+        // e.preventDefault();
+        const isValid = validate(e);
+        console.log(isValid)
         if (isValid !== false) {
             let data = {
                 title,
@@ -183,17 +187,21 @@ const AddOpening = (props) => {
                 token: res
             }
 
-
-            if (props.match.params.id) {
-                http.putWithHeader(`job/edit/${props.match.params.id}`, data, { headers }).then(res => {
+            console.log(props)
+            console.log(data)
+            if (Object.keys(props.rowData).length > 0) {
+                http.putWithHeader(`job/edit/${props.rowData._id}`, data, { headers }).then(res => {
                     toast.success(Constants.OPENING_EDIT_SUCCESS);
-                    props.history.push(`/${Constants.OPENINGS}`);
+                    props.history.replace(`/${Constants.OPENINGS}`);
                     setSubmitDisable(false);
+                    props.handleCloseModal()
                 });
             } else {
                 http.postWithHeader('job/add', data, { headers }).then(res => {
+                    props.history.replace(`/${Constants.OPENINGS}`);
+                    props.handleCloseModal()
                     toast.success(Constants.OPENING_ADD_SUCCESS);
-                    props.history.push(`/${Constants.OPENINGS}`);
+                    // props.history.push('/openings');
                     setSubmitDisable(false);
 
                 });
@@ -208,7 +216,7 @@ const AddOpening = (props) => {
     useEffect(() => {
         getSkills();
         getLocations();
-
+        console.log(props)
         if (Object.keys(props.rowData).length > 0) {
             const dataToEdit = props.rowData;
             setTitle(dataToEdit.title);
@@ -233,44 +241,19 @@ const AddOpening = (props) => {
         setDescription('');
     }
 
-    const Transition = React.forwardRef(function Transition(props, ref) {
-        return <Slide direction="up" ref={ref} {...props} />;
-    });
-
-    const handleKeyDown = (e) => {
-        // If you have a more complex input, you may want to store the value in the state.
-
-        const label = e.target.value;
-        if (!!label && e.key === 'Enter') {
-            const name = label.replace(/\s/g, '');
-            console.log(locations)
-            console.log(name)
-            if (locations.some((v) => v.name === name)) {
-                console.error('There is already a chip which has same key.');
-            } else {
-                // Location.push({ label, id });
-                // this.setState({ chips });
-                e.target.value = '';
-                console.log('akjsd')
-            }
-        }
-    };
-
 
     return (
 
         <Dialog
-            open={true}
-            TransitionComponent={Transition}
-            onEntered={() => { console.log('entering dialog') }}
-            // keepMounted
+            open={props.openModal}
+            keepMounted
             // onClose={props.handleCloseModal}
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle id="alert-dialog-slide-title">Add Job</DialogTitle>
+            <DialogTitle id="alert-dialog-slide-title">{Object.keys(props.rowData).length > 0 ? 'Edit' : 'Add'} Opening </DialogTitle>
             <DialogContent>
-                {/* <TextField
+                <TextField
                     id="standard-name"
                     label="Title"
                     name={Constants.TITLE.toLowerCase()}
@@ -298,32 +281,15 @@ const AddOpening = (props) => {
                         setJobTypeError(false);
                     }}
                     margin="normal"
-                ></TextField> */}
-                {/* <InputLabel htmlFor="location">Location</InputLabel>
-                <Select
-                    label="Location"
-                    name="location"
-                    value={location}
-                    onChange={e => setLocation(e.target.value)}
-                    //displayEmpty
-                    name="Location"
-                className={classes.selectEmpty}
-                >
-                    <MenuItem value={location}>Select Location</MenuItem>
-                    {
-                        locations.map(loc => {
-                            return <MenuItem value={loc}>{loc}</MenuItem>
-                        })
-                    }
+                ></TextField>
 
-                </Select> */}
-                {/* <FormControl variant="outlined" style={{
+                <FormControl variant="outlined" style={{
                     width: "100%",
                 }}>
                     <InputLabel htmlFor="filled-location-simple">Location</InputLabel>
                     <Select
                         value={location}
-                        onChange={handleChange}
+                        onChange={e => setLocation(e.target.value)}
                         inputProps={{
                             name: 'location',
                             id: 'filled-location-simple',
@@ -336,27 +302,36 @@ const AddOpening = (props) => {
                             })
                         }
                     </Select>
-                </FormControl> */}
+                </FormControl>
+                <Chips
+                    value={mandatorySkills}
+                    placeholder="Mandatory Skills"
+                    onChange={(e) => onMandatoryChange(e)}
+                    id={Constants.MANDATORY_SKILLS}
+                    onBlur={() => validate()}
+                    suggestions={skills}
 
-                {/* <input type="text" onKeyDown={handleKeyDown} />
-                <ChipSet
-                    input
-                    updateChips={(chips) => setLocation(chips)}
-                >
-                    {Location}
-                    {this.state.chips.map((chip) =>
-                        <Chip
-                            id={chip.id}
-                            key={chip.id} // The chip's key cannot be its index, because its index may change.
-                            label={chip.label}
-                            trailingIcon={<MaterialIcon icon='cancel' />}
-                        />
-                    )}
-                </ChipSet> */}
+                />
+                {mandatorySkillsError &&
+                    <div className="alert alert-danger">{mandatorySkillsError}</div>
+                }
 
-                {/* <TextField
+                <Chips
+                    placeholder="Good To Have Skills"
+                    value={goodToHaveSkills}
+                    onChange={(e) => onGoodToHaveChange(e)}
+                    id={Constants.GOOD_TO_HAVE_SKILLS}
+                    suggestions={skills}
+                />
+                {goodToHaveSkillsError &&
+                    <div className="alert alert-danger">{goodToHaveSkillsError}</div>
+                }
+
+
+                <TextField
                     id="standard-number"
                     label="No of Positions"
+                    type="number"
                     name={Constants.NO_OF_POSITIONS}
                     helperText={noOfPositionsError}
                     fullWidth={true}
@@ -369,16 +344,16 @@ const AddOpening = (props) => {
                     margin="normal"
                 ></TextField>
 
-                <textarea className="mdc-text-field__input mt-2" style={{ width: "100%" }} rows="4" cols="40" aria-label="Label"></textarea> */}
+                <textarea value={description} onChange={e => setDescription(e.target.value)} className="mdc-text-field__input mt-2" style={{ width: "100%" }} rows="4" cols="40" aria-label="Label"></textarea>
             </DialogContent>
             <DialogActions>
                 <Button
-                    onClick={handleSubmit}
+                    onClick={e => handleSubmit(e)}
                     color="primary"
                     variant="contained"
                 >
-                    Save
-          </Button>
+                    {Object.keys(props.rowData).length > 0 ? "Update" : "Save"}
+                </Button>
                 <Button
                     onClick={props.handleCloseModal}
                     color="secondary"

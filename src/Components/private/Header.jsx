@@ -29,7 +29,7 @@ import {
 
 } from "@material-ui/core";
 //import AccountCircle from '@material-ui/icons/AccountCircle';
-import { Menu as MenuIcon, AccountCircle, ExitToApp, Mail as MailIcon, Inbox as InboxIcon } from "@material-ui/icons";
+import { Menu as MenuIcon, AccountCircle, ExitToApp, Mail as MailIcon, Inbox as InboxIcon, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
 //import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const Header = (props) => {
@@ -37,6 +37,8 @@ const Header = (props) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [openDrawer, setOpenDrawer] = React.useState(false);
+
+    const drawerData = [{ name: 'Home', url: '/Openings', icon: HomeIcon }, { name: 'Skills', url: '/skills', icon: 'HomeIcon' }, { name: 'Locations', url: '/locations', icon: 'HomeIcon' }, { name: 'My Referral', url: '/my-referrals', icon: 'HomeIcon' }];
 
     const open = Boolean(anchorEl);
 
@@ -58,11 +60,9 @@ const Header = (props) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
-
-
-
         setOpenDrawer(open);
     };
+
 
     const sideList = side => (
         <div
@@ -72,10 +72,16 @@ const Header = (props) => {
             onKeyDown={toggleDrawer(side, false)}
         >
             <List>
-                {[{ name: 'Home', url: '/Openings' }, { name: 'Skills', url: '/skills' }, { name: 'Locations', url: '/locations' }, { name: 'My Referral', url: '/my-referrals' },].map((text, index) => (
+                {drawerData.map((text, index) => (
                     <ListItem button key={text.name}>
-                        {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+                        <ListItemIcon>
+                            {
+                                index === 0 ? <HomeIcon /> : index === 1 ? <MenuBookIcon /> : index === 2 ? <LocationOnIcon /> : <PeopleOutlineIcon />
+
+                            }
+                        </ListItemIcon>
                         {/* <ListItemText primary={text.name} /> */}
+
                         <Link to={text.url} ><ListItemText primary={text.name} /></Link>
                     </ListItem>
                 ))}
@@ -84,7 +90,7 @@ const Header = (props) => {
             <List>
 
                 <ListItem button >
-                    {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+                    <ListItemIcon><ExitToApp /></ListItemIcon>
                     <Link to="/login" onClick={handleLogout}><ListItemText primary="Logout" /></Link>
                 </ListItem>
 
@@ -100,8 +106,8 @@ const Header = (props) => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h5" style={{ flexGrow: 1 }}>
-                    Home
-                    </Typography>
+                    <Link to='/openings'>Home</Link>
+                </Typography>
 
                 <div>
                     <IconButton

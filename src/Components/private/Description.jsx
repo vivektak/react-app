@@ -29,7 +29,7 @@ const Description = (props) => {
 
             <button onClick={() => togglePopup()} className='btn btn-primary cancelbtn'>{Constants.REFER_FRIEND}</button>
             <button onClick={() => toggleRefferalPopup()} className='btn btn-primary cancelbtn m-2'>{Constants.VIEW_REFERRALS}</button>
-            {showPopup ? <ReferAFriendPopup togglePopup={togglePopup} data={props.location.state}></ReferAFriendPopup> : null}
+            {showPopup ? <ReferAFriendPopup togglePopup={togglePopup} data={props.rowData}></ReferAFriendPopup> : null}
             {showReferralPopup ? <ViewReferralsPopup toggleRefferalPopup={toggleRefferalPopup} data={props.location.state}></ViewReferralsPopup> : null}
         </div >
     );

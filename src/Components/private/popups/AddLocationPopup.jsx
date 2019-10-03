@@ -65,7 +65,7 @@ const AddLocation = (props) => {
                 data.then(res => {
                     if (res.status === 200 || res.status === 201) {
                         handleClose();
-                        props.getSkills();
+                        props.getLocations();
                         toast.success(Constants.LOCATION_EDIT_SUCCESS);
                         setAddEditDisable(false);
                     }
@@ -87,7 +87,7 @@ const AddLocation = (props) => {
 
     }
 
-    useEffect(props => {
+    useEffect(() => {
         console.log(props)
         if (props.editData) {
             setLocation(props.editData.name);
@@ -103,23 +103,18 @@ const AddLocation = (props) => {
     //     backgroundColor: "#f1f1f1"
     // }
 
-    const Transition = React.forwardRef(function Transition(props, ref) {
-        return <Slide direction="up" ref={ref} {...props} />;
-    });
-
 
     return (
 
 
         <Dialog
-            open={props.togglePopup}
-            TransitionComponent={Transition}
+            open={props.popup}
             keepMounted
             // onClose={props.handleCloseModal}
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle id="alert-dialog-slide-title">Add Location</DialogTitle>
+            <DialogTitle id="alert-dialog-slide-title">{props.editData ? 'Edit' : 'Add'} Location</DialogTitle>
             <DialogContent>
                 <TextField
                     id="standard-name"
@@ -144,8 +139,8 @@ const AddLocation = (props) => {
                     color="primary"
                     variant="contained"
                 >
-                    Save
-          </Button>
+                    {props.editData ? 'Update' : 'Save'}
+                </Button>
                 <Button
                     onClick={props.togglePopup}
                     color="secondary"

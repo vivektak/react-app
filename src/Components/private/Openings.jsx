@@ -51,21 +51,6 @@ const Openings = props => {
 
     const [Opening, setOpening] = useState([]);
     const [rowData, setRowData] = useState([]);
-    // const [openModal, setOpenModal] = useState(false);
-    // const [anchorEl, setAnchorEl] = React.useState(null);
-    // const open = Boolean(anchorEl);
-
-
-    // const handleMenu = event => {
-    //     setAnchorEl(event.currentTarget);
-    // };
-
-
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
-
-
 
     const handleEdit = (e, rowData) => {
         setRowData(rowData);
@@ -93,7 +78,6 @@ const Openings = props => {
 
     const handleAdd = () => {
         setOpenModal(true)
-        //props.history.push('/add-opening')
     }
 
     const getOpenings = () => {
@@ -125,7 +109,7 @@ const Openings = props => {
 
 
     const toggleReferrals = (e, data) => {
-        setReferralData(data);
+        setRowData(data);
         setShowReferralPopup(!showReferralPopup);
     }
 
@@ -138,69 +122,25 @@ const Openings = props => {
 
     return (
         <div>
-            <Header />
-            {/* <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h5" style={{ flexGrow: 1 }}>
-                        Nagarro
-                    </Typography>
-                    <div>
-                        <IconButton
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleMenu}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={open}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <Link to="/my-referrals" style={{ color: "rgba(0, 0, 0, 0.87)" }}><MenuItem onClick={handleClose}>My Referrals</MenuItem></Link>
-                        </Menu>
-                    </div>
-                </Toolbar>
-            </AppBar> */}
+            <Header {...props} />
             <div className="container-fluid" >
                 <div style={{ textAlign: "right", margin: "30px 0 15px 0" }}>
                     <Button
                         onClick={() => handleAdd(true)}
                         color="secondary"
                         variant="contained"
-                    >Add Job</Button>
+                    >Add Opening</Button>
                 </div>
                 <MaterialTable
                     columns={[
+                        { title: "ID", field: "_id" },
                         { title: "Title", field: "title" },
                         { title: "Job Type", field: "jobType" },
-                        { title: "Positions", field: "noOfPositions", type: "numeric" },
-                        {
-                            title: "Posted On",
-                            field: "createdAt",
+                        { title: "Location", field: "location" },
+                        { title: "Mandatory Skills", field: "mandatorySkills" },
+                        { title: "Good To Have Skills", field: "goodToHaveSkills" },
+                        { title: "Number of Positions", field: "noOfPositions", type: "numeric" },
 
-                        },
-                        {
-                            title: "Updated On",
-                            field: "updatedAt",
-
-                        }
                     ]}
                     data={Opening}
                     title="Job Openings"
@@ -222,11 +162,19 @@ const Openings = props => {
                             }
                         },
                         {
-                            icon: "edit",
+                            icon: "remove_red_eye",
                             tooltip: "View Details",
                             onClick: (event, rowData) => {
                                 // Do save operation
                                 handleDetailsView(event, rowData);
+                            }
+                        },
+                        {
+                            icon: "people",
+                            tooltip: "View Referred",
+                            onClick: (event, rowData) => {
+                                // Do save operation
+                                toggleReferrals(event, rowData);
                             }
                         }
                     ]}
@@ -235,9 +183,9 @@ const Openings = props => {
                     }}
                 />
             </div>
-            {openModal ? <AddOpening handleCloseModal={handleCloseModal} openModal={openModal} rowData={rowData}></AddOpening> : null}
-            {descriptionPopup ? <DescriptionPopup togglePopup={togglePopup} rowData={rowData}></DescriptionPopup> : null}
-
+            {openModal ? <AddOpening handleCloseModal={handleCloseModal} openModal={openModal} rowData={rowData} {...props}></AddOpening> : null}
+            {descriptionPopup ? <DescriptionPopup togglePopup={togglePopup} rowData={rowData} descriptionPopup={descriptionPopup}></DescriptionPopup> : null}
+            {showReferralPopup ? <ViewReferredPopup toggleReferrals={toggleReferrals} rowData={rowData} showReferralPopup={showReferralPopup}> </ViewReferredPopup> : null}
 
         </div>
 

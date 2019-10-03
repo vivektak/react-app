@@ -159,6 +159,21 @@ const ReferAFriendPopup = (props) => {
                         setMobileNumberError(false);
                     }}
                 />
+                <TextField
+
+                    id="standard-file"
+                    label="Choose File"
+                    type="file"
+                    name="file"
+                    // fullWidth={true}
+                    // value={mobileNumber}
+                    // error={mobileNumberError ? true : false}
+                    // helperText={mobileNumberError}
+                    onChange={e => {
+                        onChange(e);
+                        //  setMobileNumberError(false);
+                    }}
+                />
                 {/* <input
                     type='file'
                      multiple={this.props.multi}

@@ -52,22 +52,15 @@ const DescriptionPopup = (props) => {
 
     }
 
-    const Transition = React.forwardRef(function Transition(props, ref) {
-        return <Slide direction="up" ref={ref} {...props} />;
-    });
-
-
-
     return (
         <div>
             <Dialog
-                open={props.togglePopup}
-                TransitionComponent={Transition}
+                open={props.descriptionPopup}
                 keepMounted
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                {showPopup ? <React.Fragment><DialogTitle id="alert-dialog-slide-title">Details</DialogTitle>
+                {showPopup ? <React.Fragment><DialogTitle id="alert-dialog-slide-title">Job Details</DialogTitle>
                     <DialogContent>
                         <p><strong>{title}</strong></p>
                         <p><strong>{location}</strong></p>
@@ -90,25 +83,9 @@ const DescriptionPopup = (props) => {
                         >
                             {Constants.CLOSE}
                         </Button>
-                    </DialogActions></React.Fragment> : <ReferAFriendPopup handleSubmit={handleSubmit} togglePopup={props.togglePopup} data={props.descData}></ReferAFriendPopup>}}
+                    </DialogActions></React.Fragment> : <ReferAFriendPopup handleSubmit={handleSubmit} togglePopup={props.togglePopup} data={props.rowData}></ReferAFriendPopup>}}
             </Dialog>
         </div>
-        // <div className='popup'>
-        //     <div className='popup\_inner'>
-        //         <div className="container-fluid">
-
-        //             {showPopup ? <React.Fragment><p><strong>{title}</strong></p>
-        //                 <p><strong>{location}</strong></p>
-        //                 <p><strong>{jobType}</strong></p>
-        //                 <p><strong>{skills}</strong></p>
-        //                 <button onClick={() => referTogglePopup()} className='btn btn-primary cancelbtn' disabled={addEditDisable}>{Constants.REFER_FRIEND}</button>
-        //                 <button onClick={props.togglePopup} className="btn btn-danger cancelbtn">{Constants.CLOSE}</button>
-        //             </React.Fragment>
-        //                 :
-        //                 <ReferAFriendPopup handleSubmit={handleSubmit} togglePopup={props.togglePopup} data={props.descData}></ReferAFriendPopup>}
-        //         </div >
-        //     </div>
-        // </div >
     );
 }
 
