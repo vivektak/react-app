@@ -34,7 +34,8 @@ function App() {
 
   useEffect(() => {
     if (localStorage.get('token'))
-      getUserInfo();
+      console.log('akjs')
+    getUserInfo();
   }, [])
 
   return (
@@ -48,15 +49,13 @@ function App() {
             <PrivateRoutes path="/openings/:id" component={AddOpening} />
             <PrivateRoutes path="/openings" component={Openings} />
             <Route path="/skills" render={props => {
-              if (data && data.role === 'admin')
-                return <Skills {...props}></Skills>
-              return <Redirect to="/not-found" />
+              if (data && data.role === 'admin') { return <Skills {...props}></Skills> }
 
             }} />
             <Route path="/locations" render={props => {
               if (data && data.role === 'admin')
                 return <Locations {...props}></Locations>
-              return <Redirect to="/not-found" />
+
 
             }} />
 

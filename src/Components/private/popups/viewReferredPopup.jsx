@@ -25,9 +25,9 @@ const ViewReferredPopup = (props) => {
         props.toggleReferrals();
     }
 
-    useEffect(() => {
+    useEffect(props => {
         getReferrals();
-    }, [])
+    })
 
 
 

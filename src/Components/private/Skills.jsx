@@ -7,6 +7,23 @@ import { toast } from 'react-toastify';
 import '../../styles/App.css';
 import * as Constants from '../../Constants/Constants';
 
+import {
+    AppBar,
+    Toolbar,
+    IconButton,
+    Typography,
+    Button,
+    Container,
+    Dialog,
+    Slide,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Menu,
+    MenuItem
+} from "@material-ui/core";
+import MaterialTable from "material-table";
 
 import Loader from 'react-loader-spinner';
 
@@ -62,49 +79,99 @@ const Skills = () => {
     }, [])
 
     return (
-        <div className="container-fluid">
+        <div>
             <Header />
-            <button className="btn btn-primary cancelbtn m-2" onClick={() => handleAdd()}>{Constants.ADD}</button>
-            {skills.length > 0 ?
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
+            <Container>
+                <div style={{ textAlign: "right", margin: "30px 0 15px 0" }}>
+                    <Button
+                        onClick={() => handleAdd(true)}
+                        color="secondary"
+                        variant="contained"
+                    >Add Skill</Button>
+                </div>
+                <MaterialTable
+                    columns={[
+                        { title: "Skill", field: "name" },
 
-                            <th scope="col">Skill</th>
-                            <th colSpan="2">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
+                    ]}
+                    data={skills}
+                    title="Skills"
+                    actions={[
                         {
-                            skills.map(skill =>
-                                <tr key={skill._id}>
-
-                                    <td>{skill.name}</td>
-
-                                    <td><button className="btn btn-secondary cancelbtn" onClick={(e) => handleEdit(e, skill)}>{Constants.EDIT}</button></td>
-                                    <td><button className="btn btn-danger cancelbtn" onClick={(e) => handleDelete(e, skill._id)}>{Constants.DELETE}</button></td>
-                                </tr>)
+                            icon: "edit",
+                            tooltip: "Edit User",
+                            onClick: (event, rowData) => {
+                                // Do save operation
+                                handleEdit(event, rowData)
+                            }
+                        },
+                        {
+                            icon: "delete",
+                            tooltip: "Delete User",
+                            onClick: (event, rowData) => {
+                                // Do save operation
+                                handleDelete(event, rowData);
+                            }
                         }
 
-                    </tbody>
-                </table>
-                :
-                <div className='sweet-loading align-center'>
-                    <Loader
-                        type="CradleLoader"
-                        color="#00BFFF"
-                        height={100}
-                        width={600}
-                        timeout={999000} //3 secs
-
-                    />
-                </div>}
-
+                    ]}
+                    options={{
+                        actionsColumnIndex: -1
+                    }}
+                />
+            </Container>
             {
-                popup ? <AddEditSkillsPopup togglePopup={() => togglePopup()} getSkills={() => getSkills()} editData={editData}></AddEditSkillsPopup> : null
+                popup ? <AddEditSkillsPopup togglePopup={() => togglePopup()} getSkills={getSkills} editData={editData}></AddEditSkillsPopup> : null
             }
+
+            {/* { openModal ? <AddOpening handleCloseModal={handleCloseModal} openModal={openModal} rowData={rowData}></AddOpening> : null }
+     { descriptionPopup ? <DescriptionPopup togglePopup={togglePopup} rowData={rowData}></DescriptionPopup> : null } */}
+
+
         </div >
+        // <div className="container-fluid">
+        //     <Header />
+        //     <button className="btn btn-primary cancelbtn m-2" onClick={() => handleAdd()}>{Constants.ADD}</button>
+        //     {skills.length > 0 ?
+        //         <table className="table table-striped">
+        //             <thead>
+        //                 <tr>
+
+        //                     <th scope="col">Skill</th>
+        //                     <th colSpan="2">Actions</th>
+        //                 </tr>
+        //             </thead>
+        //             <tbody>
+
+        //                 {
+        //                     skills.map(skill =>
+        //                         <tr key={skill._id}>
+
+        //                             <td>{skill.name}</td>
+
+        //                             <td><button className="btn btn-secondary cancelbtn" onClick={(e) => handleEdit(e, skill)}>{Constants.EDIT}</button></td>
+        //                             <td><button className="btn btn-danger cancelbtn" onClick={(e) => handleDelete(e, skill._id)}>{Constants.DELETE}</button></td>
+        //                         </tr>)
+        //                 }
+
+        //             </tbody>
+        //         </table>
+        //         :
+        //         <div className='sweet-loading align-center'>
+        //             <Loader
+        //                 type="CradleLoader"
+        //                 color="#00BFFF"
+        //                 height={100}
+        //                 width={600}
+        //                 timeout={999000} //3 secs
+
+        //             />
+        //         </div>}
+
+        //     {
+        //         popup ? <AddEditSkillsPopup togglePopup={() => togglePopup()} getSkills={() => getSkills()} editData={editData}></AddEditSkillsPopup> : null
+        //     }
+        // </div >
     );
 }
 

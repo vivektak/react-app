@@ -49,7 +49,7 @@ const MyReferrals = () => {
 
 
     return (
-        <div className="container-fluid">
+        <div >
             <Header />
             <button className="btn btn-primary cancelbtn m-2" onClick={() => handleAdd()}>{Constants.ADD}</button>
             {myReferrals.length > 0 ?

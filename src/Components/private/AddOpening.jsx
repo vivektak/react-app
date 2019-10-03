@@ -7,7 +7,28 @@ import { toast } from 'react-toastify';
 import * as Constants from '../../Constants/Constants';
 
 
-
+import {
+    AppBar,
+    Toolbar,
+    IconButton,
+    Typography,
+    Button,
+    Container,
+    Dialog,
+    Slide,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Menu,
+    MenuItem,
+    TextField,
+    Select,
+    InputLabel,
+    FormControl
+} from "@material-ui/core";
+import { ChipSet, Chip } from '@material/react-chips';
+import MaterialIcon from '@material/react-material-icon';
 
 const AddOpening = (props) => {
     const [title, setTitle] = useState('');
@@ -45,10 +66,8 @@ const AddOpening = (props) => {
 
             let data = [];
             res.data.data.map(res => {
-                console.log(res)
                 data.push(res.name);
             })
-            console.log(data)
             setSkills(data);
         })
 
@@ -189,18 +208,18 @@ const AddOpening = (props) => {
     useEffect(() => {
         getSkills();
         getLocations();
-        if (props.match.params.id) {
-            const data = props.location.state.data;
-            data.map(dataToEdit => {
-                setTitle(dataToEdit.title);
-                setDescription(dataToEdit.description);
-                setLocation(dataToEdit.location);
-                setJobType(dataToEdit.jobType);
-                setNoOfPositions(dataToEdit.noOfPositions);
-                setMandatorySkills(dataToEdit.mandatorySkills);
-                setGoodToHaveSkills(dataToEdit.goodToHaveSkills);
 
-            })
+        if (Object.keys(props.rowData).length > 0) {
+            const dataToEdit = props.rowData;
+            setTitle(dataToEdit.title);
+            setDescription(dataToEdit.description);
+            setLocation(dataToEdit.location);
+            setJobType(dataToEdit.jobType);
+            setNoOfPositions(dataToEdit.noOfPositions);
+            setMandatorySkills(dataToEdit.mandatorySkills);
+            setGoodToHaveSkills(dataToEdit.goodToHaveSkills);
+
+            //})
         }
     }, []);
 
@@ -214,132 +233,283 @@ const AddOpening = (props) => {
         setDescription('');
     }
 
-    const inlinestyle = {
-        backgroundColor: "#f1f1f1"
-    }
+    const Transition = React.forwardRef(function Transition(props, ref) {
+        return <Slide direction="up" ref={ref} {...props} />;
+    });
+
+    const handleKeyDown = (e) => {
+        // If you have a more complex input, you may want to store the value in the state.
+
+        const label = e.target.value;
+        if (!!label && e.key === 'Enter') {
+            const name = label.replace(/\s/g, '');
+            console.log(locations)
+            console.log(name)
+            if (locations.some((v) => v.name === name)) {
+                console.error('There is already a chip which has same key.');
+            } else {
+                // Location.push({ label, id });
+                // this.setState({ chips });
+                e.target.value = '';
+                console.log('akjsd')
+            }
+        }
+    };
+
 
     return (
-        <div>
-            <Header />
-            <form  >
-                <div className="container" style={inlinestyle} >
-                    <span className="header">{props.match.params.id ? 'Edit' : 'Add'} Opening</span>
-                </div>
-                <div className="container">
-                    <div className="form-group">
-                        <label htmlFor={Constants.TITLE.toLowerCase()} className="label">Title</label>
-                        <input
-                            className="form-control"
-                            id={Constants.TITLE.toLowerCase()}
-                            aria-describedby="titleHelp"
-                            placeholder="Enter Title"
-                            value={title}
-                            name={Constants.TITLE.toLowerCase()}
-                            onBlur={() => validate()}
-                            onChange={(e) => handleChange(e.target)}
+
+        <Dialog
+            open={true}
+            TransitionComponent={Transition}
+            onEntered={() => { console.log('entering dialog') }}
+            // keepMounted
+            // onClose={props.handleCloseModal}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+        >
+            <DialogTitle id="alert-dialog-slide-title">Add Job</DialogTitle>
+            <DialogContent>
+                {/* <TextField
+                    id="standard-name"
+                    label="Title"
+                    name={Constants.TITLE.toLowerCase()}
+                    helperText={titleError}
+                    fullWidth={true}
+                    value={title}
+                    error={titleError ? true : false}
+                    onChange={e => {
+                        setTitle(e.target.value);
+                        setTitleError(false);
+                    }}
+                    margin="normal"
+                ></TextField>
+
+                <TextField
+                    id="standard-name"
+                    label="Job Type"
+                    name={Constants.JOB_TYPE}
+                    helperText={jobTypeError}
+                    fullWidth={true}
+                    value={jobType}
+                    error={jobTypeError ? true : false}
+                    onChange={e => {
+                        setJobType(e.target.value);
+                        setJobTypeError(false);
+                    }}
+                    margin="normal"
+                ></TextField> */}
+                {/* <InputLabel htmlFor="location">Location</InputLabel>
+                <Select
+                    label="Location"
+                    name="location"
+                    value={location}
+                    onChange={e => setLocation(e.target.value)}
+                    //displayEmpty
+                    name="Location"
+                className={classes.selectEmpty}
+                >
+                    <MenuItem value={location}>Select Location</MenuItem>
+                    {
+                        locations.map(loc => {
+                            return <MenuItem value={loc}>{loc}</MenuItem>
+                        })
+                    }
+
+                </Select> */}
+                {/* <FormControl variant="outlined" style={{
+                    width: "100%",
+                }}>
+                    <InputLabel htmlFor="filled-location-simple">Location</InputLabel>
+                    <Select
+                        value={location}
+                        onChange={handleChange}
+                        inputProps={{
+                            name: 'location',
+                            id: 'filled-location-simple',
+                        }}
+                    >
+                        <MenuItem value={location}>Select Location</MenuItem>
+                        {
+                            locations.map(loc => {
+                                return <MenuItem value={loc}>{loc}</MenuItem>
+                            })
+                        }
+                    </Select>
+                </FormControl> */}
+
+                {/* <input type="text" onKeyDown={handleKeyDown} />
+                <ChipSet
+                    input
+                    updateChips={(chips) => setLocation(chips)}
+                >
+                    {Location}
+                    {this.state.chips.map((chip) =>
+                        <Chip
+                            id={chip.id}
+                            key={chip.id} // The chip's key cannot be its index, because its index may change.
+                            label={chip.label}
+                            trailingIcon={<MaterialIcon icon='cancel' />}
                         />
-                        {titleError &&
-                            <div className="alert alert-danger">{titleError}</div>
-                        }
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor={Constants.JOB_TYPE} className="label">Job Type</label>
-                        <input
-                            className="form-control"
-                            id={Constants.JOB_TYPE}
-                            name={Constants.JOB_TYPE}
-                            placeholder="Job Type"
-                            value={jobType}
-                            onBlur={() => validate()}
-                            onChange={(e) => handleChange(e.target)}
+                    )}
+                </ChipSet> */}
 
-                        />
-                        {jobTypeError &&
-                            <div className="alert alert-danger">{jobTypeError}</div>
-                        }
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor={Constants.LOCATION.toLowerCase()} className="label">Location</label>
-                        <Chips
-                            value={location}
-                            placeholder={Constants.LOCATION}
-                            onChange={(e) => onLocationChange(e)}
-                            id={Constants.LOCATION.toLowerCase()}
-                            onBlur={() => validate()}
-                            suggestions={locations}
+                {/* <TextField
+                    id="standard-number"
+                    label="No of Positions"
+                    name={Constants.NO_OF_POSITIONS}
+                    helperText={noOfPositionsError}
+                    fullWidth={true}
+                    value={noOfPositions}
+                    error={noOfPositionsError ? true : false}
+                    onChange={e => {
+                        setNoOfPositions(e.target.value);
+                        setNoOfPositionsError(false);
+                    }}
+                    margin="normal"
+                ></TextField>
 
-                        />
-                        {locationError &&
-                            <div className="alert alert-danger">{locationError}</div>
-                        }
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor={Constants.MANDATORY_SKILLS} className="label">Mandatory Skills</label>
-                        <Chips
-                            value={mandatorySkills}
-                            placeholder="Mandatory Skills"
-                            onChange={(e) => onMandatoryChange(e)}
-                            id={Constants.MANDATORY_SKILLS}
-                            onBlur={() => validate()}
-                            suggestions={skills}
+                <textarea className="mdc-text-field__input mt-2" style={{ width: "100%" }} rows="4" cols="40" aria-label="Label"></textarea> */}
+            </DialogContent>
+            <DialogActions>
+                <Button
+                    onClick={handleSubmit}
+                    color="primary"
+                    variant="contained"
+                >
+                    Save
+          </Button>
+                <Button
+                    onClick={props.handleCloseModal}
+                    color="secondary"
+                    variant="contained"
+                >
+                    Close
+          </Button>
+            </DialogActions>
+        </Dialog >
 
-                        />
-                        {mandatorySkillsError &&
-                            <div className="alert alert-danger">{mandatorySkillsError}</div>
-                        }
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor={Constants.GOOD_TO_HAVE_SKILLS} className="label">Good To Have Skills</label>
-                        <Chips
-                            placeholder="Good To Have Skills"
-                            value={goodToHaveSkills}
-                            onChange={(e) => onGoodToHaveChange(e)}
-                            id={Constants.GOOD_TO_HAVE_SKILLS}
-                            suggestions={skills}
+        // <div>
+        //     <Header />
+        //     <form  >
+        //         <div className="container" style={inlinestyle} >
+        //             <span className="header">{props.match.params.id ? 'Edit' : 'Add'} Opening</span>
+        //         </div>
+        //         <div className="container">
+        //             <div className="form-group">
+        //                 <label htmlFor={Constants.TITLE.toLowerCase()} className="label">Title</label>
+        //                 <input
+        //                     className="form-control"
+        //                     id={Constants.TITLE.toLowerCase()}
+        //                     aria-describedby="titleHelp"
+        //                     placeholder="Enter Title"
+        //                     value={title}
+        //                     name={Constants.TITLE.toLowerCase()}
+        //                     onBlur={() => validate()}
+        //                     onChange={(e) => handleChange(e.target)}
+        //                 />
+        //                 {titleError &&
+        //                     <div className="alert alert-danger">{titleError}</div>
+        //                 }
+        //             </div>
+        //             <div className="form-group">
+        //                 <label htmlFor={Constants.JOB_TYPE} className="label">Job Type</label>
+        //                 <input
+        //                     className="form-control"
+        //                     id={Constants.JOB_TYPE}
+        //                     name={Constants.JOB_TYPE}
+        //                     placeholder="Job Type"
+        //                     value={jobType}
+        //                     onBlur={() => validate()}
+        //                     onChange={(e) => handleChange(e.target)}
 
-                        />
-                        {goodToHaveSkillsError &&
-                            <div className="alert alert-danger">{goodToHaveSkillsError}</div>
-                        }
-                    </div>
+        //                 />
+        //                 {jobTypeError &&
+        //                     <div className="alert alert-danger">{jobTypeError}</div>
+        //                 }
+        //             </div>
+        //             <div className="form-group">
+        //                 <label htmlFor={Constants.LOCATION.toLowerCase()} className="label">Location</label>
+        //                 <Chips
+        //                     value={location}
+        //                     placeholder={Constants.LOCATION}
+        //                     onChange={(e) => onLocationChange(e)}
+        //                     id={Constants.LOCATION.toLowerCase()}
+        //                     onBlur={() => validate()}
+        //                     suggestions={locations}
 
-                    <div className="form-group">
-                        <label htmlFor={Constants.NO_OF_POSITIONS} className="label">No Of Positions</label>
-                        <input
-                            type="number"
-                            className="form-control"
-                            id={Constants.NO_OF_POSITIONS}
-                            name={Constants.NO_OF_POSITIONS}
-                            placeholder="No Of Positions"
-                            value={noOfPositions}
-                            onBlur={() => validate()}
-                            onChange={(e) => handleChange(e.target)}
-                        />
-                        {noOfPositionsError &&
-                            <div className="alert alert-danger">{noOfPositionsError}</div>
-                        }
-                    </div>
+        //                 />
+        //                 {locationError &&
+        //                     <div className="alert alert-danger">{locationError}</div>
+        //                 }
+        //             </div>
+        //             <div className="form-group">
+        //                 <label htmlFor={Constants.MANDATORY_SKILLS} className="label">Mandatory Skills</label>
+        //                 <Chips
+        //                     value={mandatorySkills}
+        //                     placeholder="Mandatory Skills"
+        //                     onChange={(e) => onMandatoryChange(e)}
+        //                     id={Constants.MANDATORY_SKILLS}
+        //                     onBlur={() => validate()}
+        //                     suggestions={skills}
 
-                    <div className="form-group">
-                        <label htmlFor={Constants.DESCRIPTION.toLowerCase()} className="label">Description</label>
-                        <textarea className="form-control"
-                            id={Constants.DESCRIPTION.toLowerCase()}
-                            name={Constants.DESCRIPTION.toLowerCase()}
-                            placeholder={Constants.DESCRIPTION}
-                            value={description}
-                            onBlur={() => validate()}
-                            onChange={(e) => handleChange(e.target)} cols="10" rows="5"></textarea>
+        //                 />
+        //                 {mandatorySkillsError &&
+        //                     <div className="alert alert-danger">{mandatorySkillsError}</div>
+        //                 }
+        //             </div>
+        //             <div className="form-group">
+        //                 <label htmlFor={Constants.GOOD_TO_HAVE_SKILLS} className="label">Good To Have Skills</label>
+        //                 <Chips
+        //                     placeholder="Good To Have Skills"
+        //                     value={goodToHaveSkills}
+        //                     onChange={(e) => onGoodToHaveChange(e)}
+        //                     id={Constants.GOOD_TO_HAVE_SKILLS}
+        //                     suggestions={skills}
 
-                        {descError &&
-                            <div className="alert alert-danger">{descError}</div>
-                        }
-                    </div>
+        //                 />
+        //                 {goodToHaveSkillsError &&
+        //                     <div className="alert alert-danger">{goodToHaveSkillsError}</div>
+        //                 }
+        //             </div>
 
-                    <button type="button" className="cancelbtn" onClick={(e) => handleSubmit(e)} disabled={submitDisable}>{Constants.SUBMIT}</button>
-                    <button type="reset" className=" btn-danger cancelbtn m-2" onClick={() => resetClicked()} >{Constants.RESET}</button>
-                </div>
-            </form >
-        </div>
+        //             <div className="form-group">
+        //                 <label htmlFor={Constants.NO_OF_POSITIONS} className="label">No Of Positions</label>
+        //                 <input
+        //                     type="number"
+        //                     className="form-control"
+        //                     id={Constants.NO_OF_POSITIONS}
+        //                     name={Constants.NO_OF_POSITIONS}
+        //                     placeholder="No Of Positions"
+        //                     value={noOfPositions}
+        //                     onBlur={() => validate()}
+        //                     onChange={(e) => handleChange(e.target)}
+        //                 />
+        //                 {noOfPositionsError &&
+        //                     <div className="alert alert-danger">{noOfPositionsError}</div>
+        //                 }
+        //             </div>
+
+        //             <div className="form-group">
+        //                 <label htmlFor={Constants.DESCRIPTION.toLowerCase()} className="label">Description</label>
+        //                 <textarea className="form-control"
+        //                     id={Constants.DESCRIPTION.toLowerCase()}
+        //                     name={Constants.DESCRIPTION.toLowerCase()}
+        //                     placeholder={Constants.DESCRIPTION}
+        //                     value={description}
+        //                     onBlur={() => validate()}
+        //                     onChange={(e) => handleChange(e.target)} cols="10" rows="5"></textarea>
+
+        //                 {descError &&
+        //                     <div className="alert alert-danger">{descError}</div>
+        //                 }
+        //             </div>
+
+        //             <button type="button" className="cancelbtn" onClick={(e) => handleSubmit(e)} disabled={submitDisable}>{Constants.SUBMIT}</button>
+        //             <button type="reset" className=" btn-danger cancelbtn m-2" onClick={() => resetClicked()} >{Constants.RESET}</button>
+        //         </div>
+        //     </form >
+        // </div>
     );
 }
 

@@ -13,11 +13,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-//https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css
-//https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css
+//https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css;
+//https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css;
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { userContext } from "./services/Context";
+import "@material/react-chips/dist/chips.css";
+import '@material/react-material-icon/dist/material-icon.css';
 
 
 

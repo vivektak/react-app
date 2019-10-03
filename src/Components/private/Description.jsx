@@ -20,7 +20,7 @@ const Description = (props) => {
     }
 
     return (
-        <div className="container-fluid">
+        <div >
             <Header />
             <p><strong>{title}</strong></p>
             <p><strong>{location}</strong></p>

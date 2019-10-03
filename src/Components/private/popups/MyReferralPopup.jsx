@@ -104,7 +104,7 @@ const MyReferralPopup = (props) => {
 
     }
 
-    useEffect(() => {
+    useEffect(props => {
         console.log(props)
         if (props.editData) {
             setName(props.editData.name);
