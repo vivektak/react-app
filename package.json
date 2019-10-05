@@ -14,6 +14,7 @@
     "jquery": "^3.4.1",
     "local-storage": "^2.0.0",
     "material-table": "^1.51.0",
+    "material-ui-confirm": "^1.0.1",
     "query-string": "^6.8.3",
     "query-strings": "0.0.1",
     "react": "^16.9.0",

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import '../styles/login.css'
 import { Link } from 'react-router-dom';
 import http from '../services/httpService';
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 import * as Constants from '../Constants/Constants';
-
+//import Alert from "react-s-alert";
 
 import {
     CardContent,
@@ -13,8 +13,9 @@ import {
     Button,
     TextField
 } from "@material-ui/core";
-import Alert from "react-s-alert";
+
 import PersonIcon from "@material-ui/icons/Person";
+import { success } from '../services/notificationService';
 
 
 const Register = () => {
@@ -66,20 +67,20 @@ const Register = () => {
             await http.post('user/signup', data).then(res => {
                 console.log(res)
                 if (res.status === 200)
-                    toast.success(Constants.REGISTER_SUCCESS);
+                    success(Constants.REGISTER_SUCCESS)
             })
         }
     };
 
-    const handleChange = e => {
-        if (e.name === Constants.EMAIL.toLowerCase()) {
-            setEmail(e.value)
-        }
-        if (e.name === Constants.PASSWORD.toLowerCase()) {
-            setPassword(e.value);
-        }
+    // const handleChange = e => {
+    //     if (e.name === Constants.EMAIL.toLowerCase()) {
+    //         setEmail(e.value)
+    //     }
+    //     if (e.name === Constants.PASSWORD.toLowerCase()) {
+    //         setPassword(e.value);
+    //     }
 
-    };
+    // };
 
     // const inlinestyle = {
     //     backgroundColor: "#f1f1f1"

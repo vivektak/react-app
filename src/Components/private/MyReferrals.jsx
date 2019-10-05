@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import http from '../../services/httpService';
-import localStorage from 'local-storage';
+//import localStorage from 'local-storage';
 import Header from './Header';
-import Loader from 'react-loader-spinner';
+//import Loader from 'react-loader-spinner';
 import MyReferralPopup from './popups/MyReferralPopup';
-import * as Constants from '../../Constants/Constants';
+//import * as Constants from '../../Constants/Constants';
 
 
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Typography,
+    // AppBar,
+    // Toolbar,
+    // IconButton,
+    // Typography,
     Button,
-    Container,
-    Dialog,
-    Slide,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-    Menu,
-    MenuItem
+    // Container,
+    // Dialog,
+    // Slide,
+    // DialogTitle,
+    // DialogContent,
+    // DialogContentText,
+    // DialogActions,
+    // Menu,
+    // MenuItem
 } from "@material-ui/core";
 
 import MaterialTable from "material-table";
@@ -33,12 +33,12 @@ const MyReferrals = () => {
     const [rowData, setRowData] = useState([])
 
     const getReferrals = () => {
-        const res = localStorage.get(Constants.TOKEN)
-        let headers = {
-            token: res
-        }
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
 
-        const data = http.getWithHeader('refer/userReferals', { headers })
+        const data = http.getWithHeader('refer/userReferals')
         data.then(res => {
             setMyReferrals(res.data.data);
         })

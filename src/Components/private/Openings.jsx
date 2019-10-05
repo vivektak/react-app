@@ -1,36 +1,41 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { userContext } from '../../services/Context';
 import Header from './Header';
-import { Link } from 'react-router-dom';
-import localStorage from '../../services/storageService'
+//import { Link } from 'react-router-dom';
+//import localStorage from '../../services/storageService'
 import http from "../../services/httpService";
 import DescriptionPopup from '../private/popups/DescriptionPopup';
-import { toast } from 'react-toastify';
-import Loader from 'react-loader-spinner';
+//import { toast } from 'react-toastify';
+//import Loader from 'react-loader-spinner';
 import ViewReferredPopup from './popups/viewReferredPopup';
 import * as Constants from '../../Constants/Constants';
 
 
+
+
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Typography,
+    // AppBar,
+    // Toolbar,
+    // IconButton,
+    // Typography,
     Button,
-    Container,
-    Dialog,
-    Slide,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-    Menu,
-    MenuItem
+    // Container,
+    // Dialog,
+    // Slide,
+    // DialogTitle,
+    // DialogContent,
+    // DialogContentText,
+    // DialogActions,
+    // Menu,
+    // MenuItem
 } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
+//import MenuIcon from "@material-ui/icons/Menu";
 import MaterialTable from "material-table";
-import AccountCircle from '@material-ui/icons/AccountCircle';
+//import AccountCircle from '@material-ui/icons/AccountCircle';
 import AddOpening from './AddOpening';
+import ConfirmPopup from './popups/ConfirmPopup';
+import { toBase64 } from '../../services/commonHandler';
+import { success } from '../../services/notificationService';
 
 
 
@@ -39,34 +44,37 @@ const Openings = props => {
         getOpenings();
     }, []);
 
-    const { data, setData } = useContext(userContext);
+    //const { data, setData } = useContext(userContext);
     const [openModal, setOpenModal] = useState(false);
 
     const [descriptionPopup, setDescriptionPopup] = useState(false);
     const [descData, setDescData] = useState({});
-    const [referralData, setReferralData] = useState({});
+    //const [referralData, setReferralData] = useState({});
     const [showReferralPopup, setShowReferralPopup] = useState(false);
-
-
-
+    const [isDelete, setIsDelete] = useState(false);
+    const [excelImport, setExcelImport] = useState('');
     const [Opening, setOpening] = useState([]);
     const [rowData, setRowData] = useState([]);
+
+    const fileInput = useRef();
+
 
     const handleEdit = (e, rowData) => {
         setRowData(rowData);
         setOpenModal(true);
     }
 
-    const handleDelete = (e, rowData) => {
-        const res = localStorage.get(Constants.TOKEN)
-        let headers = {
-            token: res
-        }
+    const handleDelete = (e) => {
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
 
-        http.deleteWithHeader(`job/delete/${rowData._id}`, { headers }).then(res => {
+        http.deleteWithHeader(`job/delete/${rowData._id}`).then(res => {
             if (res && res.status === 200) {
-                toast.error(Constants.OPENING_DELETE_SUCCESS);
+                success(Constants.OPENING_DELETE_SUCCESS);
                 getOpenings();
+                setIsDelete(false);
             }
         });
 
@@ -77,24 +85,38 @@ const Openings = props => {
     }
 
     const handleAdd = () => {
+        setRowData([]);
         setOpenModal(true)
     }
 
     const getOpenings = () => {
-        const res = localStorage.get(Constants.TOKEN)
-        let headers = {
-            token: res
-        }
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
 
-        const data = http.getWithHeader('job/latest?count=5&page=1', { headers })
+        const data = http.getWithHeader('job/latest?count=5&page=1')
         data.then(res => {
-            console.log(res);
+            console.log(res.data.data);
+            // let manSkills = '';
+            // if (res.data.data.length > 0) {
+            //     res.data.data.map(data => {
+            //         if (data.mandatorySkills.length > 1) {
+
+            //             data.mandatorySkills.map(skills => {
+
+            //                 manSkills.concat(skills + ',');
+            //             });
+            //             data.mandatorySkills = manSkills;
+            //         }
+            //     })
+            // }
+
+
             setOpening(res.data.data);
         })
 
     }
-
-
 
     const handleDetailsView = (e, rowData) => {
         setRowData(rowData);
@@ -102,10 +124,10 @@ const Openings = props => {
 
     }
 
-    const handleDetails = (e, data) => {
-        setDescData(data);
-        togglePopup();
-    }
+    // const handleDetails = (e, data) => {
+    //     setDescData(data);
+    //     togglePopup();
+    // }
 
 
     const toggleReferrals = (e, data) => {
@@ -118,6 +140,38 @@ const Openings = props => {
         setOpenModal(false);
     };
 
+    const toggleDeletePopup = () => {
+        setIsDelete(false);
+    }
+
+    const onChange = async (e) => {
+        console.log(e);
+        console.log(e.target.files[0]);
+        const excel = await toBase64(e.target.files[0]);
+        setExcelImport(excel);
+        importExcelApi(excel);
+    }
+
+    const importExcelApi = (data) => {
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
+        http.postWithHeader('skill/bulk', { file: data }).then(res => {
+            console.log(res);
+            getOpenings();
+        })
+    }
+
+    const handleImport = () => {
+        console.log(fileInput.current)
+        fileInput.current.click();
+    }
+
+    const handleExport = () => {
+        console.log(fileInput.current);
+    }
+
 
 
     return (
@@ -125,6 +179,30 @@ const Openings = props => {
             <Header {...props} />
             <div className="container-fluid" >
                 <div style={{ textAlign: "right", margin: "30px 0 15px 0" }}>
+
+                    <input
+                        ref={fileInput}
+                        style={{ display: "none" }}
+                        id="standard-file"
+                        label="Choose File"
+                        type="file"
+                        name="file"
+                        accept=".xls,.xlsx"
+                        onChange={e => {
+                            onChange(e);
+                        }}
+                    />
+                    <Button
+                        onClick={() => handleImport()}
+                        color="secondary"
+                        variant="contained"
+                    >Import Excel</Button>
+                    <Button
+                        onClick={() => handleExport()}
+                        color="secondary"
+                        variant="contained"
+                        className="m-2"
+                    >Export Excel</Button>
                     <Button
                         onClick={() => handleAdd(true)}
                         color="secondary"
@@ -139,7 +217,7 @@ const Openings = props => {
                         { title: "Location", field: "location" },
                         { title: "Mandatory Skills", field: "mandatorySkills" },
                         { title: "Good To Have Skills", field: "goodToHaveSkills" },
-                        { title: "Number of Positions", field: "noOfPositions", type: "numeric" },
+                        { title: "Number of Positions", field: "noOfPositions" },
 
                     ]}
                     data={Opening}
@@ -158,7 +236,9 @@ const Openings = props => {
                             tooltip: "Delete User",
                             onClick: (event, rowData) => {
                                 // Do save operation
-                                handleDelete(event, rowData);
+                                //handleDelete(event, rowData);
+                                setIsDelete(true);
+                                setRowData(rowData);
                             }
                         },
                         {
@@ -183,9 +263,10 @@ const Openings = props => {
                     }}
                 />
             </div>
-            {openModal ? <AddOpening handleCloseModal={handleCloseModal} openModal={openModal} rowData={rowData} {...props}></AddOpening> : null}
+            {openModal ? <AddOpening getOpenings={getOpenings} handleCloseModal={handleCloseModal} openModal={openModal} rowData={rowData} {...props}></AddOpening> : null}
             {descriptionPopup ? <DescriptionPopup togglePopup={togglePopup} rowData={rowData} descriptionPopup={descriptionPopup}></DescriptionPopup> : null}
             {showReferralPopup ? <ViewReferredPopup toggleReferrals={toggleReferrals} rowData={rowData} showReferralPopup={showReferralPopup}> </ViewReferredPopup> : null}
+            {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
 
         </div>
 

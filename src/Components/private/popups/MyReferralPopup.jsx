@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import http from '../../../services/httpService';
-import { toast } from 'react-toastify';
-import localStorage from 'local-storage';
+//import { toast } from 'react-toastify';
+//import localStorage from 'local-storage';
 import * as Constants from '../../../Constants/Constants';
 
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Typography,
+    // AppBar,
+    // Toolbar,
+    // IconButton,
+    // Typography,
     Button,
-    Container,
+    //Container,
     Dialog,
-    Slide,
+    //Slide,
     DialogTitle,
     DialogContent,
-    DialogContentText,
+    //DialogContentText,
     DialogActions,
-    Menu,
-    MenuItem,
+    // Menu,
+    // MenuItem,
     TextField,
-    Select,
-    InputLabel,
-    FormControl
+    // Select,
+    // InputLabel,
+    // FormControl
 } from "@material-ui/core";
+import { success } from '../../../services/notificationService';
+import { toBase64 } from '../../../services/commonHandler';
 
 const MyReferralPopup = (props) => {
     const [name, setName] = useState('');
@@ -33,7 +35,7 @@ const MyReferralPopup = (props) => {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [resume, setResume] = useState('');
-    const [resumeError, setResumeError] = useState('');
+    //const [resumeError, setResumeError] = useState('');
     const [isEdit, setIsEdit] = useState(Constants.ADD);
     const [addEditDisable, setAddEditDisable] = useState(false);
 
@@ -82,10 +84,10 @@ const MyReferralPopup = (props) => {
         const isValid = validate();
 
         if (isValid !== false) {
-            const res = localStorage.get(Constants.TOKEN)
-            let headers = {
-                token: res
-            }
+            //const res = localStorage.get(Constants.TOKEN)
+            // let headers = {
+            //     token: res
+            // }
 
             const request = {
                 jobId: props.editData ? props.editData.jobId : 1,
@@ -96,23 +98,23 @@ const MyReferralPopup = (props) => {
             }
 
             if (props.rowData) {
-                const data = http.putWithHeader(`refer/edit/${props.rowData._id}`, request, { headers })
+                const data = http.putWithHeader(`refer/edit/${props.rowData._id}`, request)
                 data.then(res => {
                     if (res.status === 200 || res.status === 201) {
                         handleClose();
                         props.getReferrals();
-                        toast.success(Constants.REFERRAL_EDIT_SUCCESS);
+                        success(Constants.REFERRAL_EDIT_SUCCESS);
                         setAddEditDisable(false);
                     }
 
                 })
             } else {
-                const data = http.postWithHeader('refer', request, { headers })
+                const data = http.postWithHeader('refer', request)
                 data.then(res => {
                     if (res.status === 200 || res.status === 201) {
                         handleClose();
                         props.getReferrals();
-                        toast.success(Constants.REFERRAL_ADD_SUCCESS);
+                        success(Constants.REFERRAL_ADD_SUCCESS);
                         setAddEditDisable(false);
                     }
                 })
@@ -131,12 +133,12 @@ const MyReferralPopup = (props) => {
         }
     }, [])
 
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
+    // const toBase64 = file => new Promise((resolve, reject) => {
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onload = () => resolve(reader.result);
+    //     reader.onerror = error => reject(error);
+    // });
 
     const onChange = async (e) => {
         const resume = await toBase64(e.target.files[0]);

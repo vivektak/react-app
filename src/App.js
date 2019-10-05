@@ -9,7 +9,7 @@ import Openings from './Components/private/Openings';
 import { Route, Redirect, Switch } from 'react-router';
 import NotFound from './Components/NotFound';
 import { PrivateRoutes } from './PrivateRoutes';
-import Description from './Components/private/Description';
+//import Description from './Components/private/Description';
 import Skills from './Components/private/Skills';
 import Locations from './Components/private/locations';
 import MyReferrals from './Components/private/MyReferrals';
@@ -18,16 +18,17 @@ import localStorage from './services/storageService';
 import http from './services/httpService';
 
 import * as Constants from '../src/Constants/Constants';
+import Alert from 'react-s-alert'
 
 function App() {
   const [data, setData] = useState();
 
   const getUserInfo = () => {
-    const res = localStorage.get(Constants.TOKEN)
-    let headers = {
-      token: res
-    }
-    http.getWithHeader('user/info', { headers }).then(res => {
+    // const res = localStorage.get(Constants.TOKEN)
+    // let headers = {
+    //   token: res
+    // }
+    http.getWithHeader('user/info').then(res => {
       setData(res.data.data)
     })
   }
@@ -40,6 +41,7 @@ function App() {
 
   return (
     <div >
+      <Alert stack={{ limit: 3 }} html={true} />
       <userContext.Provider value={{ data, setData }}>
         <div className="App">
           <Switch>
@@ -48,7 +50,10 @@ function App() {
             <Route path="/register" component={Register} />
             <PrivateRoutes path="/openings/:id" component={AddOpening} />
             <PrivateRoutes path="/openings" component={Openings} />
-            <Route path="/skills" render={props => {
+            <PrivateRoutes path="/my-referrals" component={MyReferrals} />
+            <PrivateRoutes path="/skills" component={Skills} />
+            <PrivateRoutes path="/locations" component={Locations} />
+            {/* <Route path="/skills" render={props => {
               if (data && data.role === 'admin') { return <Skills {...props}></Skills> }
 
             }} />
@@ -57,11 +62,10 @@ function App() {
                 return <Locations {...props}></Locations>
 
 
-            }} />
+            }} /> */}
 
-            <PrivateRoutes path="/description/:id" exact component={Description} />
+            {/* <PrivateRoutes path="/description/:id" exact component={Description} /> */}
             <PrivateRoutes path="/add-opening" component={AddOpening} />
-            <PrivateRoutes path="/my-referrals" component={MyReferrals} />
             <Route path="/not-found" component={NotFound} />
             <Route path="/" exact component={Login} />
             <Redirect to="/not-found" />

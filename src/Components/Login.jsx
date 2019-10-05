@@ -14,8 +14,8 @@ import {
     Button,
     TextField
 } from "@material-ui/core";
-import Alert from "react-s-alert";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import { success } from '../services/notificationService';
 //import PersonIcon from "@material-ui/icons/Person";
 //import nagarroBanner from "../../assets/nagarroBanner.png";
 
@@ -72,18 +72,8 @@ export const Login = (props) => {
         if (isValid !== false) {
             await http.post('user/login', data).then(res => {
                 if (res.status === 200) {
-                    //toast.success(Constants.LOGGED_IN_SUCCESS);
                     setButtonState(false);
-                    Alert.success(res.data.message, {
-                        position: "top-right",
-                        effect: "bouncyflip",
-                        onShow: function () {
-                            console.log("aye!");
-                        },
-                        beep: false,
-                        timeout: 2000
-                    });
-
+                    success(Constants.LOGGED_IN_SUCCESS)
                     localStorage.set(Constants.TOKEN, res.data.data.token);
                     setData(res.data.data)
                     props.history.push('/openings');
@@ -92,14 +82,14 @@ export const Login = (props) => {
         }
     };
 
-    const handleChange = e => {
-        if (e.name === Constants.EMAIL.toLowerCase()) {
-            setEmail(e.value)
-        }
-        if (e.name === Constants.PASSWORD.toLowerCase()) {
-            setPassword(e.value);
-        }
-    };
+    // const handleChange = e => {
+    //     if (e.name === Constants.EMAIL.toLowerCase()) {
+    //         setEmail(e.value)
+    //     }
+    //     if (e.name === Constants.PASSWORD.toLowerCase()) {
+    //         setPassword(e.value);
+    //     }
+    // };
 
     // const inlinestyle = {
     //     backgroundColor: "#f1f1f1"
@@ -182,7 +172,7 @@ export const Login = (props) => {
                     <Button
                         style={{
                             backgroundColor: "#000",
-                            backgroundColor: "rgb(0, 0, 0)",
+                            //backgroundColor: "rgb(0, 0, 0)",
                             borderRadius: "20px"
                         }}
                         size="small"

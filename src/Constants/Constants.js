@@ -20,7 +20,7 @@ export const NO_OF_POSITIONS = 'noOfPositions';
 export const ACTIONS = 'Actions';
 export const DETAILS = 'Details';
 //Skill
-export const SKILL_SUCCESS = 'Skill Edited Successfully';
+export const SKILL_EDIT_SUCCESS = 'Skill Edited Successfully';
 export const SKILL_REQUIRE = 'Skill is Required';
 export const SKILL_ADD_SUCCESS = 'Skill Added Successfully';
 export const SKILL_DELETE_SUCCESS = 'Skill Deleted Successfully';

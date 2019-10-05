@@ -24,3 +24,9 @@
 .align-center {
   text-align: center;
 }
+
+.headerImg {
+  margin-top: 15px;
+  width: 100%;
+  height: 70PX;
+}

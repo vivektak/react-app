@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import localStorage from '../../services/storageService';
 import '../../styles/login.css';
-import * as Constants from '../../Constants/Constants';
+import '../../styles/App.css';
+//import * as Constants from '../../Constants/Constants';
 import { userContext } from '../../services/Context';
 
 import {
@@ -10,16 +11,16 @@ import {
     Toolbar,
     IconButton,
     Typography,
-    Button,
-    Container,
-    Dialog,
-    Slide,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-    Menu,
-    MenuItem,
+    // Button,
+    // Container,
+    // Dialog,
+    // Slide,
+    // DialogTitle,
+    // DialogContent,
+    // DialogContentText,
+    // DialogActions,
+    // Menu,
+    // MenuItem,
     Drawer,
     List,
     ListItem,
@@ -29,18 +30,19 @@ import {
 
 } from "@material-ui/core";
 //import AccountCircle from '@material-ui/icons/AccountCircle';
-import { Menu as MenuIcon, AccountCircle, ExitToApp, Mail as MailIcon, Inbox as InboxIcon, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
+import { Menu as MenuIcon, AccountCircle, ExitToApp, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
 //import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 
 const Header = (props) => {
     const { data, setData } = useContext(userContext);
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [openDrawer, setOpenDrawer] = React.useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [openDrawer, setOpenDrawer] = useState(false);
 
     const drawerData = [{ name: 'Home', url: '/Openings', icon: HomeIcon }, { name: 'Skills', url: '/skills', icon: 'HomeIcon' }, { name: 'Locations', url: '/locations', icon: 'HomeIcon' }, { name: 'My Referral', url: '/my-referrals', icon: 'HomeIcon' }];
 
-    const open = Boolean(anchorEl);
+    //const open = Boolean(anchorEl);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -52,9 +54,9 @@ const Header = (props) => {
     };
 
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
 
     const toggleDrawer = (side, open) => event => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -72,18 +74,23 @@ const Header = (props) => {
             onKeyDown={toggleDrawer(side, false)}
         >
             <List>
+                <ListItem>
+                    <img src="/nagarro.png" alt="header" className='headerImg' />
+                </ListItem>
                 {drawerData.map((text, index) => (
-                    <ListItem button key={text.name}>
-                        <ListItemIcon>
-                            {
-                                index === 0 ? <HomeIcon /> : index === 1 ? <MenuBookIcon /> : index === 2 ? <LocationOnIcon /> : <PeopleOutlineIcon />
+                    <Link to={text.url}>
+                        <ListItem button key={text.name}>
+                            <ListItemIcon>
+                                {
+                                    index === 0 ? <HomeIcon /> : index === 1 ? <MenuBookIcon /> : index === 2 ? <LocationOnIcon /> : <PeopleOutlineIcon />
 
-                            }
-                        </ListItemIcon>
-                        {/* <ListItemText primary={text.name} /> */}
+                                }
+                            </ListItemIcon>
 
-                        <Link to={text.url} ><ListItemText primary={text.name} /></Link>
-                    </ListItem>
+
+                            <ListItemText primary={text.name} />
+                        </ListItem>
+                    </Link>
                 ))}
             </List>
             <Divider />
@@ -95,7 +102,7 @@ const Header = (props) => {
                 </ListItem>
 
             </List>
-        </div>
+        </div >
     )
 
     return (
@@ -131,7 +138,7 @@ const Header = (props) => {
                             <ExitToApp />
                         </IconButton>
                     </Link>
-                    <Menu
+                    {/* <Menu
                         id="menu-appbar"
                         anchorEl={anchorEl}
                         anchorOrigin={{
@@ -148,7 +155,7 @@ const Header = (props) => {
                     >
                         <MenuItem onClick={handleClose}>Profile</MenuItem>
                         <Link to="/my-referrals" style={{ color: "rgba(0, 0, 0, 0.87)" }}><MenuItem onClick={handleClose}>My Referrals</MenuItem></Link>
-                    </Menu>
+                    </Menu> */}
                 </div>
             </Toolbar>
             <Drawer open={openDrawer} onClose={toggleDrawer('left', false)}>
@@ -161,6 +168,7 @@ const Header = (props) => {
         //     </div>
         //     <div className="collapse navbar-collapse" id="navbarSupportedContent">
         //         <ul className="navbar-nav mr-auto">
+
         //             <li className="nav-item active">
         //                 <Link className="nav-link" to='/openings'>Home </Link>
         //             </li>

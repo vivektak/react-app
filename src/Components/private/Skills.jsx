@@ -1,45 +1,56 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import http from '../../services/httpService';
 import Header from './Header';
-import localStorage from './../../services/storageService';
+//import localStorage from './../../services/storageService';
 import AddEditSkillsPopup from '../private/popups/AddEditSkillsPopup';
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 import '../../styles/App.css';
 import * as Constants from '../../Constants/Constants';
 
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Typography,
+    // AppBar,
+    // Toolbar,
+    // IconButton,
+    // Typography,
     Button,
-    Container,
-    Dialog,
-    Slide,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-    Menu,
-    MenuItem
+    // Container,
+    // Dialog,
+    // Slide,
+    // DialogTitle,
+    // DialogContent,
+    // DialogContentText,
+    // DialogActions,
+    // Menu,
+    // MenuItem,
+    // TextField
 } from "@material-ui/core";
 import MaterialTable from "material-table";
 
 import Loader from 'react-loader-spinner';
+import { SettingsSharp } from '@material-ui/icons';
+
+import ConfirmPopup from './popups/ConfirmPopup';
+import { toBase64 } from '../../services/commonHandler';
+import { success } from '../../services/notificationService';
+
 
 const Skills = (props) => {
 
     const [skills, setSkills] = useState([]);
     const [popup, setPopup] = useState(false);
-    const [editData, setEditData] = useState('')
+    const [editData, setEditData] = useState('');
+    const [excelImport, setExcelImport] = useState('');
+    const [isDelete, setIsDelete] = useState(false);
+
+    const fileInput = useRef();
 
     const getSkills = () => {
-        const res = localStorage.get(Constants.TOKEN)
-        let headers = {
-            token: res
-        }
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
 
-        const data = http.getWithHeader('skill/all', { headers })
+        const data = http.getWithHeader('skill/all')
         data.then(res => {
             setSkills(res.data.data);
         })
@@ -55,34 +66,97 @@ const Skills = (props) => {
         setEditData('')
     }
 
-    const handleDelete = (e, data) => {
-        const res = localStorage.get(Constants.TOKEN)
-        let headers = {
-            token: res
-        }
-        http.deleteWithHeader(`skill/delete/${data}`, { headers }).then(res => {
+    const handleDelete = (e) => {
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
+        console.log(editData)
+        http.deleteWithHeader(`skill/delete/${editData._id}`).then(res => {
             if (res.status === 200) {
-                toast.error(Constants.SKILL_DELETE_SUCCESS);
+                success(Constants.SKILL_DELETE_SUCCESS)
                 getSkills();
+                setIsDelete(false);
             }
         });
     }
 
     const togglePopup = () => {
-        console.log('ásd')
         setPopup(!popup)
     }
 
 
     useEffect(() => {
         getSkills();
-    }, [])
+    }, []);
+
+
+    // const toBase64 = file => new Promise((resolve, reject) => {
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onload = () => resolve(reader.result);
+    //     reader.onerror = error => reject(error);
+    // });
+
+    const onChange = async (e) => {
+        const excel = await toBase64(e.target.files[0]);
+        setExcelImport(excel);
+        importExcelApi(excel);
+    }
+
+    const importExcelApi = (data) => {
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
+        http.postWithHeader('skill/bulk', { file: data }).then(res => {
+            getSkills();
+        })
+    }
+
+    const handleImport = () => {
+        console.log(fileInput.current)
+        fileInput.current.click();
+    }
+
+    const handleExport = () => {
+        console.log(fileInput.current);
+    }
+
+    const toggleDeletePopup = () => {
+        setIsDelete(false)
+    }
 
     return (
         <div>
             <Header {...props} />
-            <Container>
+            <div className="container-fluid">
                 <div style={{ textAlign: "right", margin: "30px 0 15px 0" }}>
+
+
+                    <input
+                        ref={fileInput}
+                        style={{ display: "none" }}
+                        id="standard-file"
+                        label="Choose File"
+                        type="file"
+                        name="file"
+                        accept=".xls,.xlsx"
+                        onChange={e => {
+                            onChange(e);
+                        }}
+                    />
+                    <Button
+                        onClick={() => handleImport()}
+                        color="secondary"
+                        variant="contained"
+                    >Import Excel</Button>
+                    <Button
+                        onClick={() => handleExport()}
+                        color="secondary"
+                        variant="contained"
+                        className="m-2"
+                    >Export Excel</Button>
                     <Button
                         onClick={() => handleAdd(true)}
                         color="secondary"
@@ -103,6 +177,7 @@ const Skills = (props) => {
                             onClick: (event, rowData) => {
                                 // Do save operation
                                 handleEdit(event, rowData)
+
                             }
                         },
                         {
@@ -110,7 +185,9 @@ const Skills = (props) => {
                             tooltip: "Delete User",
                             onClick: (event, rowData) => {
                                 // Do save operation
-                                handleDelete(event, rowData);
+                                // handleDelete(event, rowData);
+                                setIsDelete(true);
+                                setEditData(rowData);
                             }
                         }
 
@@ -119,10 +196,11 @@ const Skills = (props) => {
                         actionsColumnIndex: -1
                     }}
                 />
-            </Container>
+            </div>
             {
                 popup ? <AddEditSkillsPopup popup={popup} togglePopup={() => togglePopup()} getSkills={getSkills} editData={editData}></AddEditSkillsPopup> : null
             }
+            {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
 
             {/* { openModal ? <AddOpening handleCloseModal={handleCloseModal} openModal={openModal} rowData={rowData}></AddOpening> : null }
      { descriptionPopup ? <DescriptionPopup togglePopup={togglePopup} rowData={rowData}></DescriptionPopup> : null } */}

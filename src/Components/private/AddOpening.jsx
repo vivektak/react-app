@@ -1,34 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import Chips from 'react-chips'
-import Header from './Header';
-import localStorage from '../../services/storageService'
+//import Header from './Header';
+//import localStorage from '../../services/storageService'
 import http from '../../services/httpService';
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 import * as Constants from '../../Constants/Constants';
 
 
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Typography,
+    // AppBar,
+    // Toolbar,
+    // IconButton,
+    // Typography,
     Button,
-    Container,
+    //Container,
     Dialog,
-    Slide,
+    //Slide,
     DialogTitle,
     DialogContent,
-    DialogContentText,
+    //DialogContentText,
     DialogActions,
-    Menu,
+    //Menu,
     MenuItem,
     TextField,
     Select,
     InputLabel,
     FormControl
 } from "@material-ui/core";
-import { ChipSet, Chip } from '@material/react-chips';
-import MaterialIcon from '@material/react-material-icon';
+//import { ChipSet, Chip } from '@material/react-chips';
+//import MaterialIcon from '@material/react-material-icon';
+//import Alert from "react-s-alert";
+import { success } from '../../services/notificationService';
 
 const AddOpening = (props) => {
     const [title, setTitle] = useState('');
@@ -50,46 +52,39 @@ const AddOpening = (props) => {
     const [mandatorySkillsError, setMandatorySkillsError] = useState('');
     const [goodToHaveSkillsError, setGoodToHaveSkillsError] = useState('');
 
-
+    const jobTypes = ['Permanent', 'Contractual'];
 
 
 
     const getSkills = () => {
-        const res = localStorage.get(Constants.TOKEN)
-        let headers = {
-            token: res
-        }
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
 
-        const data = http.getWithHeader('skill/all', { headers })
+        const data = http.getWithHeader('skill/all')
         data.then(res => {
-            console.log(res.data.data)
-
             let data = [];
             res.data.data.map(res => {
-                console.log(res)
                 data.push(res.name);
             })
-            console.log(data)
             setSkills(data);
         })
 
     }
 
     const getLocations = () => {
-        const res = localStorage.get(Constants.TOKEN)
-        let headers = {
-            token: res
-        }
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
 
-        const data = http.getWithHeader('location/all', { headers })
+        const data = http.getWithHeader('location/all')
         data.then(res => {
-            console.log(res)
             let data = [];
             res.data.data.map(res => {
-                console.log(res)
                 data.push(res.name);
             })
-            console.log(data)
             setLocations(data);
         })
     }
@@ -139,27 +134,27 @@ const AddOpening = (props) => {
 
     }
 
-    const handleChange = e => {
-        if (e.name === Constants.TITLE.toLowerCase())
-            setTitle(e.value);
-        if (e.name === Constants.DESCRIPTION.toLowerCase())
-            setDescription(e.value);
-        if (e.name === Constants.JOB_TYPE)
-            setJobType(e.value);
-        if (e.name === Constants.LOCATION.toLowerCase())
-            setLocation(e.value);
-        if (e.name === Constants.NO_OF_POSITIONS)
-            setNoOfPositions(e.value);
+    // const handleChange = e => {
+    //     if (e.name === Constants.TITLE.toLowerCase())
+    //         setTitle(e.value);
+    //     if (e.name === Constants.DESCRIPTION.toLowerCase())
+    //         setDescription(e.value);
+    //     if (e.name === Constants.JOB_TYPE)
+    //         setJobType(e.value);
+    //     if (e.name === Constants.LOCATION.toLowerCase())
+    //         setLocation(e.value);
+    //     if (e.name === Constants.NO_OF_POSITIONS)
+    //         setNoOfPositions(e.value);
 
-    }
+    // }
 
     const onMandatoryChange = e => {
         setMandatorySkills(e);
     }
 
-    const onLocationChange = e => {
-        setLocation(e);
-    }
+    // const onLocationChange = e => {
+    //     setLocation(e);
+    // }
 
     const onGoodToHaveChange = e => {
         setGoodToHaveSkills(e);
@@ -167,11 +162,8 @@ const AddOpening = (props) => {
 
 
     const handleSubmit = e => {
-        console.log(e)
         setSubmitDisable(true);
-        // e.preventDefault();
         const isValid = validate(e);
-        console.log(isValid)
         if (isValid !== false) {
             let data = {
                 title,
@@ -182,26 +174,27 @@ const AddOpening = (props) => {
                 mandatorySkills,
                 goodToHaveSkills
             }
-            const res = localStorage.get(Constants.TOKEN)
-            let headers = {
-                token: res
-            }
+            // const res = localStorage.get(Constants.TOKEN)
+            // let headers = {
+            //     token: res
+            // }
 
             console.log(props)
             console.log(data)
             if (Object.keys(props.rowData).length > 0) {
-                http.putWithHeader(`job/edit/${props.rowData._id}`, data, { headers }).then(res => {
-                    toast.success(Constants.OPENING_EDIT_SUCCESS);
-                    props.history.replace(`/${Constants.OPENINGS}`);
+                http.putWithHeader(`job/edit/${props.rowData._id}`, data).then(res => {
+                    success(Constants.OPENING_EDIT_SUCCESS);
+                    props.getOpenings();
                     setSubmitDisable(false);
-                    props.handleCloseModal()
+                    props.handleCloseModal();
+
                 });
             } else {
-                http.postWithHeader('job/add', data, { headers }).then(res => {
+                http.postWithHeader('job/add', data).then(res => {
                     props.history.replace(`/${Constants.OPENINGS}`);
                     props.handleCloseModal()
-                    toast.success(Constants.OPENING_ADD_SUCCESS);
-                    // props.history.push('/openings');
+                    success(Constants.OPENING_ADD_SUCCESS);
+                    props.getOpenings();
                     setSubmitDisable(false);
 
                 });
@@ -231,15 +224,15 @@ const AddOpening = (props) => {
         }
     }, []);
 
-    const resetClicked = () => {
-        setTitle('');
-        setMandatorySkills([]);
-        setGoodToHaveSkills([]);
-        setLocation('');
-        setNoOfPositions(0);
-        setJobType('');
-        setDescription('');
-    }
+    // const resetClicked = () => {
+    //     setTitle('');
+    //     setMandatorySkills([]);
+    //     setGoodToHaveSkills([]);
+    //     setLocation('');
+    //     setNoOfPositions(0);
+    //     setJobType('');
+    //     setDescription('');
+    // }
 
 
     return (
@@ -268,20 +261,29 @@ const AddOpening = (props) => {
                     margin="normal"
                 ></TextField>
 
-                <TextField
-                    id="standard-name"
-                    label="Job Type"
-                    name={Constants.JOB_TYPE}
-                    helperText={jobTypeError}
-                    fullWidth={true}
-                    value={jobType}
-                    error={jobTypeError ? true : false}
-                    onChange={e => {
-                        setJobType(e.target.value);
-                        setJobTypeError(false);
-                    }}
-                    margin="normal"
-                ></TextField>
+                <FormControl variant="outlined" style={{
+                    width: "100%",
+                }}>
+                    <InputLabel htmlFor="filled-jobType-simple">Job Type</InputLabel>
+                    <Select
+                        value={jobType}
+                        onChange={e => setJobType(e.target.value)}
+                        inputProps={{
+                            name: 'jobType',
+                            id: 'filled-jobType-simple',
+                        }}
+                    >
+                        <MenuItem value={jobType}>Select Location</MenuItem>
+                        {
+                            jobTypes.map(job => {
+                                return <MenuItem value={job}>{job}</MenuItem>
+                            })
+                        }
+                    </Select>
+                </FormControl>
+                {jobTypeError &&
+                    <div className="alert alert-danger">{jobTypeError}</div>
+                }
 
                 <FormControl variant="outlined" style={{
                     width: "100%",

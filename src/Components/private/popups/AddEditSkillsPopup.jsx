@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import '../../../styles/popup.css'
 import http from '../../../services/httpService';
-import localStorage from '../../../services/storageService';
-import { toast } from 'react-toastify';
+//import localStorage from '../../../services/storageService';
+//import { toast } from 'react-toastify';
 import * as Constants from '../../../Constants/Constants'
 
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Typography,
+    // AppBar,
+    // Toolbar,
+    // IconButton,
+    // Typography,
     Button,
-    Container,
+    //Container,
     Dialog,
-    Slide,
+    //Slide,
     DialogTitle,
     DialogContent,
-    DialogContentText,
+    //DialogContentText,
     DialogActions,
-    Menu,
-    MenuItem,
+    // Menu,
+    // MenuItem,
     TextField,
-    Select,
-    InputLabel,
-    FormControl
+    // Select,
+    // InputLabel,
+    // FormControl
 } from "@material-ui/core";
+import { success } from '../../../services/notificationService';
 
 const AddEditSkillsPopup = (props) => {
 
@@ -55,33 +56,33 @@ const AddEditSkillsPopup = (props) => {
         setAddEditDisable(true);
         const isValid = validate();
         if (isValid !== false) {
-            const res = localStorage.get(Constants.TOKEN)
-            const headers = {
-                token: res
-            }
+            // const res = localStorage.get(Constants.TOKEN)
+            // const headers = {
+            //     token: res
+            // }
 
             const request = {
                 name: skill
             }
 
             if (props.editData) {
-                const data = http.putWithHeader(`skill/edit/${props.editData._id}`, request, { headers })
+                const data = http.putWithHeader(`skill/edit/${props.editData._id}`, request)
                 data.then(res => {
                     if (res.status === 200 || res.status === 201) {
                         handleClose();
                         props.getSkills();
-                        toast.success(Constants.SKILL_SUCCESS);
+                        success(Constants.SKILL_EDIT_SUCCESS);
                         setAddEditDisable(false);
                     }
 
                 })
             } else {
-                const data = http.postWithHeader(`skill/add`, request, { headers })
+                const data = http.postWithHeader(`skill/add`, request)
                 data.then(res => {
                     if (res.status === 200 || res.status === 201) {
                         handleClose();
                         props.getSkills();
-                        toast.success(Constants.SKILL_ADD_SUCCESS);
+                        success(Constants.SKILL_ADD_SUCCESS);
                         setAddEditDisable(false);
                     }
 
@@ -91,11 +92,11 @@ const AddEditSkillsPopup = (props) => {
         }
     }
 
-    const handleChange = e => {
-        if (e.name === Constants.SKILL) {
-            setSkill(e.value);
-        }
-    }
+    // const handleChange = e => {
+    //     if (e.name === Constants.SKILL) {
+    //         setSkill(e.value);
+    //     }
+    // }
 
     const handleClose = () => {
         props.togglePopup();

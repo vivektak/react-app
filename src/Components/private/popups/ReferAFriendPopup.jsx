@@ -5,22 +5,23 @@ import * as Constants from '../../../Constants/Constants';
 
 
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Typography,
+    // AppBar,
+    // Toolbar,
+    // IconButton,
+    // Typography,
     Button,
-    Container,
-    Dialog,
-    Slide,
+    // Container,
+    // Dialog,
+    // Slide,
     DialogTitle,
     DialogContent,
-    DialogContentText,
+    //DialogContentText,
     DialogActions,
-    Menu,
-    MenuItem,
+    // Menu,
+    // MenuItem,
     TextField
 } from "@material-ui/core";
+import { toBase64 } from '../../../services/commonHandler';
 
 
 const ReferAFriendPopup = (props) => {
@@ -66,14 +67,14 @@ const ReferAFriendPopup = (props) => {
 
     }
 
-    const handleChange = e => {
-        if (e.name === Constants.NAME.toLowerCase())
-            setName(e.value);
-        if (e.name === Constants.EMAIL.toLowerCase())
-            setEmail(e.value);
-        if (e.name === Constants.MOBILE.toLowerCase())
-            setMobileNumber(e.value);
-    }
+    // const handleChange = e => {
+    //     if (e.name === Constants.NAME.toLowerCase())
+    //         setName(e.value);
+    //     if (e.name === Constants.EMAIL.toLowerCase())
+    //         setEmail(e.value);
+    //     if (e.name === Constants.MOBILE.toLowerCase())
+    //         setMobileNumber(e.value);
+    // }
 
     const handleSubmit = () => {
         const isValid = validate();
@@ -91,12 +92,12 @@ const ReferAFriendPopup = (props) => {
         }
     }
 
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
+    // const toBase64 = file => new Promise((resolve, reject) => {
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onload = () => resolve(reader.result);
+    //     reader.onerror = error => reject(error);
+    // });
 
     const onChange = async (e) => {
         console.log(e);
@@ -106,12 +107,12 @@ const ReferAFriendPopup = (props) => {
     }
 
 
-    const closeClicked = () => {
-        setName('');
-        setEmail('');
-        setMobileNumber('');
-        props.togglePopup();
-    }
+    // const closeClicked = () => {
+    //     setName('');
+    //     setEmail('');
+    //     setMobileNumber('');
+    //     props.togglePopup();
+    // }
 
     return (
 
@@ -165,23 +166,10 @@ const ReferAFriendPopup = (props) => {
                     label="Choose File"
                     type="file"
                     name="file"
-                    // fullWidth={true}
-                    // value={mobileNumber}
-                    // error={mobileNumberError ? true : false}
-                    // helperText={mobileNumberError}
                     onChange={e => {
                         onChange(e);
-                        //  setMobileNumberError(false);
                     }}
                 />
-                {/* <input
-                    type='file'
-                     multiple={this.props.multi}
-                    ref='input'
-                    style={{ display: 'none' }}
-                     accept={this.props.accept}
-                    onChange={onChange} /> */}
-
             </DialogContent>
 
             <DialogActions>

@@ -1,27 +1,29 @@
 import React, { useState } from 'react';
 import ReferAFriendPopup from './ReferAFriendPopup';
 import http from '../../../services/httpService';
-import localStorage from '../../../services/storageService';
-import { toast } from 'react-toastify';
+//import localStorage from '../../../services/storageService';
+//import { toast } from 'react-toastify';
 import * as Constants from '../../../Constants/Constants';
 
 
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Typography,
+    // AppBar,
+    // Toolbar,
+    // IconButton,
+    // Typography,
     Button,
-    Container,
+    //Container,
     Dialog,
-    Slide,
+    //Slide,
     DialogTitle,
     DialogContent,
-    DialogContentText,
+    //DialogContentText,
     DialogActions,
-    Menu,
-    MenuItem
+    // Menu,
+    // MenuItem
 } from "@material-ui/core";
+
+import { success } from '../../../services/notificationService';
 
 
 const DescriptionPopup = (props) => {
@@ -37,14 +39,14 @@ const DescriptionPopup = (props) => {
 
     const handleSubmit = (data, header) => {
         setAddEditDisable(true);
-        const res = localStorage.get(Constants.TOKEN)
-        let headers = {
-            token: res
-        }
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
 
-        http.postWithHeader('refer', data, { headers }).then(res => {
+        http.postWithHeader('refer', data).then(res => {
             if (res.status === 200 || res.status === 201) {
-                toast.success(Constants.REFERRED_SUCCESS)
+                success(Constants.REFERRED_SUCCESS);
                 props.togglePopup();
                 setAddEditDisable(false);
             }

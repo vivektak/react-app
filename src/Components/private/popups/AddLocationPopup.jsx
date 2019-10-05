@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import localStorage from '../../../services/storageService';
+//import localStorage from '../../../services/storageService';
 import http from '../../../services/httpService';
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 import * as Constants from '../../../Constants/Constants';
 
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Typography,
+    // AppBar,
+    // Toolbar,
+    // IconButton,
+    // Typography,
     Button,
-    Container,
+    //Container,
     Dialog,
-    Slide,
+    //Slide,
     DialogTitle,
     DialogContent,
-    DialogContentText,
+    //DialogContentText,
     DialogActions,
-    Menu,
-    MenuItem,
+    // Menu,
+    // MenuItem,
     TextField,
-    Select,
-    InputLabel,
-    FormControl
+    // Select,
+    // InputLabel,
+    // FormControl
 } from "@material-ui/core";
+import { success } from '../../../services/notificationService';
 
 const AddLocation = (props) => {
 
@@ -41,43 +42,43 @@ const AddLocation = (props) => {
             setLocationError('')
         }
     }
-    const handleChange = e => {
-        if (e.name === Constants.LOCATION.toLowerCase())
-            setLocation(e.value);
-    }
+    // const handleChange = e => {
+    //     if (e.name === Constants.LOCATION.toLowerCase())
+    //         setLocation(e.value);
+    // }
 
     const handleSubmit = () => {
         setAddEditDisable(true);
         const isValid = validate();
 
         if (isValid !== false) {
-            const res = localStorage.get(Constants.TOKEN)
-            let headers = {
-                token: res
-            }
+            // const res = localStorage.get(Constants.TOKEN)
+            // let headers = {
+            //     token: res
+            // }
 
             const request = {
                 name: location
             }
 
             if (props.editData) {
-                const data = http.putWithHeader(`location/edit/${props.editData._id}`, request, { headers })
+                const data = http.putWithHeader(`location/edit/${props.editData._id}`, request)
                 data.then(res => {
                     if (res.status === 200 || res.status === 201) {
                         handleClose();
                         props.getLocations();
-                        toast.success(Constants.LOCATION_EDIT_SUCCESS);
+                        success(Constants.LOCATION_EDIT_SUCCESS);
                         setAddEditDisable(false);
                     }
 
                 })
             } else {
-                const data = http.postWithHeader('location/add', request, { headers })
+                const data = http.postWithHeader('location/add', request)
                 data.then(res => {
                     if (res.status === 200 || res.status === 201) {
                         handleClose();
                         props.getLocations();
-                        toast.success(Constants.LOCATION_ADD_SUCCESS);
+                        success(Constants.LOCATION_ADD_SUCCESS);
                         setAddEditDisable(false);
                     }
                 })
