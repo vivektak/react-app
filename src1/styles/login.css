@@ -185,22 +185,3 @@ span.psw {
     max-width: 800px !important;
     width: 800px;
 }
-
-.MuiInputLabel-outlined{
-    transform: translate(0px, 0px) scale(.75) !important;
-}
-
-.MuiOutlinedInput-notchedOutline{
-    border:none !important;
-    border-color:transparent !important;
-    padding-left: 0px !important;
-    border-bottom: solid 1px #333 !important;
-    border-radius: 0px !important;
-}
-.MuiOutlinedInput-input{
-    padding: 20px 0px 10px !important;
-}
-.MuiDialogActions-root{
-    justify-content: flex-start !important;
-    padding-left: 20px !important;
-}

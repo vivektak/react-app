@@ -1,31 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import '../../../styles/popup.css'
 import http from '../../../services/httpService';
-//import localStorage from '../../../services/storageService';
-//import { toast } from 'react-toastify';
 import * as Constants from '../../../Constants/Constants'
 
 import {
-    // AppBar,
-    // Toolbar,
-    // IconButton,
-    // Typography,
     Button,
-    //Container,
     Dialog,
-    //Slide,
     DialogTitle,
     DialogContent,
-    //DialogContentText,
     DialogActions,
-    // Menu,
-    // MenuItem,
     TextField,
-    // Select,
-    // InputLabel,
-    // FormControl
 } from "@material-ui/core";
+
 import { success } from '../../../services/notificationService';
+import { checkSkillValidation } from '../../../services/commonValidation';
 
 const AddEditSkillsPopup = (props) => {
 
@@ -33,16 +21,6 @@ const AddEditSkillsPopup = (props) => {
     const [skillError, setSkillError] = useState('');
     const [isEdit, setIsEdit] = useState(Constants.ADD)
     const [addEditDisable, setAddEditDisable] = useState(false);
-
-
-    const validate = () => {
-        if (skill === '') {
-            setSkillError(Constants.SKILL_REQUIRE);
-            return false;
-        } else {
-            setSkillError('')
-        }
-    }
 
     useEffect(() => {
         console.log(props)
@@ -54,67 +32,45 @@ const AddEditSkillsPopup = (props) => {
 
     const handleSubmit = () => {
         setAddEditDisable(true);
-        const isValid = validate();
-        if (isValid !== false) {
-            // const res = localStorage.get(Constants.TOKEN)
-            // const headers = {
-            //     token: res
-            // }
 
-            const request = {
-                name: skill
-            }
-
-            if (props.editData) {
-                const data = http.putWithHeader(`skill/edit/${props.editData._id}`, request)
-                data.then(res => {
-                    if (res.status === 200 || res.status === 201) {
-                        handleClose();
-                        props.getSkills();
-                        success(Constants.SKILL_EDIT_SUCCESS);
-                        setAddEditDisable(false);
-                    }
-
-                })
-            } else {
-                const data = http.postWithHeader(`skill/add`, request)
-                data.then(res => {
-                    if (res.status === 200 || res.status === 201) {
-                        handleClose();
-                        props.getSkills();
-                        success(Constants.SKILL_ADD_SUCCESS);
-                        setAddEditDisable(false);
-                    }
-
-                })
-            }
-
+        const request = {
+            name: skill
         }
-    }
 
-    // const handleChange = e => {
-    //     if (e.name === Constants.SKILL) {
-    //         setSkill(e.value);
-    //     }
-    // }
+        if (props.editData) {
+            const data = http.putWithHeader(`skill/edit/${props.editData._id}`, request)
+            data.then(res => {
+                if (res.status === 200 || res.status === 201) {
+                    handleClose();
+                    props.getSkills();
+                    success(Constants.SKILL_EDIT_SUCCESS);
+                    setAddEditDisable(false);
+                }
+
+            })
+        } else {
+            const data = http.postWithHeader(`skill/add`, request)
+            data.then(res => {
+                if (res.status === 200 || res.status === 201) {
+                    handleClose();
+                    props.getSkills();
+                    success(Constants.SKILL_ADD_SUCCESS);
+                    setAddEditDisable(false);
+                }
+
+            })
+        }
+
+    }
 
     const handleClose = () => {
         props.togglePopup();
     }
 
-    // const inlinestyle = {
-    //     backgroundColor: "#f1f1f1"
-    // }
-
-
-
     return (
-
         <Dialog
             open={props.popup}
-
             keepMounted
-            // onClose={props.handleCloseModal}
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
         >
@@ -130,12 +86,10 @@ const AddEditSkillsPopup = (props) => {
                     error={skillError ? true : false}
                     onChange={e => {
                         setSkill(e.target.value);
-                        setSkillError(false);
                     }}
+                    onBlur={e => setSkillError(checkSkillValidation(e.target.value))}
                     margin="normal"
                 ></TextField>
-
-
             </DialogContent>
             <DialogActions>
                 <Button
@@ -154,38 +108,6 @@ const AddEditSkillsPopup = (props) => {
           </Button>
             </DialogActions>
         </Dialog >
-        // <div className='popup'>
-        //     <div className='popup\_inner'>
-        //         <form>
-        //             <div className="container">
-        //                 <div className="container header-container" style={inlinestyle} >
-        //                     <span className="label-header">{isEdit} Skill</span>
-        //                 </div>
-        //                 <div className="form-group">
-        //                     <label htmlFor={Constants.SKILL} className="label">Skill</label>
-        //                     <input
-        //                         className="form-control"
-        //                         id={Constants.SKILL}
-        //                         aria-describedby="skillHelp"
-        //                         placeholder="Enter Skill"
-        //                         value={skill}
-        //                         name={Constants.SKILL}
-        //                         onChange={(e) => handleChange(e.target)}
-        //                     />
-        //                     {skillError &&
-        //                         <div className="alert alert-danger">{skillError}</div>
-        //                     }
-
-        //                     <button type="button" className="cancelbtn" onClick={(e) => handleSubmit(e)} disabled={addEditDisable}>
-        //                         {props.editData ? Constants.UPDATE : Constants.SAVE}
-        //                     </button>
-        //                     <button type="close" className=" btn-danger cancelbtn m-2" onClick={() => handleClose()} >{Constants.CLOSE}</button>
-
-        //                 </div>
-        //             </div>
-        //         </form>
-        //     </div>
-        // </div>
     );
 }
 

@@ -1,30 +1,17 @@
 import React, { useState, useEffect } from 'react';
-//import localStorage from '../../../services/storageService';
 import http from '../../../services/httpService';
-//import { toast } from 'react-toastify';
 import * as Constants from '../../../Constants/Constants';
 
 import {
-    // AppBar,
-    // Toolbar,
-    // IconButton,
-    // Typography,
     Button,
-    //Container,
     Dialog,
-    //Slide,
     DialogTitle,
     DialogContent,
-    //DialogContentText,
     DialogActions,
-    // Menu,
-    // MenuItem,
     TextField,
-    // Select,
-    // InputLabel,
-    // FormControl
 } from "@material-ui/core";
 import { success } from '../../../services/notificationService';
+import { checkLocationValidation } from '../../../services/commonValidation';
 
 const AddLocation = (props) => {
 
@@ -34,58 +21,34 @@ const AddLocation = (props) => {
     const [addEditDisable, setAddEditDisable] = useState(false);
 
 
-    const validate = () => {
-        if (location === '') {
-            setLocationError(Constants.LOCATION_REQUIRE);
-            return false;
-        } else {
-            setLocationError('')
-        }
-    }
-    // const handleChange = e => {
-    //     if (e.name === Constants.LOCATION.toLowerCase())
-    //         setLocation(e.value);
-    // }
-
     const handleSubmit = () => {
         setAddEditDisable(true);
-        const isValid = validate();
-
-        if (isValid !== false) {
-            // const res = localStorage.get(Constants.TOKEN)
-            // let headers = {
-            //     token: res
-            // }
-
-            const request = {
-                name: location
-            }
-
-            if (props.editData) {
-                const data = http.putWithHeader(`location/edit/${props.editData._id}`, request)
-                data.then(res => {
-                    if (res.status === 200 || res.status === 201) {
-                        handleClose();
-                        props.getLocations();
-                        success(Constants.LOCATION_EDIT_SUCCESS);
-                        setAddEditDisable(false);
-                    }
-
-                })
-            } else {
-                const data = http.postWithHeader('location/add', request)
-                data.then(res => {
-                    if (res.status === 200 || res.status === 201) {
-                        handleClose();
-                        props.getLocations();
-                        success(Constants.LOCATION_ADD_SUCCESS);
-                        setAddEditDisable(false);
-                    }
-                })
-            }
-
+        const request = {
+            name: location
         }
 
+        if (props.editData) {
+            const data = http.putWithHeader(`location/edit/${props.editData._id}`, request)
+            data.then(res => {
+                if (res.status === 200 || res.status === 201) {
+                    handleClose();
+                    props.getLocations();
+                    success(Constants.LOCATION_EDIT_SUCCESS);
+                    setAddEditDisable(false);
+                }
+
+            })
+        } else {
+            const data = http.postWithHeader('location/add', request)
+            data.then(res => {
+                if (res.status === 200 || res.status === 201) {
+                    handleClose();
+                    props.getLocations();
+                    success(Constants.LOCATION_ADD_SUCCESS);
+                    setAddEditDisable(false);
+                }
+            })
+        }
     }
 
     useEffect(() => {
@@ -100,18 +63,10 @@ const AddLocation = (props) => {
         props.togglePopup();
     }
 
-    // const inlinestyle = {
-    //     backgroundColor: "#f1f1f1"
-    // }
-
-
     return (
-
-
         <Dialog
             open={props.popup}
             keepMounted
-            // onClose={props.handleCloseModal}
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
         >
@@ -127,8 +82,8 @@ const AddLocation = (props) => {
                     error={locationError ? true : false}
                     onChange={e => {
                         setLocation(e.target.value);
-                        setLocationError(false);
                     }}
+                    onBlur={e => setLocationError(checkLocationValidation(e.target.value))}
                     margin="normal"
                 ></TextField>
 
@@ -151,39 +106,6 @@ const AddLocation = (props) => {
           </Button>
             </DialogActions>
         </Dialog >
-
-        // <div className='popup'>
-        //     <div className='popup\_inner'>
-        //         <form>
-        //             <div className="container">
-        //                 <div className="container header-container" style={inlinestyle} >
-        //                     <span className="label-header">{isEdit} Location</span>
-        //                 </div>
-        //                 <div className="form-group">
-        //                     <label htmlFor="location" className="label">Location</label>
-        //                     <input
-        //                         className="form-control"
-        //                         id="location"
-        //                         aria-describedby="locationHelp"
-        //                         placeholder="Enter Location"
-        //                         value={location}
-        //                         name="location"
-        //                         onChange={(e) => handleChange(e.target)}
-        //                     />
-        //                     {locationError &&
-        //                         <div className="alert alert-danger">{locationError}</div>
-        //                     }
-
-        //                     <button type="button" className="cancelbtn" onClick={(e) => handleSubmit(e)} disabled={addEditDisable}>
-        //                         {props.editData ? Constants.UPDATE : Constants.SAVE}
-        //                     </button>
-        //                     <button type="close" className=" btn-danger cancelbtn m-2" onClick={() => handleClose()} >{Constants.CLOSE}</button>
-
-        //                 </div>
-        //             </div>
-        //         </form>
-        //     </div>
-        // </div>
     );
 }
 

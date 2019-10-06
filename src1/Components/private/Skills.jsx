@@ -1,17 +1,38 @@
 import React, { useEffect, useState, useRef } from 'react';
 import http from '../../services/httpService';
 import Header from './Header';
+//import localStorage from './../../services/storageService';
 import AddEditSkillsPopup from '../private/popups/AddEditSkillsPopup';
+//import { toast } from 'react-toastify';
 import '../../styles/App.css';
 import * as Constants from '../../Constants/Constants';
 
 import {
+    // AppBar,
+    // Toolbar,
+    // IconButton,
+    // Typography,
     Button,
+    // Container,
+    // Dialog,
+    // Slide,
+    // DialogTitle,
+    // DialogContent,
+    // DialogContentText,
+    // DialogActions,
+    // Menu,
+    // MenuItem,
+    // TextField
 } from "@material-ui/core";
 import MaterialTable from "material-table";
+
+import Loader from 'react-loader-spinner';
+import { SettingsSharp } from '@material-ui/icons';
+
 import ConfirmPopup from './popups/ConfirmPopup';
 import { toBase64 } from '../../services/commonHandler';
 import { success } from '../../services/notificationService';
+
 
 const Skills = (props) => {
 
@@ -24,6 +45,11 @@ const Skills = (props) => {
     const fileInput = useRef();
 
     const getSkills = () => {
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
+
         const data = http.getWithHeader('skill/all')
         data.then(res => {
             setSkills(res.data.data);
@@ -41,6 +67,11 @@ const Skills = (props) => {
     }
 
     const handleDelete = (e) => {
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
+        console.log(editData)
         http.deleteWithHeader(`skill/delete/${editData._id}`).then(res => {
             if (res.status === 200) {
                 success(Constants.SKILL_DELETE_SUCCESS)
@@ -59,6 +90,14 @@ const Skills = (props) => {
         getSkills();
     }, []);
 
+
+    // const toBase64 = file => new Promise((resolve, reject) => {
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onload = () => resolve(reader.result);
+    //     reader.onerror = error => reject(error);
+    // });
+
     const onChange = async (e) => {
         const excel = await toBase64(e.target.files[0]);
         setExcelImport(excel);
@@ -66,12 +105,17 @@ const Skills = (props) => {
     }
 
     const importExcelApi = (data) => {
+        // const res = localStorage.get(Constants.TOKEN)
+        // let headers = {
+        //     token: res
+        // }
         http.postWithHeader('skill/bulk', { file: data }).then(res => {
             getSkills();
         })
     }
 
     const handleImport = () => {
+        console.log(fileInput.current)
         fileInput.current.click();
     }
 
@@ -131,6 +175,7 @@ const Skills = (props) => {
                             icon: "edit",
                             tooltip: "Edit User",
                             onClick: (event, rowData) => {
+                                // Do save operation
                                 handleEdit(event, rowData)
 
                             }
@@ -139,6 +184,8 @@ const Skills = (props) => {
                             icon: "delete",
                             tooltip: "Delete User",
                             onClick: (event, rowData) => {
+                                // Do save operation
+                                // handleDelete(event, rowData);
                                 setIsDelete(true);
                                 setEditData(rowData);
                             }
@@ -155,7 +202,39 @@ const Skills = (props) => {
             }
             {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
 
+            {/* { openModal ? <AddOpening handleCloseModal={handleCloseModal} openModal={openModal} rowData={rowData}></AddOpening> : null }
+     { descriptionPopup ? <DescriptionPopup togglePopup={togglePopup} rowData={rowData}></DescriptionPopup> : null } */}
+
+
         </div >
+        // <div className="container-fluid">
+        //     <Header />
+        //     <button className="btn btn-primary cancelbtn m-2" onClick={() => handleAdd()}>{Constants.ADD}</button>
+        //     {skills.length > 0 ?
+        //         <table className="table table-striped">
+        //             <thead>
+        //                 <tr>
+
+        //                     <th scope="col">Skill</th>
+        //                     <th colSpan="2">Actions</th>
+        //                 </tr>
+        //             </thead>
+        //             <tbody>
+
+        //                 {
+        //                     skills.map(skill =>
+        //                         <tr key={skill._id}>
+
+        //                             <td>{skill.name}</td>
+
+        //                             <td><button className="btn btn-secondary cancelbtn" onClick={(e) => handleEdit(e, skill)}>{Constants.EDIT}</button></td>
+        //                             <td><button className="btn btn-danger cancelbtn" onClick={(e) => handleDelete(e, skill._id)}>{Constants.DELETE}</button></td>
+        //                         </tr>)
+        //                 }
+
+        //             </tbody>
+        //         </table>
+        //         :
         //         <div className='sweet-loading align-center'>
         //             <Loader
         //                 type="CradleLoader"
@@ -166,6 +245,11 @@ const Skills = (props) => {
 
         //             />
         //         </div>}
+
+        //     {
+        //         popup ? <AddEditSkillsPopup togglePopup={() => togglePopup()} getSkills={() => getSkills()} editData={editData}></AddEditSkillsPopup> : null
+        //     }
+        // </div >
     );
 }
 

@@ -24,6 +24,10 @@ function App() {
   const [data, setData] = useState();
 
   const getUserInfo = () => {
+    // const res = localStorage.get(Constants.TOKEN)
+    // let headers = {
+    //   token: res
+    // }
     http.getWithHeader('user/info').then(res => {
       setData(res.data.data)
     })
@@ -31,7 +35,8 @@ function App() {
 
   useEffect(() => {
     if (localStorage.get('token'))
-      getUserInfo();
+      console.log('akjs')
+    getUserInfo();
   }, [])
 
   return (
