@@ -19,6 +19,7 @@ import http from './services/httpService';
 
 import * as Constants from '../src/Constants/Constants';
 import Alert from 'react-s-alert'
+import Dashboard from './Components/Dashboard';
 
 function App() {
   const [data, setData] = useState();
@@ -43,6 +44,7 @@ function App() {
             <Route path="/login" component={Login} />
             <Redirect from="/" exact to="/login" />
             <Route path="/register" component={Register} />
+            <Route path="/dashboard" component={Dashboard} />
             <PrivateRoutes path="/openings/:id" component={AddOpening} />
             <PrivateRoutes path="/openings" component={Openings} />
             <PrivateRoutes path="/my-referrals" component={MyReferrals} />

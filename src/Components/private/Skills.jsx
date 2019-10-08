@@ -12,6 +12,8 @@ import MaterialTable from "material-table";
 import ConfirmPopup from './popups/ConfirmPopup';
 import { toBase64 } from '../../services/commonHandler';
 import { success } from '../../services/notificationService';
+import Download from './exportToExcel';
+//import { ExcelFile, ExcelSheet } from "react-export-excel";
 
 const Skills = (props) => {
 
@@ -19,6 +21,8 @@ const Skills = (props) => {
     const [popup, setPopup] = useState(false);
     const [editData, setEditData] = useState('');
     const [excelImport, setExcelImport] = useState('');
+    const [exportExcel, setExportExcel] = useState(false);
+
     const [isDelete, setIsDelete] = useState(false);
 
     const fileInput = useRef();
@@ -77,6 +81,10 @@ const Skills = (props) => {
 
     const handleExport = () => {
         console.log(fileInput.current);
+        setExportExcel(true);
+        // return <ExcelFile>
+        //     <ExcelSheet dataSet={skills} name="Skills" />
+        // </ExcelFile>
     }
 
     const toggleDeletePopup = () => {
@@ -106,18 +114,19 @@ const Skills = (props) => {
                         onClick={() => handleImport()}
                         color="secondary"
                         variant="contained"
-                    >Import Excel</Button>
+                    >{Constants.IMPORT_EXCEL}</Button>
+
                     <Button
                         onClick={() => handleExport()}
                         color="secondary"
                         variant="contained"
                         className="m-2"
-                    >Export Excel</Button>
+                    >{Constants.EXPORT_EXCEL}</Button>
                     <Button
                         onClick={() => handleAdd(true)}
                         color="secondary"
                         variant="contained"
-                    >Add Skill</Button>
+                    >{Constants.ADD_SKILL}</Button>
                 </div>
                 <MaterialTable
                     columns={[
@@ -154,7 +163,9 @@ const Skills = (props) => {
                 popup ? <AddEditSkillsPopup popup={popup} togglePopup={() => togglePopup()} getSkills={getSkills} editData={editData}></AddEditSkillsPopup> : null
             }
             {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
-
+            {
+                exportExcel ? <Download></Download> : null
+            }
         </div >
         //         <div className='sweet-loading align-center'>
         //             <Loader

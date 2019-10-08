@@ -49,7 +49,7 @@ const DescriptionPopup = (props) => {
                 {showPopup ? <React.Fragment><DialogTitle id="alert-dialog-slide-title">Job Details</DialogTitle>
                     <DialogContent>
                         <p><strong>{title}</strong></p>
-                        <p><strong>{location}</strong></p>
+                        <p><strong>Location : </strong>{location}</p>
                         <p><strong>{jobType}</strong></p>
                         <p><strong>{skills}</strong></p>
 

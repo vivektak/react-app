@@ -120,10 +120,9 @@ const Register = () => {
                         variant="contained"
                         onClick={handleSubmit}
                         disabled={buttonState}
-
                     >
-                        Register
-          </Button>
+                        {Constants.REGISTER}
+                    </Button>
                 </CardActions>
             </Card>
         </div>

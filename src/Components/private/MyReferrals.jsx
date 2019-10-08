@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 
 import MaterialTable from "material-table";
+import * as Constants from '../../Constants/Constants';
 
 const MyReferrals = () => {
 
@@ -26,16 +27,16 @@ const MyReferrals = () => {
 
     const handleEdit = (e, data) => {
         setRowData(data);
-        togglePopup()
+        togglePopup();
     }
 
     const handleAdd = () => {
         togglePopup();
-        setRowData('')
+        setRowData('');
     }
 
     const togglePopup = () => {
-        setMyReferralsPopup(!myReferralsPopup)
+        setMyReferralsPopup(!myReferralsPopup);
     }
 
 
@@ -61,16 +62,16 @@ const MyReferrals = () => {
                     columns={[
 
                         { title: "Job Id", field: "jobId" },
-                        { title: "Name", field: "name" },
-                        { title: "Mobile", field: "mobile" },
-                        { title: "Status", field: "status" },
+                        { title: Constants.NAME, field: Constants.NAME.toLowerCase() },
+                        { title: Constants.MOBILE, field: Constants.MOBILE.toLowerCase() },
+                        { title: Constants.STATUS, field: Constants.STATUS.toLowerCase() },
                     ]}
                     data={myReferrals}
-                    title="My Referrals"
+                    title={Constants.MY_REFERRALS}
                     actions={[
                         {
-                            icon: "edit",
-                            tooltip: "Edit User",
+                            icon: Constants.EDIT.toLowerCase(),
+                            tooltip: Constants.EDIT_USER,
                             onClick: (event, rowData) => {
                                 handleEdit(event, rowData)
                             }

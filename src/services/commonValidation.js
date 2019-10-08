@@ -115,3 +115,10 @@ export const checkNameValidation = name => {
         return null;
     }
 }
+export const checkTypeValidation = type => {
+    if (type === '') {
+        return Constants.TYPE_REQUIRE;
+    } else {
+        return null;
+    }
+}

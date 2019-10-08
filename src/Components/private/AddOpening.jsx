@@ -17,12 +17,13 @@ import {
     FormControl
 } from "@material-ui/core";
 import { success } from '../../services/notificationService';
-import { checkTitleValidation, checkJobTypeValidation, checkDescriptionValidation, checkMandatorySkillsValidation, checkNoOfPositionsValidation, checkLocationValidation } from '../../services/commonValidation';
+import { checkTitleValidation, checkJobTypeValidation, checkDescriptionValidation, checkMandatorySkillsValidation, checkNoOfPositionsValidation, checkLocationValidation, checkTypeValidation } from '../../services/commonValidation';
 
 const AddOpening = (props) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [jobType, setJobType] = useState('');
+    const [type, setType] = useState('');
     const [location, setLocation] = useState([]);
     const [noOfPositions, setNoOfPositions] = useState(0);
     const [mandatorySkills, setMandatorySkills] = useState([]);
@@ -32,15 +33,16 @@ const AddOpening = (props) => {
     const [submitDisable, setSubmitDisable] = useState(true);
 
     const [titleError, setTitleError] = useState('');
+    const [typeError, setTypeError] = useState('');
     const [descError, setDescError] = useState('');
     const [jobTypeError, setJobTypeError] = useState('');
     const [locationError, setLocationError] = useState('');
     const [noOfPositionsError, setNoOfPositionsError] = useState('');
     const [mandatorySkillsError, setMandatorySkillsError] = useState('');
-    const [goodToHaveSkillsError, setGoodToHaveSkillsError] = useState('');
+    //    const [goodToHaveSkillsError, setGoodToHaveSkillsError] = useState('');
 
     const jobTypes = ['Permanent', 'Contractual'];
-
+    const types = ['Frontend', 'Backend', 'QA', 'Administrative'];
 
 
     const getSkills = () => {
@@ -80,6 +82,7 @@ const AddOpening = (props) => {
         setSubmitDisable(true);
         let data = {
             title,
+            type,
             description,
             jobType,
             location,
@@ -111,6 +114,7 @@ const AddOpening = (props) => {
         getSkills();
         getLocations();
         if (Object.keys(props.rowData).length > 0) {
+            setSubmitDisable(false);
             const dataToEdit = props.rowData;
             setTitle(dataToEdit.title);
             setDescription(dataToEdit.description);
@@ -147,6 +151,28 @@ const AddOpening = (props) => {
                     onBlur={e => { setTitleError(checkTitleValidation(e.target.value)) }}
                     margin="normal"
                 ></TextField>
+
+                <FormControl variant="outlined" className="opening-box" style={{
+                    width: "100%",
+                }}>
+                    <InputLabel htmlFor="filled-jobType-simple">Type</InputLabel>
+                    <Select
+                        value={type}
+                        error={typeError ? true : false}
+                        onChange={e => setType(e.target.value)}
+                        onBlur={e => { setTypeError(checkTypeValidation(e.target.value)) }}
+                        inputProps={{
+                            name: 'type',
+                            id: 'filled-type-simple',
+                        }}
+                    >
+                        {
+                            types.map(type => {
+                                return <MenuItem value={type}>{type}</MenuItem>
+                            })
+                        }
+                    </Select>
+                </FormControl>
 
                 <FormControl variant="outlined" className="opening-box" style={{
                     width: "100%",
@@ -254,7 +280,7 @@ const AddOpening = (props) => {
                     onClick={e => handleSubmit(e)}
                     color="primary"
                     variant="contained"
-                    disabled={submitDisable}
+                //disabled={submitDisable}
 
                 >
                     {Object.keys(props.rowData).length > 0 ? "Update" : "Save"}

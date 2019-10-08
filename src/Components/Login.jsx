@@ -120,7 +120,7 @@ export const Login = (props) => {
                         variant="contained"
                         onClick={handleSubmit}
                         disabled={submitState}
-                    >Login</Button>
+                    >{Constants.LOG_IN}</Button>
                 </CardActions>
             </Card>
         </div>

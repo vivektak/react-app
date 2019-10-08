@@ -23,7 +23,6 @@ const AddEditSkillsPopup = (props) => {
     const [addEditDisable, setAddEditDisable] = useState(false);
 
     useEffect(() => {
-        console.log(props)
         if (props.editData) {
             setSkill(props.editData.name);
             setIsEdit(Constants.EDIT)

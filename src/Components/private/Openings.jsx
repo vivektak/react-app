@@ -6,9 +6,6 @@ import DescriptionPopup from '../private/popups/DescriptionPopup';
 import ViewReferredPopup from './popups/viewReferredPopup';
 import * as Constants from '../../Constants/Constants';
 
-
-
-
 import {
     Button,
 } from "@material-ui/core";
@@ -28,7 +25,6 @@ const Openings = props => {
     const [openModal, setOpenModal] = useState(false);
 
     const [descriptionPopup, setDescriptionPopup] = useState(false);
-    const [descData, setDescData] = useState({});
     const [showReferralPopup, setShowReferralPopup] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
     const [excelImport, setExcelImport] = useState('');
@@ -37,8 +33,13 @@ const Openings = props => {
 
     const fileInput = useRef();
 
-
     const handleEdit = (e, rowData) => {
+        if (rowData.mandatorySkills.length > 1) {
+            rowData.mandatorySkills = rowData.mandatorySkills.split(',')
+        }
+        if (rowData.goodToHaveSkills.length > 1) {
+            rowData.goodToHaveSkills = rowData.goodToHaveSkills.split(',')
+        }
         setRowData(rowData);
         setOpenModal(true);
     }
@@ -66,10 +67,16 @@ const Openings = props => {
     const getOpenings = () => {
         const data = http.getWithHeader('job/latest?count=5&page=1')
         data.then(res => {
-            console.log(res.data.data);
+            res.data.data.map(row => {
+                if (row.mandatorySkills.length > 1) {
+                    row.mandatorySkills = row.mandatorySkills.toString();
+                }
+                if (row.goodToHaveSkills.length > 1) {
+                    row.goodToHaveSkills = row.goodToHaveSkills.toString();
+                }
+            })
             setOpening(res.data.data);
         })
-
     }
 
     const handleDetailsView = (e, rowData) => {
@@ -134,43 +141,43 @@ const Openings = props => {
                         onClick={() => handleImport()}
                         color="secondary"
                         variant="contained"
-                    >Import Excel</Button>
+                    >{Constants.IMPORT_EXCEL}</Button>
                     <Button
                         onClick={() => handleExport()}
                         color="secondary"
                         variant="contained"
                         className="m-2"
-                    >Export Excel</Button>
+                    >{Constants.EXPORT_EXCEL}</Button>
                     <Button
                         onClick={() => handleAdd(true)}
                         color="secondary"
                         variant="contained"
-                    >Add Opening</Button>
+                    >{Constants.ADD_OPENING}</Button>
                 </div>
                 <MaterialTable
                     columns={[
-                        { title: "ID", field: "_id" },
-                        { title: "Title", field: "title" },
-                        { title: "Job Type", field: "jobType" },
-                        { title: "Location", field: "location" },
-                        { title: "Mandatory Skills", field: "mandatorySkills" },
-                        { title: "Good To Have Skills", field: "goodToHaveSkills" },
-                        { title: "Number of Positions", field: "noOfPositions" },
-
+                        { title: Constants.ID, field: "_id" },
+                        { title: Constants.TITLE, field: "title" },
+                        { title: Constants.TYPE, field: "type" },
+                        { title: Constants.JOBTYPE, field: "jobType" },
+                        { title: Constants.LOCATION, field: "location" },
+                        { title: Constants.MANDATORYSKILLS, field: "mandatorySkills" },
+                        { title: Constants.GOODTOHAVESKILLS, field: "goodToHaveSkills" },
+                        { title: Constants.NOOFPOSITIONS, field: "noOfPositions" },
                     ]}
                     data={Opening}
-                    title="Job Openings"
+                    title={Constants.JOB_OPENINGS}
                     actions={[
                         {
-                            icon: "edit",
-                            tooltip: "Edit User",
+                            icon: Constants.EDIT.toLowerCase(),
+                            tooltip: Constants.EDIT_USER,
                             onClick: (event, rowData) => {
                                 handleEdit(event, rowData)
                             }
                         },
                         {
-                            icon: "delete",
-                            tooltip: "Delete User",
+                            icon: Constants.DELETE.toLowerCase(),
+                            tooltip: Constants.DELETE_USER,
                             onClick: (event, rowData) => {
                                 setIsDelete(true);
                                 setRowData(rowData);
@@ -178,14 +185,14 @@ const Openings = props => {
                         },
                         {
                             icon: "remove_red_eye",
-                            tooltip: "View Details",
+                            tooltip: Constants.VIEW_DETAILS,
                             onClick: (event, rowData) => {
                                 handleDetailsView(event, rowData);
                             }
                         },
                         {
                             icon: "people",
-                            tooltip: "View Referred",
+                            tooltip: Constants.VIEW_REFERRED,
                             onClick: (event, rowData) => {
                                 toggleReferrals(event, rowData);
                             }

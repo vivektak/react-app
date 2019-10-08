@@ -34,3 +34,35 @@
 .opening-box {
   margin: 0 0 20px !important;
 }
+
+.dashboard-card {
+  margin: 20px;
+  width: 20%;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.total-jobs {
+  background-color: lightcoral !important;
+  color: white !important;
+}
+
+.frontend-jobs {
+  background-color: lightgreen !important;
+  color: white !important;
+}
+
+.backend-jobs {
+  background-color: lightsteelblue !important;
+  color: white !important;
+}
+
+.qa-jobs {
+  background-color: bisque !important;
+  color: white !important;
+}
+
+.admin-jobs {
+  background-color: dimgrey !important;
+  color: white !important;
+}
