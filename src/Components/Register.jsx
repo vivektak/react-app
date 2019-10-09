@@ -35,6 +35,8 @@ const Register = () => {
         await http.post('user/signup', data).then(res => {
             if (res.status === 200)
                 success(Constants.REGISTER_SUCCESS)
+        }).catch(error => {
+
         })
     };
 

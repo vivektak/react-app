@@ -1,39 +1,73 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from '@material-ui/core';
 import Header from './private/Header';
+import http from '../services/httpService';
 
 const Dashboard = props => {
 
+    const [totalJobs, setTotalJobs] = useState(0);
+    const [frontendJobs, setFrontendJobs] = useState(0);
+    const [backendJobs, setBackendJobs] = useState(0);
+    const [qaJobs, setQaJobs] = useState(0);
+    const [adminJobs, setAdminJobs] = useState(0);
+    const [fullstackJobs, setfullstackJobs] = useState(0);
+
     const handleClick = path => {
         console.log(path);
-        props.history.replace('/openings')
+        props.history.replace('/openings', { path })
     }
+
+    const dashboardCount = () => {
+        const data = http.getWithHeader('api/dashboard')
+        data.then(res => {
+            setTotalJobs(res.data.numberOfJobs);
+            setFrontendJobs(res.data.numberOfJobs);
+            setBackendJobs(res.data.numberOfJobs);
+            setQaJobs(res.data.numberOfJobs);
+            setAdminJobs(res.data.numberOfJobs);
+            setfullstackJobs(res.data.numberOfJobs);
+        })
+    }
+
+    useEffect(() => {
+        dashboardCount()
+    }, [])
+
+
+
+
+
     return (
         <React.Fragment>
             <Header />
-            <Card className="dashboard-card total-jobs" onClick={e => handleClick('/all')}>
+            <Card className="dashboard-card total-jobs" onClick={e => handleClick('all')}>
                 <CardContent>
-                    Total Jobs <h3>544</h3>
+                    Total Jobs <h3>{totalJobs}</h3>
                 </CardContent>
             </Card>
-            <Card className="dashboard-card frontend-jobs" onClick={e => handleClick('/frontend')}>
+            <Card className="dashboard-card frontend-jobs" onClick={e => handleClick('frontend')}>
                 <CardContent>
-                    Frontend <h3>544</h3>
+                    Frontend <h3>{frontendJobs}</h3>
                 </CardContent>
             </Card>
-            <Card className="dashboard-card backend-jobs" onClick={e => handleClick('/backend')}>
+            <Card className="dashboard-card backend-jobs" onClick={e => handleClick('backend')}>
                 <CardContent>
-                    Backend <h3>544</h3>
+                    Backend <h3>{backendJobs}</h3>
                 </CardContent>
             </Card>
-            <Card className="dashboard-card qa-jobs" onClick={e => handleClick('/qa')}>
+            <Card className="dashboard-card frontend-jobs" onClick={e => handleClick('fullstack')}>
                 <CardContent>
-                    QA <h3>544</h3>
+                    FullStack <h3>{fullstackJobs}</h3>
+                </CardContent>
+            </Card>
+            <Card className="dashboard-card qa-jobs" onClick={e => handleClick('qa')}>
+                <CardContent>
+                    QA <h3>{qaJobs}</h3>
                 </CardContent>
             </Card>
             <Card className="dashboard-card admin-jobs" onClick={e => handleClick('admin')}>
                 <CardContent>
-                    Administrative <h3>544</h3>
+                    Administrative <h3>{adminJobs}</h3>
                 </CardContent>
             </Card>
             {/* </div> */}

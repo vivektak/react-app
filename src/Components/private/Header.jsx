@@ -56,8 +56,8 @@ const Header = (props) => {
                     <img src="/nagarro.png" alt="header" className='headerImg' />
                 </ListItem>
                 {drawerData.map((text, index) => (
-                    <Link to={text.url}>
-                        <ListItem button key={text.name}>
+                    <Link to={text.url} key={text.name}>
+                        <ListItem button >
                             <ListItemIcon>
                                 {
                                     index === 0 ? <HomeIcon /> : index === 1 ? <MenuBookIcon /> : index === 2 ? <LocationOnIcon /> : <PeopleOutlineIcon />

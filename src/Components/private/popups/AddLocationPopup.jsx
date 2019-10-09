@@ -37,6 +37,8 @@ const AddLocation = (props) => {
                     setAddEditDisable(false);
                 }
 
+            }).catch(error => {
+
             })
         } else {
             const data = http.postWithHeader('location/add', request)
@@ -47,6 +49,8 @@ const AddLocation = (props) => {
                     success(Constants.LOCATION_ADD_SUCCESS);
                     setAddEditDisable(false);
                 }
+            }).catch(error => {
+
             })
         }
     }

@@ -20,6 +20,8 @@ const MyReferrals = () => {
         const data = http.getWithHeader('refer/userReferals')
         data.then(res => {
             setMyReferrals(res.data.data);
+        }).catch(error => {
+
         })
     }
 

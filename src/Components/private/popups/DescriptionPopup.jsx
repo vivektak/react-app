@@ -34,6 +34,8 @@ const DescriptionPopup = (props) => {
                 props.togglePopup();
                 setAddEditDisable(false);
             }
+        }).catch(error => {
+
         });
 
     }

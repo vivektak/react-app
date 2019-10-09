@@ -1,15 +1,22 @@
-import axios from 'axios'
-import { toast } from 'react-toastify';
+import React from 'react';
+import axios from 'axios';
+import { error } from '../services/notificationService';
+import localStorage from './../../src/services/storageService';
+import { Redirect } from 'react-router';
 
-function errorResponseHandler(error) {
-    const expectedError = error.response && error.response.status >= 400 && error.response.status < 500;
-    console.log('askjdash')
-    if (!expectedError) {
-        toast.error(error.response.data.message)
-    } else {
-        toast.error(error.response.data.message)
+function errorResponseHandler(err, props) {
+    const expectedError = err.response && err.response.status >= 400 && err.response.status < 500;
+    console.log(props)
+    console.log(expectedError)
+    if (expectedError) {
+
+        if (err.response.status === 401) {
+            error(err.response.data.message)
+            // localStorage.removeItem('token');
+            // return <Redirect to="/login" />
+        }
     }
-    return Promise.reject(error);
+    return Promise.reject(err);
 }
 
 // apply interceptor on response

@@ -45,6 +45,8 @@ const MyReferralPopup = (props) => {
                     setAddEditDisable(false);
                 }
 
+            }).catch(error => {
+
             })
         } else {
             const data = http.postWithHeader('refer', request)
@@ -55,6 +57,8 @@ const MyReferralPopup = (props) => {
                     success(Constants.REFERRAL_ADD_SUCCESS);
                     setAddEditDisable(false);
                 }
+            }).catch(error => {
+
             })
         }
 

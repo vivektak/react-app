@@ -54,6 +54,8 @@ const AddOpening = (props) => {
                 data.push(res.name);
             })
             setSkills(data);
+        }).catch(error => {
+
         })
 
     }
@@ -66,6 +68,8 @@ const AddOpening = (props) => {
                 data.push(res.name);
             })
             setLocations(data);
+        }).catch(error => {
+
         })
     }
 
@@ -97,6 +101,8 @@ const AddOpening = (props) => {
                 setSubmitDisable(false);
                 props.handleCloseModal();
 
+            }).catch(error => {
+
             });
         } else {
             http.postWithHeader('job/add', data).then(res => {
@@ -105,6 +111,8 @@ const AddOpening = (props) => {
                 success(Constants.OPENING_ADD_SUCCESS);
                 props.getOpenings();
                 setSubmitDisable(false);
+
+            }).catch(error => {
 
             });
         }

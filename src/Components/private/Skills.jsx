@@ -12,7 +12,7 @@ import MaterialTable from "material-table";
 import ConfirmPopup from './popups/ConfirmPopup';
 import { toBase64 } from '../../services/commonHandler';
 import { success } from '../../services/notificationService';
-import Download from './exportToExcel';
+import Export from './exportToExcel';
 //import { ExcelFile, ExcelSheet } from "react-export-excel";
 
 const Skills = (props) => {
@@ -31,6 +31,8 @@ const Skills = (props) => {
         const data = http.getWithHeader('skill/all')
         data.then(res => {
             setSkills(res.data.data);
+        }).catch(error => {
+
         })
     }
 
@@ -51,6 +53,8 @@ const Skills = (props) => {
                 getSkills();
                 setIsDelete(false);
             }
+        }).catch(error => {
+
         });
     }
 
@@ -79,13 +83,13 @@ const Skills = (props) => {
         fileInput.current.click();
     }
 
-    const handleExport = () => {
-        console.log(fileInput.current);
-        setExportExcel(true);
-        // return <ExcelFile>
-        //     <ExcelSheet dataSet={skills} name="Skills" />
-        // </ExcelFile>
-    }
+    // const handleExport = () => {
+    //     console.log(fileInput.current);
+    //     setExportExcel(true);
+    //     // return <ExcelFile>
+    //     //     <ExcelSheet dataSet={skills} name="Skills" />
+    //     // </ExcelFile>
+    // }
 
     const toggleDeletePopup = () => {
         setIsDelete(false)
@@ -115,13 +119,14 @@ const Skills = (props) => {
                         color="secondary"
                         variant="contained"
                     >{Constants.IMPORT_EXCEL}</Button>
+                    <Export data={skills} className="">Handle Export </Export>
 
-                    <Button
+                    {/* <Button
                         onClick={() => handleExport()}
                         color="secondary"
                         variant="contained"
                         className="m-2"
-                    >{Constants.EXPORT_EXCEL}</Button>
+                    >{Constants.EXPORT_EXCEL}</Button> */}
                     <Button
                         onClick={() => handleAdd(true)}
                         color="secondary"
@@ -163,9 +168,9 @@ const Skills = (props) => {
                 popup ? <AddEditSkillsPopup popup={popup} togglePopup={() => togglePopup()} getSkills={getSkills} editData={editData}></AddEditSkillsPopup> : null
             }
             {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
-            {
+            {/* {
                 exportExcel ? <Download></Download> : null
-            }
+            } */}
         </div >
         //         <div className='sweet-loading align-center'>
         //             <Loader

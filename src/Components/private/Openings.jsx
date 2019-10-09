@@ -14,11 +14,13 @@ import AddOpening from './AddOpening';
 import ConfirmPopup from './popups/ConfirmPopup';
 import { toBase64 } from '../../services/commonHandler';
 import { success } from '../../services/notificationService';
-
+import errorResponseHandler from './../../services/errorHandler';
+import Export from './exportToExcel';
 
 
 const Openings = props => {
-    useEffect(props => {
+    useEffect(() => {
+        console.log(props);
         getOpenings();
     }, []);
 
@@ -51,6 +53,8 @@ const Openings = props => {
                 getOpenings();
                 setIsDelete(false);
             }
+        }).catch(error => {
+
         });
 
     }
@@ -65,18 +69,30 @@ const Openings = props => {
     }
 
     const getOpenings = () => {
-        const data = http.getWithHeader('job/latest?count=5&page=1')
+        console.log('opening called')
+        let url = 'job/latest?count=5&page=1'
+        if (props.location && props.location.state && props.location.state.path) {
+            console.log(props.location.state.path);
+            url = url + '&type=' + props.location.state.path;
+        }
+        const data = http.getWithHeader(url)
         data.then(res => {
-            res.data.data.map(row => {
-                if (row.mandatorySkills.length > 1) {
-                    row.mandatorySkills = row.mandatorySkills.toString();
-                }
-                if (row.goodToHaveSkills.length > 1) {
-                    row.goodToHaveSkills = row.goodToHaveSkills.toString();
-                }
-            })
-            setOpening(res.data.data);
-        })
+            console.log(res.data)
+            if (res) {
+                res.data.data.map(row => {
+                    if (row.mandatorySkills.length > 1) {
+                        row.mandatorySkills = row.mandatorySkills.toString();
+                    }
+                    if (row.goodToHaveSkills.length > 1) {
+                        row.goodToHaveSkills = row.goodToHaveSkills.toString();
+                    }
+                })
+                setOpening(res.data.data);
+            }
+
+        }).catch((error) => {
+
+        });
     }
 
     const handleDetailsView = (e, rowData) => {
@@ -106,8 +122,10 @@ const Openings = props => {
     }
 
     const importExcelApi = (data) => {
-        http.postWithHeader('skill/bulk', { file: data }).then(res => {
+        http.postWithHeader('job/bulk', { file: data }).then(res => {
             getOpenings();
+        }).catch(error => {
+
         })
     }
 
@@ -115,9 +133,9 @@ const Openings = props => {
         fileInput.current.click();
     }
 
-    const handleExport = () => {
-        console.log(fileInput.current);
-    }
+    // const handleExport = () => {
+    //     console.log(fileInput.current);
+    // }
 
     return (
         <div>
@@ -142,12 +160,13 @@ const Openings = props => {
                         color="secondary"
                         variant="contained"
                     >{Constants.IMPORT_EXCEL}</Button>
-                    <Button
+                    <Export data={Opening}></Export>
+                    {/* <Button
                         onClick={() => handleExport()}
                         color="secondary"
                         variant="contained"
                         className="m-2"
-                    >{Constants.EXPORT_EXCEL}</Button>
+                    >{Constants.EXPORT_EXCEL}</Button> */}
                     <Button
                         onClick={() => handleAdd(true)}
                         color="secondary"
@@ -207,7 +226,7 @@ const Openings = props => {
             {descriptionPopup ? <DescriptionPopup togglePopup={togglePopup} rowData={rowData} descriptionPopup={descriptionPopup}></DescriptionPopup> : null}
             {showReferralPopup ? <ViewReferredPopup toggleReferrals={toggleReferrals} rowData={rowData} showReferralPopup={showReferralPopup}> </ViewReferredPopup> : null}
             {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
-        </div>
+        </div >
     );
 }
 

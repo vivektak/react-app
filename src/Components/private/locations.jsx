@@ -11,6 +11,7 @@ import {
 import MaterialTable from "material-table";
 import ConfirmPopup from './popups/ConfirmPopup';
 import { success } from '../../services/notificationService';
+import Export from './exportToExcel';
 
 
 const Locations = (props) => {
@@ -27,6 +28,8 @@ const Locations = (props) => {
         const data = http.getWithHeader('location/all')
         data.then(res => {
             setLocation(res.data.data);
+        }).catch(error => {
+
         })
     }
 
@@ -48,6 +51,8 @@ const Locations = (props) => {
                 getLocations();
                 setIsDelete(false);
             }
+        }).catch(error => {
+
         });
     }
 
@@ -64,6 +69,8 @@ const Locations = (props) => {
     const importExcelApi = (data) => {
         http.postWithHeader('location/bulk', { file: data }).then(res => {
             getLocations();
+        }).catch(error => {
+
         })
     }
 
@@ -82,9 +89,9 @@ const Locations = (props) => {
         fileInput.current.click();
     }
 
-    const handleExport = () => {
-        console.log(fileInput.current);
-    }
+    // const handleExport = () => {
+    //     console.log(fileInput.current);
+    // }
 
     return (
 
@@ -109,12 +116,13 @@ const Locations = (props) => {
                         color="secondary"
                         variant="contained"
                     >Import Excel</Button>
-                    <Button
+                    <Export data={locations}></Export>
+                    {/* <Button
                         onClick={() => handleExport()}
                         color="secondary"
                         variant="contained"
                         className="m-2"
-                    >Export Excel</Button>
+                    >Export Excel</Button> */}
                     <Button
                         onClick={() => handleAdd(true)}
                         color="secondary"

@@ -46,6 +46,8 @@ const AddEditSkillsPopup = (props) => {
                     setAddEditDisable(false);
                 }
 
+            }).catch(error => {
+
             })
         } else {
             const data = http.postWithHeader(`skill/add`, request)
@@ -56,6 +58,8 @@ const AddEditSkillsPopup = (props) => {
                     success(Constants.SKILL_ADD_SUCCESS);
                     setAddEditDisable(false);
                 }
+
+            }).catch(error => {
 
             })
         }

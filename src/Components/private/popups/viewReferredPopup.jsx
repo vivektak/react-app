@@ -21,6 +21,8 @@ const ViewReferredPopup = (props) => {
         const data = http.getWithHeader(`refer/${props.rowData._id}`)
         data.then(res => {
             setReferrals(res.data.data);
+        }).catch(error => {
+
         })
     }
 
@@ -45,6 +47,8 @@ const ViewReferredPopup = (props) => {
             downloadLink.href = res.data.data;
             downloadLink.download = file.name;
             downloadLink.click();
+        }).catch(error => {
+
         });
     }
 
