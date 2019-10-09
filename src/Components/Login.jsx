@@ -45,18 +45,21 @@ export const Login = (props) => {
         })
     };
 
-    // const checkValidation = e => {
-    //     if (checkEmailValidation(e.target.value) !== null) {
-    //         console.log('email')
-    //         setSubmitState(true);
-    //     } else if (checkPasswordValidation(e.target.value) !== null) {
-    //         console.log('password')
+    const checkValidation = e => {
+        setEmailError(checkEmailValidation(email));
+        setPassError(checkPasswordValidation(password));
+        if (emailError && passError) {
 
-    //         setSubmitState(true);
-    //     } else {
-    //         setSubmitState(false)
-    //     }
-    // }
+            setSubmitState(true)
+        } else if (emailError === '' || passError === '') {
+
+            setSubmitState(true)
+        } else {
+            console.log(emailError)
+            console.log(passError)
+            setSubmitState(false);
+        }
+    }
 
     return (
         <div
@@ -104,8 +107,8 @@ export const Login = (props) => {
                             setEmail(e.target.value);
                         }}
                         onBlur={e => {
-                            setEmailError(checkEmailValidation(e.target.value));
-                            // checkValidation(e)
+
+                            checkValidation(e)
                         }}
                         margin="normal"
                     ></TextField>
@@ -122,8 +125,8 @@ export const Login = (props) => {
                             setPassword(e.target.value);
                         }}
                         onBlur={e => {
-                            setPassError(checkPasswordValidation(e.target.value));
-                            //  checkValidation(e)
+
+                            checkValidation(e)
                         }}
                     />
                 </CardContent>
@@ -137,7 +140,7 @@ export const Login = (props) => {
                         color="secondary"
                         variant="contained"
                         onClick={handleSubmit}
-                    //disabled={submitState}
+                        disabled={submitState}
                     >{Constants.LOG_IN}</Button>
                 </CardActions>
             </Card>

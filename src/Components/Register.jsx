@@ -23,11 +23,11 @@ const Register = props => {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passError, setPassError] = useState('');
-    const [buttonState, setButtonState] = useState(false);
+    const [buttonState, setButtonState] = useState(true);
 
     const handleSubmit = async e => {
         e.preventDefault();
-        setButtonState(true);
+        //setButtonState(true);
         const data = {
             email: email,
             password: password
@@ -41,6 +41,22 @@ const Register = props => {
 
         })
     };
+
+    const checkValidation = e => {
+        setEmailError(checkEmailValidation(email));
+        setPassError(checkPasswordValidation(password));
+        if (emailError && passError) {
+
+            setButtonState(true)
+        } else if (emailError === '' || passError === '') {
+
+            setButtonState(true)
+        } else {
+            console.log(emailError)
+            console.log(passError)
+            setButtonState(false);
+        }
+    }
 
     return (
         <div
@@ -92,7 +108,7 @@ const Register = props => {
                         onChange={e => {
                             setEmail(e.target.value);
                         }}
-                        onBlur={e => { setEmailError(checkEmailValidation(e.target.value)) }}
+                        onBlur={e => { checkValidation(e) }}
                         margin="normal"
                     ></TextField>
                     <TextField
@@ -107,7 +123,7 @@ const Register = props => {
                         onChange={e => {
                             setPassword(e.target.value);
                         }}
-                        onBlur={e => setPassError(checkPasswordValidation(e.target.value))}
+                        onBlur={e => { checkValidation(e) }}
                     />
                 </CardContent>
                 <CardActions style={{ display: "flex", justifyContent: "center" }}>
@@ -121,7 +137,7 @@ const Register = props => {
                         color="secondary"
                         variant="contained"
                         onClick={handleSubmit}
-                    //disabled={buttonState}
+                        disabled={buttonState}
                     >
                         {Constants.REGISTER}
                     </Button>

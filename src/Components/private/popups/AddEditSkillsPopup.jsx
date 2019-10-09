@@ -20,7 +20,7 @@ const AddEditSkillsPopup = (props) => {
     const [skill, setSkill] = useState([]);
     const [skillError, setSkillError] = useState('');
     const [isEdit, setIsEdit] = useState(Constants.ADD)
-    const [addEditDisable, setAddEditDisable] = useState(false);
+    const [addEditDisable, setAddEditDisable] = useState(true);
 
     useEffect(() => {
         if (props.editData) {
@@ -30,7 +30,7 @@ const AddEditSkillsPopup = (props) => {
     }, [])
 
     const handleSubmit = () => {
-        setAddEditDisable(true);
+        //setAddEditDisable(true);
 
         const request = {
             name: skill
@@ -43,7 +43,7 @@ const AddEditSkillsPopup = (props) => {
                     handleClose();
                     props.getSkills();
                     success(Constants.SKILL_EDIT_SUCCESS);
-                    setAddEditDisable(false);
+                    //setAddEditDisable(false);
                 }
 
             }).catch(error => {
@@ -56,7 +56,7 @@ const AddEditSkillsPopup = (props) => {
                     handleClose();
                     props.getSkills();
                     success(Constants.SKILL_ADD_SUCCESS);
-                    setAddEditDisable(false);
+                    //setAddEditDisable(false);
                 }
 
             }).catch(error => {
@@ -68,6 +68,21 @@ const AddEditSkillsPopup = (props) => {
 
     const handleClose = () => {
         props.togglePopup();
+    }
+
+
+    const checkValidation = e => {
+        setSkillError(checkSkillValidation(skill));
+
+        if (skillError) {
+            console.log(skillError)
+            setAddEditDisable(true)
+        } else if (skillError === '') {
+            setAddEditDisable(true)
+        } else {
+            console.log(skillError)
+            setAddEditDisable(false)
+        }
     }
 
     return (
@@ -90,7 +105,7 @@ const AddEditSkillsPopup = (props) => {
                     onChange={e => {
                         setSkill(e.target.value);
                     }}
-                    onBlur={e => setSkillError(checkSkillValidation(e.target.value))}
+                    onBlur={e => checkValidation(e)}
                     margin="normal"
                 ></TextField>
             </DialogContent>
@@ -99,6 +114,7 @@ const AddEditSkillsPopup = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
+                    disabled={addEditDisable}
                 >
                     {props.editData ? 'Update' : 'Save'}
                 </Button>
