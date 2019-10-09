@@ -6,7 +6,7 @@ import http from '../services/httpService';
 import * as Constants from '../Constants/Constants';
 import { userContext } from '../services/Context';
 
-import { checkEmailValidation, checkPasswordValidation } from '../services/commonValidation.js'
+import { checkEmailValidation, checkPasswordValidation, checkTypeValidation } from '../services/commonValidation.js'
 
 import {
     CardContent,
@@ -23,12 +23,12 @@ export const Login = (props) => {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passError, setPassError] = useState('');
-    const [submitState, setSubmitState] = useState(false);
+    const [submitState, setSubmitState] = useState(true);
 
     const { data, setData } = useContext(userContext);
 
     const handleSubmit = async e => {
-        setSubmitState(true);
+        //setSubmitState(true);
         const data = {
             email: email,
             password: password
@@ -36,7 +36,7 @@ export const Login = (props) => {
 
         await http.post('user/login', data).then(res => {
             if (res.status === 200) {
-                setSubmitState(false);
+                //setSubmitState(false);
                 success(Constants.LOGGED_IN_SUCCESS)
                 localStorage.set(Constants.TOKEN, res.data.data.token);
                 setData(res.data.data)
@@ -44,6 +44,19 @@ export const Login = (props) => {
             }
         })
     };
+
+    // const checkValidation = e => {
+    //     if (checkEmailValidation(e.target.value) !== null) {
+    //         console.log('email')
+    //         setSubmitState(true);
+    //     } else if (checkPasswordValidation(e.target.value) !== null) {
+    //         console.log('password')
+
+    //         setSubmitState(true);
+    //     } else {
+    //         setSubmitState(false)
+    //     }
+    // }
 
     return (
         <div
@@ -65,7 +78,6 @@ export const Login = (props) => {
                     size="small"
                     color="secondary"
                     variant="contained"
-                    onClick={handleSubmit}
                 >
                     <PersonAddIcon />
                 </Button>
@@ -91,7 +103,10 @@ export const Login = (props) => {
                         onChange={e => {
                             setEmail(e.target.value);
                         }}
-                        onBlur={e => { setEmailError(checkEmailValidation(e.target.value)) }}
+                        onBlur={e => {
+                            setEmailError(checkEmailValidation(e.target.value));
+                            // checkValidation(e)
+                        }}
                         margin="normal"
                     ></TextField>
                     <TextField
@@ -106,7 +121,10 @@ export const Login = (props) => {
                         onChange={e => {
                             setPassword(e.target.value);
                         }}
-                        onBlur={e => setPassError(checkPasswordValidation(e.target.value))}
+                        onBlur={e => {
+                            setPassError(checkPasswordValidation(e.target.value));
+                            //  checkValidation(e)
+                        }}
                     />
                 </CardContent>
                 <CardActions style={{ display: "flex", justifyContent: "center" }}>
@@ -119,7 +137,7 @@ export const Login = (props) => {
                         color="secondary"
                         variant="contained"
                         onClick={handleSubmit}
-                        disabled={submitState}
+                    //disabled={submitState}
                     >{Constants.LOG_IN}</Button>
                 </CardActions>
             </Card>

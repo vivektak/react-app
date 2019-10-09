@@ -14,10 +14,12 @@ import {
     TextField,
     Select,
     InputLabel,
-    FormControl
+    FormControl,
+    FormHelperText
 } from "@material-ui/core";
 import { success } from '../../services/notificationService';
 import { checkTitleValidation, checkJobTypeValidation, checkDescriptionValidation, checkMandatorySkillsValidation, checkNoOfPositionsValidation, checkLocationValidation, checkTypeValidation } from '../../services/commonValidation';
+import { TYPE_REQUIRE } from './../../Constants/Constants';
 
 const AddOpening = (props) => {
     const [title, setTitle] = useState('');
@@ -160,13 +162,12 @@ const AddOpening = (props) => {
                     margin="normal"
                 ></TextField>
 
-                <FormControl variant="outlined" className="opening-box" style={{
+                <FormControl error={typeError ? true : null} variant="outlined" className="opening-box" style={{
                     width: "100%",
                 }}>
                     <InputLabel htmlFor="filled-jobType-simple">Type</InputLabel>
                     <Select
                         value={type}
-                        error={typeError ? true : false}
                         onChange={e => setType(e.target.value)}
                         onBlur={e => { setTypeError(checkTypeValidation(e.target.value)) }}
                         inputProps={{
@@ -180,15 +181,15 @@ const AddOpening = (props) => {
                             })
                         }
                     </Select>
+                    {typeError ? <FormHelperText >{Constants.TYPE_REQUIRE}</FormHelperText> : null}
                 </FormControl>
 
-                <FormControl variant="outlined" className="opening-box" style={{
+                <FormControl error={jobTypeError ? true : null} variant="outlined" className="opening-box" style={{
                     width: "100%",
                 }}>
                     <InputLabel htmlFor="filled-jobType-simple">Job Type</InputLabel>
                     <Select
                         value={jobType}
-                        error={jobTypeError ? true : false}
                         onChange={e => setJobType(e.target.value)}
                         onBlur={e => { setJobTypeError(checkJobTypeValidation(e.target.value)) }}
                         inputProps={{
@@ -202,12 +203,13 @@ const AddOpening = (props) => {
                             })
                         }
                     </Select>
+                    {jobTypeError ? <FormHelperText >{Constants.JOB_TYPE_REQUIRE}</FormHelperText> : null}
                 </FormControl>
                 {/* {jobTypeError &&
                     <div className="alert alert-danger">{jobTypeError}</div>
                 } */}
 
-                <FormControl variant="outlined" className="opening-box" style={{
+                <FormControl error={locationError ? true : false} variant="outlined" className="opening-box" style={{
                     width: "100%",
                 }}>
                     <InputLabel htmlFor="filled-location-simple">Location</InputLabel>
@@ -227,8 +229,10 @@ const AddOpening = (props) => {
                             })
                         }
                     </Select>
+                    {locationError ? <FormHelperText >{Constants.LOCATION_REQUIRE}</FormHelperText> : null}
                 </FormControl>
-                <div className="opening-box">
+
+                <div className="opening-box" >
                     <Chips
                         value={mandatorySkills}
                         placeholder="Mandatory Skills"
@@ -241,7 +245,9 @@ const AddOpening = (props) => {
                     {/* {mandatorySkillsError &&
                         <div className="alert alert-danger">{mandatorySkillsError}</div>
                     } */}
+                    {mandatorySkillsError ? <FormHelperText >Error</FormHelperText> : null}
                 </div>
+
                 <div className="opening-box">
                     <Chips
                         placeholder="Good To Have Skills"

@@ -21,11 +21,11 @@ const Dashboard = props => {
         const data = http.getWithHeader('api/dashboard')
         data.then(res => {
             setTotalJobs(res.data.numberOfJobs);
-            setFrontendJobs(res.data.numberOfJobs);
-            setBackendJobs(res.data.numberOfJobs);
-            setQaJobs(res.data.numberOfJobs);
-            setAdminJobs(res.data.numberOfJobs);
-            setfullstackJobs(res.data.numberOfJobs);
+            setFrontendJobs(res.data.frontendCount);
+            setBackendJobs(res.data.backendCount);
+            setQaJobs(res.data.qaCount);
+            setAdminJobs(res.data.adminCount);
+            setfullstackJobs(res.data.fullstackCount);
         })
     }
 

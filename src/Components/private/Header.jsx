@@ -91,7 +91,7 @@ const Header = (props) => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h5" style={{ flexGrow: 1 }}>
-                    <Link to='/openings'>Home</Link>
+                    <Link to='/openings'>Nagarro</Link>
                 </Typography>
 
                 <div>

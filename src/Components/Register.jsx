@@ -17,7 +17,7 @@ import { success } from '../services/notificationService';
 import { checkEmailValidation, checkPasswordValidation } from '../services/commonValidation';
 
 
-const Register = () => {
+const Register = props => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -26,6 +26,7 @@ const Register = () => {
     const [buttonState, setButtonState] = useState(false);
 
     const handleSubmit = async e => {
+        e.preventDefault();
         setButtonState(true);
         const data = {
             email: email,
@@ -33,8 +34,9 @@ const Register = () => {
         }
 
         await http.post('user/signup', data).then(res => {
-            if (res.status === 200)
-                success(Constants.REGISTER_SUCCESS)
+            if (res.status === 200 || res.status === 201)
+                success(Constants.REGISTER_SUCCESS);
+            props.history.replace('/login');
         }).catch(error => {
 
         })
@@ -62,8 +64,6 @@ const Register = () => {
                     size="small"
                     color="secondary"
                     variant="contained"
-                    onClick={handleSubmit}
-
                 >
 
                     <PersonIcon />
@@ -121,7 +121,7 @@ const Register = () => {
                         color="secondary"
                         variant="contained"
                         onClick={handleSubmit}
-                        disabled={buttonState}
+                    //disabled={buttonState}
                     >
                         {Constants.REGISTER}
                     </Button>
