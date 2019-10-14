@@ -76,10 +76,12 @@ export const checkNoOfPositionsValidation = (noOfPositions) => {
 }
 
 export const checkLocationValidation = (location) => {
+    console.log(location)
     if (location === '') {
+        console.log('jai')
         return Constants.LOCATION_REQUIRE;
-
     } else {
+        console.log('veeru')
         return null;
     }
 }

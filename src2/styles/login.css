@@ -1,0 +1,206 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+form {
+    border: 3px solid #f1f1f1;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    margin: auto;
+    width: 35em;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: light-blue;
+}
+
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+
+.container {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+.cancelContainer {}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+        display: block;
+        float: none;
+    }
+
+    .cancelbtn {
+        width: 100%;
+    }
+}
+
+.label {
+    font-weight: bold;
+}
+
+.header {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.label-header {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.header-container {
+    text-align: center;
+}
+
+.header-avatar {
+    height: 22px;
+    width: 100px;
+    background-color: transparent;
+}
+
+.MuiTypography-body1 {
+    font-size: 13px;
+    color: #c8c8c8;
+}
+
+.MuiSvgIcon-root {
+    color: #000;
+}
+
+.MuiListItem-gutters {
+    padding-left: 16px;
+    padding-right: 0px;
+}
+
+.MuiListItemIcon-root {
+    min-width: 45px;
+}
+
+.MuiListItem-button .MuiTypography-body1 {
+    color: grey;
+}
+
+.MuiListItem-button .MuiSvgIcon-root {
+    color: grey;
+}
+
+.MuiListItem-button:hover .MuiTypography-body1 {
+    color: black;
+}
+
+.MuiListItem-button:hover .MuiSvgIcon-root {
+    color: black;
+}
+
+.MuiListItem-root {
+    margin-bottom: 10px !important;
+}
+
+.MuiTypography-h5 {
+    line-height: 0.33 !important;
+}
+
+.MuiTypography-root a {
+    color: #fff !important;
+    font-size: 18px;
+}
+
+.MuiIconButton-root {
+
+    font-size: 15px !important;
+}
+
+.nav-link {
+    padding: .5rem .5rem !important;
+}
+
+.MuiAppBar-colorPrimary .MuiSvgIcon-root {
+    color: #fff !important;
+}
+
+.MuiButton-containedPrimary {
+    background: #000 !important;
+    font-size: 12px !important;
+}
+
+/* .MuiButton-containedSecondary {
+    color: #000;
+      background-color: #f50057;
+} */
+
+.MuiButton-containedSecondary {
+    background: #f6ac3d !important;
+    font-size: 12px !important;
+    color: #000 !important;
+}
+
+.MuiToolbar-gutters,
+.MuiDialogTitle-root {
+    background: #efefef;
+}
+
+.MuiAppBar-colorPrimary {
+    background: linear-gradient(to right, #f6ac3d, #000) !important;
+
+
+    height: 55px;
+}
+
+.MuiTypography-h6 {
+    font-size: 1.1rem;
+}
+
+.MuiAppBar-colorPrimary .MuiToolbar-gutters {
+    background: linear-gradient(to right, #f6ac3d, #000) !important;
+}
+
+.Component-paginationToolbar-136 .MuiSvgIcon-root {
+    color: #ccc !important;
+}
+
+.MuiTypography-h6 {
+    font-size: 1.1rem !important;
+}
+
+.MuiDialog-paperWidthSm {
+    max-width: 800px !important;
+    width: 800px;
+}
+
+.MuiInputLabel-outlined{
+    transform: translate(0px, 0px) scale(.75) !important;
+}
+
+.MuiOutlinedInput-notchedOutline{
+    border:none !important;
+    border-color:transparent !important;
+    padding-left: 0px !important;
+    border-bottom: solid 1px #333 !important;
+    border-radius: 0px !important;
+}
+.MuiOutlinedInput-input{
+    padding: 20px 0px 10px !important;
+}
+.MuiDialogActions-root{
+    justify-content: flex-start !important;
+    padding-left: 20px !important;
+}

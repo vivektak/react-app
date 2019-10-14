@@ -55,7 +55,7 @@ function App(props) {
         //onAction={onAction}
         debounce={250}
         timeout={1000 * 60 * 10} />
-      <Alert stack={{ limit: 3 }} html={true} />
+      <Alert stack={{ limit: 1 }} html={true} />
       <userContext.Provider value={{ data, setData }}>
         <div className="App">
           <Switch>

@@ -70,7 +70,7 @@ const Openings = props => {
 
     const getOpenings = () => {
         console.log('opening called')
-        let url = 'job/latest?count=5&page=1'
+        let url = 'job/latest'
         if (props.location && props.location.state && props.location.state.path) {
             console.log(props.location.state.path);
             url = url + '&type=' + props.location.state.path;
@@ -218,7 +218,8 @@ const Openings = props => {
                         }
                     ]}
                     options={{
-                        actionsColumnIndex: -1
+                        actionsColumnIndex: -1,
+                        pageSize: 10
                     }}
                 />
             </div>

@@ -135,11 +135,18 @@ const Skills = (props) => {
                 </div>
                 <MaterialTable
                     columns={[
+                        { title: 'ID', field: '_id' },
                         { title: "Skill", field: "name" },
 
                     ]}
                     data={skills}
                     title="Skills"
+                    // localization={{
+                    //     pagination: {
+                    //         labelRowsPerPage: '10',
+                    //         labelRowsSelect: "10"
+                    //     }
+                    // }}
                     actions={[
                         {
                             icon: "edit",
@@ -160,7 +167,8 @@ const Skills = (props) => {
 
                     ]}
                     options={{
-                        actionsColumnIndex: -1
+                        actionsColumnIndex: -1,
+                        pageSize: 10
                     }}
                 />
             </div>
@@ -168,20 +176,8 @@ const Skills = (props) => {
                 popup ? <AddEditSkillsPopup popup={popup} togglePopup={() => togglePopup()} getSkills={getSkills} editData={editData}></AddEditSkillsPopup> : null
             }
             {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
-            {/* {
-                exportExcel ? <Download></Download> : null
-            } */}
-        </div >
-        //         <div className='sweet-loading align-center'>
-        //             <Loader
-        //                 type="CradleLoader"
-        //                 color="#00BFFF"
-        //                 height={100}
-        //                 width={600}
-        //                 timeout={999000} //3 secs
 
-        //             />
-        //         </div>}
+        </div >
     );
 }
 

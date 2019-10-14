@@ -17,7 +17,7 @@ import { checkSkillValidation } from '../../../services/commonValidation';
 
 const AddEditSkillsPopup = (props) => {
 
-    const [skill, setSkill] = useState([]);
+    const [skill, setSkill] = useState();
     const [skillError, setSkillError] = useState('');
     const [isEdit, setIsEdit] = useState(Constants.ADD)
     const [addEditDisable, setAddEditDisable] = useState(true);
@@ -36,32 +36,37 @@ const AddEditSkillsPopup = (props) => {
             name: skill
         }
 
-        if (props.editData) {
-            const data = http.putWithHeader(`skill/edit/${props.editData._id}`, request)
-            data.then(res => {
-                if (res.status === 200 || res.status === 201) {
-                    handleClose();
-                    props.getSkills();
-                    success(Constants.SKILL_EDIT_SUCCESS);
-                    //setAddEditDisable(false);
-                }
+        if (skill.trim().length > 0) {
 
-            }).catch(error => {
+            if (props.editData) {
+                const data = http.putWithHeader(`skill/edit/${props.editData._id}`, request)
+                data.then(res => {
+                    if (res.status === 200 || res.status === 201) {
+                        handleClose();
+                        props.getSkills();
+                        success(Constants.SKILL_EDIT_SUCCESS);
+                        //setAddEditDisable(false);
+                    }
 
-            })
+                }).catch(error => {
+
+                })
+            } else {
+                const data = http.postWithHeader(`skill/add`, request)
+                data.then(res => {
+                    if (res.status === 200 || res.status === 201) {
+                        handleClose();
+                        props.getSkills();
+                        success(Constants.SKILL_ADD_SUCCESS);
+                        //setAddEditDisable(false);
+                    }
+
+                }).catch(error => {
+
+                })
+            }
         } else {
-            const data = http.postWithHeader(`skill/add`, request)
-            data.then(res => {
-                if (res.status === 200 || res.status === 201) {
-                    handleClose();
-                    props.getSkills();
-                    success(Constants.SKILL_ADD_SUCCESS);
-                    //setAddEditDisable(false);
-                }
-
-            }).catch(error => {
-
-            })
+            setSkillError('Skill is Required')
         }
 
     }
@@ -71,19 +76,19 @@ const AddEditSkillsPopup = (props) => {
     }
 
 
-    const checkValidation = e => {
-        setSkillError(checkSkillValidation(skill));
+    // const checkValidation = e => {
 
-        if (skillError) {
-            console.log(skillError)
-            setAddEditDisable(true)
-        } else if (skillError === '') {
-            setAddEditDisable(true)
-        } else {
-            console.log(skillError)
-            setAddEditDisable(false)
-        }
-    }
+
+    //     if (skillError) {
+    //         console.log(skillError)
+    //         setAddEditDisable(true)
+    //     } else if (skillError === '') {
+    //         setAddEditDisable(true)
+    //     } else {
+    //         console.log(skillError)
+    //         setAddEditDisable(false)
+    //     }
+    // }
 
     return (
         <Dialog
@@ -105,7 +110,7 @@ const AddEditSkillsPopup = (props) => {
                     onChange={e => {
                         setSkill(e.target.value);
                     }}
-                    onBlur={e => checkValidation(e)}
+                    onBlur={e => setSkillError(checkSkillValidation(e.target.value))}
                     margin="normal"
                 ></TextField>
             </DialogContent>
@@ -114,7 +119,7 @@ const AddEditSkillsPopup = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
-                    disabled={addEditDisable}
+                    disabled={skillError ? true : skillError === null ? false : true}
                 >
                     {props.editData ? 'Update' : 'Save'}
                 </Button>

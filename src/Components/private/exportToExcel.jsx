@@ -25,7 +25,7 @@ const Export = (props) => {
     }, [props])
 
 
-    return (<ExcelFile>
+    return (<ExcelFile name="skills">
 
         {props.data[0] && props.data[0].mandatorySkills ?
             <ExcelSheet data={props.data} name='Openings'>

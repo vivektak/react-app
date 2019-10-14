@@ -20,7 +20,7 @@ export const error = (msg) => {
             console.log("aye!");
         },
         beep: false,
-        timeout: 2000
+        timeout: 200000000
     });
 }
 

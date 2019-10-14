@@ -20,6 +20,7 @@ import {
 } from "@material-ui/core";
 import { Menu as MenuIcon, AccountCircle, ExitToApp, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
 
+
 const Header = (props) => {
     const { data, setData } = useContext(userContext);
 
@@ -73,12 +74,12 @@ const Header = (props) => {
             </List>
             <Divider />
             <List>
-
-                <ListItem button >
-                    <ListItemIcon><ExitToApp /></ListItemIcon>
-                    <Link to="/login" onClick={handleLogout}><ListItemText primary="Logout" /></Link>
-                </ListItem>
-
+                <Link to="/login" onClick={handleLogout}>
+                    <ListItem button >
+                        <ListItemIcon><ExitToApp /></ListItemIcon>
+                        <ListItemText primary="Logout" />
+                    </ListItem>
+                </Link>
             </List>
         </div >
     )
@@ -91,7 +92,7 @@ const Header = (props) => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h5" style={{ flexGrow: 1 }}>
-                    <Link to='/openings'>Nagarro</Link>
+                    <Link to='/openings'>NAGARRO OPENINGS</Link>
                 </Typography>
 
                 <div>
@@ -105,7 +106,7 @@ const Header = (props) => {
                         <AccountCircle />
                         <span className="nav-link">{data ? data.firstName + ' ' + data.lastName : null}</span>
                     </IconButton>
-                    <Link to="/login" style={{ color: "white" }}>
+                    <Link to="/login" className="sdfsd" style={{ color: "white" }}>
                         <IconButton
                             aria-label="account of current user"
                             aria-controls="menu-appbar"

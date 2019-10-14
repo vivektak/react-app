@@ -155,6 +155,7 @@ const MyReferralPopup = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
+                    disabled={nameError && emailError && mobileError ? true : nameError === null && emailError === null && mobileError === null ? false : true}
                 >
                     {Object.keys(props.rowData).length > 0 ? 'Update' : 'Save'}
                 </Button>

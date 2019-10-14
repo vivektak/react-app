@@ -28,15 +28,16 @@ export const Login = (props) => {
     const { data, setData } = useContext(userContext);
 
     const handleSubmit = async e => {
-        //setSubmitState(true);
+        setSubmitState(true);
         const data = {
             email: email,
             password: password
         }
 
+        // setSubmitState(true)
         await http.post('user/login', data).then(res => {
             if (res.status === 200) {
-                //setSubmitState(false);
+                setSubmitState(false);
                 success(Constants.LOGGED_IN_SUCCESS)
                 localStorage.set(Constants.TOKEN, res.data.data.token);
                 setData(res.data.data)
@@ -46,18 +47,23 @@ export const Login = (props) => {
     };
 
     const checkValidation = e => {
-        setEmailError(checkEmailValidation(email));
-        setPassError(checkPasswordValidation(password));
-        if (emailError && passError) {
 
+
+        if (emailError && passError) {
             setSubmitState(true)
         } else if (emailError === '' || passError === '') {
 
             setSubmitState(true)
         } else {
-            console.log(emailError)
-            console.log(passError)
             setSubmitState(false);
+        }
+    }
+
+    const handleKeyPress = e => {
+        console.log(e)
+        console.log(e.keyCode)
+        if (e.keyCode === 13) {
+            handleSubmit();
         }
     }
 
@@ -103,11 +109,12 @@ export const Login = (props) => {
                         fullWidth={true}
                         value={email}
                         error={emailError ? true : false}
+                        //onKeyUp={e => handleKeyPress(e)}
                         onChange={e => {
                             setEmail(e.target.value);
                         }}
                         onBlur={e => {
-
+                            setEmailError(checkEmailValidation(email));
                             checkValidation(e)
                         }}
                         margin="normal"
@@ -125,7 +132,7 @@ export const Login = (props) => {
                             setPassword(e.target.value);
                         }}
                         onBlur={e => {
-
+                            setPassError(checkPasswordValidation(password));
                             checkValidation(e)
                         }}
                     />
@@ -140,7 +147,8 @@ export const Login = (props) => {
                         color="secondary"
                         variant="contained"
                         onClick={handleSubmit}
-                        disabled={submitState}
+                        disabled={emailError && passError ? true : emailError === null && passError === null ? false : true}
+                    //disabled={submitState}
                     >{Constants.LOG_IN}</Button>
                 </CardActions>
             </Card>

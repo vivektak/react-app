@@ -126,13 +126,14 @@ const AddOpening = (props) => {
         if (Object.keys(props.rowData).length > 0) {
             setSubmitDisable(false);
             const dataToEdit = props.rowData;
+            setType(dataToEdit.type);
             setTitle(dataToEdit.title);
             setDescription(dataToEdit.description);
             setLocation(dataToEdit.location);
             setJobType(dataToEdit.jobType);
             setNoOfPositions(dataToEdit.noOfPositions);
-            setMandatorySkills(dataToEdit.mandatorySkills);
-            setGoodToHaveSkills(dataToEdit.goodToHaveSkills);
+            setMandatorySkills(dataToEdit.mandatorySkills.split(','));
+            setGoodToHaveSkills(dataToEdit.goodToHaveSkills.split(','));
         }
     }, []);
 

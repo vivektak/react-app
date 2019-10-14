@@ -131,6 +131,7 @@ const Locations = (props) => {
                 </div>
                 <MaterialTable
                     columns={[
+                        { title: 'ID', field: '_id' },
                         { title: "Location", field: "name" },
 
                     ]}
@@ -155,7 +156,8 @@ const Locations = (props) => {
 
                     ]}
                     options={{
-                        actionsColumnIndex: -1
+                        actionsColumnIndex: -1,
+                        pageSize: 10
                     }}
                 />
             </div>

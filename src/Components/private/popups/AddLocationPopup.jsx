@@ -15,10 +15,10 @@ import { checkLocationValidation } from '../../../services/commonValidation';
 
 const AddLocation = (props) => {
 
-    const [location, setLocation] = useState([]);
+    const [location, setLocation] = useState('');
     const [locationError, setLocationError] = useState('');
     const [isEdit, setIsEdit] = useState(Constants.ADD);
-    const [addEditDisable, setAddEditDisable] = useState(false);
+    const [addEditDisable, setAddEditDisable] = useState(true);
 
 
     const handleSubmit = () => {
@@ -26,33 +26,37 @@ const AddLocation = (props) => {
         const request = {
             name: location
         }
+        if (location.trim().length > 0) {
+            if (props.editData) {
+                const data = http.putWithHeader(`location/edit/${props.editData._id}`, request)
+                data.then(res => {
+                    if (res.status === 200 || res.status === 201) {
+                        handleClose();
+                        props.getLocations();
+                        success(Constants.LOCATION_EDIT_SUCCESS);
+                        setAddEditDisable(false);
+                    }
 
-        if (props.editData) {
-            const data = http.putWithHeader(`location/edit/${props.editData._id}`, request)
-            data.then(res => {
-                if (res.status === 200 || res.status === 201) {
-                    handleClose();
-                    props.getLocations();
-                    success(Constants.LOCATION_EDIT_SUCCESS);
-                    setAddEditDisable(false);
-                }
+                }).catch(error => {
 
-            }).catch(error => {
+                })
+            } else {
+                const data = http.postWithHeader('location/add', request)
+                data.then(res => {
+                    if (res.status === 200 || res.status === 201) {
+                        handleClose();
+                        props.getLocations();
+                        success(Constants.LOCATION_ADD_SUCCESS);
+                        setAddEditDisable(false);
+                    }
+                }).catch(error => {
 
-            })
+                })
+            }
         } else {
-            const data = http.postWithHeader('location/add', request)
-            data.then(res => {
-                if (res.status === 200 || res.status === 201) {
-                    handleClose();
-                    props.getLocations();
-                    success(Constants.LOCATION_ADD_SUCCESS);
-                    setAddEditDisable(false);
-                }
-            }).catch(error => {
-
-            })
+            // setLocationError('Location is Required')
         }
+
     }
 
     useEffect(() => {
@@ -87,7 +91,11 @@ const AddLocation = (props) => {
                     onChange={e => {
                         setLocation(e.target.value);
                     }}
-                    onBlur={e => setLocationError(checkLocationValidation(e.target.value))}
+                    //onBlur={checkNameValidation}
+                    onBlur={e => {
+                        setLocationError(checkLocationValidation(location))
+
+                    }}
                     margin="normal"
                 ></TextField>
 
@@ -98,6 +106,7 @@ const AddLocation = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
+                    disabled={locationError ? true : locationError === null ? false : true}
                 >
                     {props.editData ? 'Update' : 'Save'}
                 </Button>

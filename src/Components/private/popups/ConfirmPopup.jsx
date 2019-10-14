@@ -11,6 +11,7 @@ import {
 const ConfirmPopup = props => {
     return (
         <Dialog
+            //style={{ width: '500px' }}
             open={true}
             keepMounted
             aria-labelledby="alert-dialog-slide-title"
@@ -35,7 +36,7 @@ const ConfirmPopup = props => {
                     color="secondary"
                     variant="contained"
                 >
-                    No
+                    Cancel
           </Button>
             </DialogActions>
         </Dialog >

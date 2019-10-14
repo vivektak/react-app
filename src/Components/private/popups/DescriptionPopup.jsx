@@ -71,7 +71,7 @@ const DescriptionPopup = (props) => {
                         >
                             {Constants.CLOSE}
                         </Button>
-                    </DialogActions></React.Fragment> : <ReferAFriendPopup handleSubmit={handleSubmit} togglePopup={props.togglePopup} data={props.rowData}></ReferAFriendPopup>}}
+                    </DialogActions></React.Fragment> : <ReferAFriendPopup handleSubmit={handleSubmit} togglePopup={props.togglePopup} data={props.rowData}></ReferAFriendPopup>}
             </Dialog>
         </div>
     );

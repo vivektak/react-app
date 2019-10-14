@@ -43,8 +43,8 @@ const Register = props => {
     };
 
     const checkValidation = e => {
-        setEmailError(checkEmailValidation(email));
-        setPassError(checkPasswordValidation(password));
+
+
         if (emailError && passError) {
 
             setButtonState(true)
@@ -108,7 +108,10 @@ const Register = props => {
                         onChange={e => {
                             setEmail(e.target.value);
                         }}
-                        onBlur={e => { checkValidation(e) }}
+                        onBlur={e => {
+                            setEmailError(checkEmailValidation(email));
+                            checkValidation(e)
+                        }}
                         margin="normal"
                     ></TextField>
                     <TextField
@@ -123,7 +126,10 @@ const Register = props => {
                         onChange={e => {
                             setPassword(e.target.value);
                         }}
-                        onBlur={e => { checkValidation(e) }}
+                        onBlur={e => {
+                            setPassError(checkPasswordValidation(password));
+                            checkValidation(e)
+                        }}
                     />
                 </CardContent>
                 <CardActions style={{ display: "flex", justifyContent: "center" }}>
@@ -137,7 +143,7 @@ const Register = props => {
                         color="secondary"
                         variant="contained"
                         onClick={handleSubmit}
-                        disabled={buttonState}
+                        disabled={emailError && passError ? true : emailError === null && passError === null ? false : true}
                     >
                         {Constants.REGISTER}
                     </Button>
