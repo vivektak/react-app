@@ -108,6 +108,7 @@ const ReferAFriendPopup = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
+                    disabled={nameError && emailError && mobileNumberError ? true : nameError === null && emailError === null && mobileNumberError === null ? false : true}
                 >
                     {Constants.SAVE}
                 </Button>

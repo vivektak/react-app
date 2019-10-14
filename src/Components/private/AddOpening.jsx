@@ -26,7 +26,7 @@ const AddOpening = (props) => {
     const [description, setDescription] = useState('');
     const [jobType, setJobType] = useState('');
     const [type, setType] = useState('');
-    const [location, setLocation] = useState([]);
+    const [location, setLocation] = useState('');
     const [noOfPositions, setNoOfPositions] = useState(0);
     const [mandatorySkills, setMandatorySkills] = useState([]);
     const [goodToHaveSkills, setGoodToHaveSkills] = useState([]);
@@ -295,11 +295,13 @@ const AddOpening = (props) => {
                     onClick={e => handleSubmit(e)}
                     color="primary"
                     variant="contained"
-                //disabled={submitDisable}
+                    disabled={titleError && typeError && jobTypeError && locationError && noOfPositionsError ? true : titleError === null && typeError === null && jobTypeError === null && locationError === null && noOfPositionsError === null ? false : true}
+
 
                 >
                     {Object.keys(props.rowData).length > 0 ? "Update" : "Save"}
                 </Button>
+                {titleError}{typeError}{jobTypeError}{locationError}{mandatorySkillsError}{noOfPositionsError}
                 <Button
                     onClick={props.handleCloseModal}
                     color="secondary"

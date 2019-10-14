@@ -129,7 +129,7 @@ export const Login = (props) => {
                         error={passError ? true : false}
                         helperText={passError}
                         onChange={e => {
-                            setPassword(e.target.value);
+                            setPassword(e.target.value.trim() === '' ? '' : e.target.value);
                         }}
                         onBlur={e => {
                             setPassError(checkPasswordValidation(password));

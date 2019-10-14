@@ -24,6 +24,7 @@ const AddEditSkillsPopup = (props) => {
 
     useEffect(() => {
         if (props.editData) {
+            setSkillError(null);
             setSkill(props.editData.name);
             setIsEdit(Constants.EDIT)
         }
@@ -108,7 +109,7 @@ const AddEditSkillsPopup = (props) => {
                     value={skill}
                     error={skillError ? true : false}
                     onChange={e => {
-                        setSkill(e.target.value);
+                        setSkill(e.target.value.trim() === '' ? '' : e.target.value);
                     }}
                     onBlur={e => setSkillError(checkSkillValidation(e.target.value))}
                     margin="normal"
