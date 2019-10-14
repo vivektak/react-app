@@ -160,9 +160,9 @@ export const Login = (props) => {
                 </CardActions>
             </Card>
             {isLoading ? <Loader
-                style={{ position: 'absolute', top: '30%' }}
-                type="Bars"
-                color="#ffc107"
+                style={{ position: 'absolute', top: '35%' }}
+                type="ThreeDots"
+                color="#000"
                 height={50}
                 width={50}
                 timeout={3000} //3 secs

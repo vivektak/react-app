@@ -96,7 +96,7 @@ const MyReferrals = () => {
                         { title: Constants.STATUS, field: Constants.STATUS.toLowerCase() },
                     ]}
                     data={myReferrals}
-                    title={Constants.MY_REFERRALS}
+                    title={Constants.MY_REFERRALS.toUpperCase()}
                     actions={[
                         {
                             icon: "get_app",
@@ -124,8 +124,8 @@ const MyReferrals = () => {
 
             {isLoading ? <Loader
                 style={{ position: 'absolute', top: '45%', left: '50%' }}
-                type="Bars"
-                color="#ffc107"
+                type="ThreeDots"
+                color="#000"
                 height={50}
                 width={50}
                 timeout={3000} //3 secs

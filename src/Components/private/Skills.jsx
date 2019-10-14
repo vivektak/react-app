@@ -144,7 +144,7 @@ const Skills = (props) => {
 
                     ]}
                     data={skills}
-                    title="Skills"
+                    title="SKILLS"
                     // localization={{
                     //     pagination: {
                     //         labelRowsPerPage: '10',
@@ -182,8 +182,8 @@ const Skills = (props) => {
             {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
             {isLoading ? <Loader
                 style={{ position: 'absolute', top: '50%', left: '50%' }}
-                type="Bars"
-                color="#ffc107"
+                type="ThreeDots"
+                color="#000"
                 height={50}
                 width={50}
                 timeout={3000} //3 secs

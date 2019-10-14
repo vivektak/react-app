@@ -138,7 +138,7 @@ const Locations = (props) => {
 
                     ]}
                     data={locations}
-                    title="Locations"
+                    title="LOCATIONS"
                     actions={[
                         {
                             icon: "edit",
@@ -169,8 +169,8 @@ const Locations = (props) => {
             {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
             {isLoading ? <Loader
                 style={{ position: 'absolute', top: '50%', left: '50%' }}
-                type="Bars"
-                color="#ffc107"
+                type="ThreeDots"
+                color="#000"
                 height={50}
                 width={50}
                 timeout={3000} //3 secs

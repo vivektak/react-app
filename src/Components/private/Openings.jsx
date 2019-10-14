@@ -5,7 +5,7 @@ import http from "../../services/httpService";
 import DescriptionPopup from '../private/popups/DescriptionPopup';
 import ViewReferredPopup from './popups/viewReferredPopup';
 import * as Constants from '../../Constants/Constants';
-
+import Loader from 'react-loader-spinner';
 import {
     Button,
 } from "@material-ui/core";
@@ -30,6 +30,7 @@ const Openings = props => {
     const [Opening, setOpening] = useState([]);
     const [rowData, setRowData] = useState([]);
     const [roleData, setRoleData] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const fileInput = useRef();
 
@@ -81,7 +82,7 @@ const Openings = props => {
     }
 
     const getOpenings = () => {
-
+        setIsLoading(true);
         console.log('opening called')
         let url = 'job/latest'
         if (props.location && props.location.state && props.location.state.path) {
@@ -90,7 +91,7 @@ const Openings = props => {
         }
         const data = http.getWithHeader(url)
         data.then(res => {
-
+            setIsLoading(false);
             if (res) {
                 res.data.data.map(row => {
                     if (row.mandatorySkills.length > 1) {
@@ -192,7 +193,7 @@ const Openings = props => {
                         { title: Constants.NOOFPOSITIONS, field: "noOfPositions" },
                     ]}
                     data={Opening}
-                    title={Constants.JOB_OPENINGS}
+                    title={Constants.JOB_OPENINGS.toUpperCase()}
                     actions={roleData.role === 'admin' ? [
                         {
 
@@ -243,6 +244,16 @@ const Openings = props => {
             {descriptionPopup ? <DescriptionPopup togglePopup={togglePopup} rowData={rowData} descriptionPopup={descriptionPopup}></DescriptionPopup> : null}
             {showReferralPopup ? <ViewReferredPopup toggleReferrals={toggleReferrals} rowData={rowData} showReferralPopup={showReferralPopup}> </ViewReferredPopup> : null}
             {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
+
+            {isLoading ? <Loader
+                style={{ position: 'absolute', top: '45%', left: '50%' }}
+                type="ThreeDots"
+                color="#000"
+                height={50}
+                width={50}
+                timeout={5000} //3 secs
+
+            /> : null}
         </div >
     );
 }
