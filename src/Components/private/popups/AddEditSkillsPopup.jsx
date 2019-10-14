@@ -20,7 +20,7 @@ const AddEditSkillsPopup = (props) => {
     const [skill, setSkill] = useState();
     const [skillError, setSkillError] = useState('');
     const [isEdit, setIsEdit] = useState(Constants.ADD)
-    const [addEditDisable, setAddEditDisable] = useState(true);
+    // const [addEditDisable, setAddEditDisable] = useState(true);
 
     useEffect(() => {
         if (props.editData) {
@@ -28,7 +28,17 @@ const AddEditSkillsPopup = (props) => {
             setSkill(props.editData.name);
             setIsEdit(Constants.EDIT)
         }
-    }, [])
+    }, []);
+
+    const blockSpecialChar = (e) => {
+        // var k = e.keyCode;
+        // return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || (k >= 48 && k <= 57));
+        console.log(e.keyCode)
+        var k;
+        document.all ? k = e.keyCode : k = e.which;
+        return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57) || k == 190 || k == 188);
+
+    }
 
     const handleSubmit = () => {
         //setAddEditDisable(true);
@@ -72,6 +82,13 @@ const AddEditSkillsPopup = (props) => {
 
     }
 
+
+    const handleKeyUp = e => {
+        if (e.keyCode === 13) {
+            handleSubmit()
+        }
+    }
+
     const handleClose = () => {
         props.togglePopup();
     }
@@ -111,6 +128,8 @@ const AddEditSkillsPopup = (props) => {
                     onChange={e => {
                         setSkill(e.target.value.trim() === '' ? '' : e.target.value);
                     }}
+                    onKeyPress={e => blockSpecialChar(e)}
+                    onKeyUp={e => { handleKeyUp(e); blockSpecialChar(e) }}
                     onBlur={e => setSkillError(checkSkillValidation(e.target.value))}
                     margin="normal"
                 ></TextField>
@@ -120,7 +139,8 @@ const AddEditSkillsPopup = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
-                    disabled={skillError ? true : skillError === null ? false : true}
+                    //disabled={skillError ? true : skillError === null ? false : true}
+                    disabled={skill ? false : true}
                 >
                     {props.editData ? 'Update' : 'Save'}
                 </Button>

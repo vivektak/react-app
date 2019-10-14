@@ -69,6 +69,12 @@ const AddLocation = (props) => {
         }
     }, [])
 
+    const handleKeyUp = e => {
+        if (e.keyCode === 13) {
+            handleSubmit()
+        }
+    }
+
     const handleClose = () => {
         props.togglePopup();
     }
@@ -98,6 +104,7 @@ const AddLocation = (props) => {
                         setLocationError(checkLocationValidation(location))
 
                     }}
+                    onKeyUp={e => handleKeyUp(e)}
                     margin="normal"
                 ></TextField>
 
@@ -108,7 +115,8 @@ const AddLocation = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
-                    disabled={locationError ? true : locationError === null ? false : true}
+                    //disabled={locationError ? true : locationError === null ? false : true}
+                    disabled={location ? false : true}
                 >
                     {props.editData ? 'Update' : 'Save'}
                 </Button>

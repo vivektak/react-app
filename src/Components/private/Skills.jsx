@@ -71,6 +71,8 @@ const Skills = (props) => {
         getSkills();
     }, []);
 
+
+
     const onChange = async (e) => {
         const excel = await toBase64(e.target.files[0]);
         setExcelImport(excel);

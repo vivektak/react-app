@@ -91,10 +91,6 @@ const Locations = (props) => {
         fileInput.current.click();
     }
 
-    // const handleExport = () => {
-    //     console.log(fileInput.current);
-    // }
-
     return (
 
         <div>
@@ -119,12 +115,6 @@ const Locations = (props) => {
                         variant="contained"
                     >Import Excel</Button>
                     <Export data={locations}></Export>
-                    {/* <Button
-                        onClick={() => handleExport()}
-                        color="secondary"
-                        variant="contained"
-                        className="m-2"
-                    >Export Excel</Button> */}
                     <Button
                         onClick={() => handleAdd(true)}
                         color="secondary"
