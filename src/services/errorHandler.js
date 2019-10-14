@@ -5,12 +5,16 @@ import localStorage from './../../src/services/storageService';
 import { Redirect } from 'react-router';
 
 function errorResponseHandler(err) {
-    console.log(err)
+    if (err.response === undefined) {
+        error('Please Check your internet Connection')
+    } else {
+
+        error(err.response.data.message)
+    }
     // const expectedError = err.response && err.response.status >= 400 && err.response.status < 500;
     // console.log(props)
     // console.log(expectedError)
     //if (expectedError) {
-    error(err.response.data.message)
 
     //     if (err.response.status === 401) {
     //         error(err.response.data.message)

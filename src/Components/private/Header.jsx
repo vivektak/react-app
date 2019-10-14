@@ -19,6 +19,8 @@ import {
 
 } from "@material-ui/core";
 import { Menu as MenuIcon, AccountCircle, ExitToApp, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
+import http from '../../services/httpService';
+import { useEffect } from 'react';
 
 
 const Header = (props) => {
@@ -26,8 +28,9 @@ const Header = (props) => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDrawer, setOpenDrawer] = useState(false);
+    const [roleData, setRoleData] = useState('');
+    const [drawerData, setDrawerData] = useState([]);
 
-    const drawerData = [{ name: 'Home', url: '/Openings', icon: HomeIcon }, { name: 'Skills', url: '/skills', icon: 'HomeIcon' }, { name: 'Locations', url: '/locations', icon: 'HomeIcon' }, { name: 'My Referral', url: '/my-referrals', icon: 'HomeIcon' }];
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -36,6 +39,22 @@ const Header = (props) => {
     const handleMenu = event => {
         setAnchorEl(event.currentTarget);
     };
+
+    const getUserInfo = () => {
+        http.getWithHeader('user/info').then(res => {
+            console.log(res.data.data);
+            setRoleData(res.data.data);
+            if (res.data.data.role === 'admin') {
+                setDrawerData([{ name: 'Home', url: '/Openings', icon: HomeIcon }, { name: 'Skills', url: '/skills', icon: 'HomeIcon' }, { name: 'Locations', url: '/locations', icon: 'HomeIcon' }, { name: 'My Referral', url: '/my-referrals', icon: 'HomeIcon' }])
+            } else {
+                setDrawerData([{ name: 'Home', url: '/Openings', icon: HomeIcon }, { name: 'My Referral', url: '/my-referrals', icon: 'HomeIcon' }])
+            }
+        })
+    }
+
+    useEffect(() => {
+        getUserInfo();
+    }, [])
 
     const toggleDrawer = (side, open) => event => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

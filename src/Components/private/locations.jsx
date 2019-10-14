@@ -4,7 +4,7 @@ import http from '../../services/httpService';
 import AddLocation from '../private/popups/AddLocationPopup';
 import * as Constants from '../../Constants/Constants';
 import { toBase64 } from '../../services/commonHandler.js'
-
+import Loader from 'react-loader-spinner';
 import {
     Button,
 } from "@material-ui/core";
@@ -21,12 +21,14 @@ const Locations = (props) => {
     const [editData, setEditData] = useState('');
     const [isDelete, setIsDelete] = useState(false);
     const [excelImport, setExcelImport] = useState('');
-
+    const [isLoading, setIsLoading] = useState(false);
     const fileInput = useRef();
 
     const getLocations = () => {
+        setIsLoading(true);
         const data = http.getWithHeader('location/all')
         data.then(res => {
+            setIsLoading(false);
             setLocation(res.data.data);
         }).catch(error => {
 
@@ -165,6 +167,15 @@ const Locations = (props) => {
                 popup ? <AddLocation popup={popup} togglePopup={togglePopup} getLocations={getLocations} editData={editData}></AddLocation> : null
             }
             {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
+            {isLoading ? <Loader
+                style={{ position: 'absolute', top: '50%', left: '50%' }}
+                type="Bars"
+                color="#ffc107"
+                height={50}
+                width={50}
+                timeout={3000} //3 secs
+
+            /> : null}
         </div>
     );
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import http from '../../services/httpService';
 import Header from './Header';
 import MyReferralPopup from './popups/MyReferralPopup';
+import Loader from 'react-loader-spinner';
 
 import {
     Button,
@@ -15,10 +16,13 @@ const MyReferrals = () => {
     const [myReferrals, setMyReferrals] = useState([]);
     const [myReferralsPopup, setMyReferralsPopup] = useState(false);
     const [rowData, setRowData] = useState([])
+    const [isLoading, setIsLoading] = useState(false);
 
     const getReferrals = () => {
+        setIsLoading(true);
         const data = http.getWithHeader('refer/userReferals')
         data.then(res => {
+            setIsLoading(false);
             setMyReferrals(res.data.data);
         }).catch(error => {
 
@@ -117,6 +121,16 @@ const MyReferrals = () => {
             {
                 myReferralsPopup ? <MyReferralPopup togglePopup={togglePopup} myReferralsPopup={myReferralsPopup} getReferrals={() => getReferrals()} rowData={rowData}></MyReferralPopup> : null
             }
+
+            {isLoading ? <Loader
+                style={{ position: 'absolute', top: '45%', left: '50%' }}
+                type="Bars"
+                color="#ffc107"
+                height={50}
+                width={50}
+                timeout={3000} //3 secs
+
+            /> : null}
         </div>
     );
 }

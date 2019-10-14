@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import http from '../services/httpService';
 import * as Constants from '../Constants/Constants';
 import { userContext } from '../services/Context';
-
+import Loader from 'react-loader-spinner';
 import { checkEmailValidation, checkPasswordValidation, checkTypeValidation } from '../services/commonValidation.js'
 
 import {
@@ -24,10 +24,12 @@ export const Login = (props) => {
     const [emailError, setEmailError] = useState('');
     const [passError, setPassError] = useState('');
     const [submitState, setSubmitState] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const { data, setData } = useContext(userContext);
 
     const handleSubmit = async e => {
+        setIsLoading(true);
         setSubmitState(true);
         const data = {
             email: email,
@@ -41,6 +43,7 @@ export const Login = (props) => {
                 success(Constants.LOGGED_IN_SUCCESS)
                 localStorage.set(Constants.TOKEN, res.data.data.token);
                 setData(res.data.data)
+                setIsLoading(false);
                 if (res.data.data.role === 'admin') {
                     props.history.push('/openings')
                 } else {
@@ -153,10 +156,18 @@ export const Login = (props) => {
                         variant="contained"
                         onClick={handleSubmit}
                         disabled={emailError && passError ? true : emailError === null && passError === null ? false : true}
-                    //disabled={submitState}
                     >{Constants.LOG_IN}</Button>
                 </CardActions>
             </Card>
+            {isLoading ? <Loader
+                style={{ position: 'absolute', top: '30%' }}
+                type="Bars"
+                color="#ffc107"
+                height={50}
+                width={50}
+                timeout={3000} //3 secs
+
+            /> : null}
         </div>
     );
 }

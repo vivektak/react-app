@@ -4,6 +4,7 @@ import Header from './Header';
 import AddEditSkillsPopup from '../private/popups/AddEditSkillsPopup';
 import '../../styles/App.css';
 import * as Constants from '../../Constants/Constants';
+import Loader from 'react-loader-spinner';
 
 import {
     Button,
@@ -21,15 +22,18 @@ const Skills = (props) => {
     const [popup, setPopup] = useState(false);
     const [editData, setEditData] = useState('');
     const [excelImport, setExcelImport] = useState('');
-    const [exportExcel, setExportExcel] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    //const [exportExcel, setExportExcel] = useState(false);
 
     const [isDelete, setIsDelete] = useState(false);
 
     const fileInput = useRef();
 
     const getSkills = () => {
+        setIsLoading(true);
         const data = http.getWithHeader('skill/all')
         data.then(res => {
+            setIsLoading(false);
             setSkills(res.data.data);
         }).catch(error => {
 
@@ -176,7 +180,15 @@ const Skills = (props) => {
                 popup ? <AddEditSkillsPopup popup={popup} togglePopup={() => togglePopup()} getSkills={getSkills} editData={editData}></AddEditSkillsPopup> : null
             }
             {isDelete ? <ConfirmPopup handleDelete={handleDelete} toggleDeletePopup={toggleDeletePopup}></ConfirmPopup> : null}
+            {isLoading ? <Loader
+                style={{ position: 'absolute', top: '50%', left: '50%' }}
+                type="Bars"
+                color="#ffc107"
+                height={50}
+                width={50}
+                timeout={3000} //3 secs
 
+            /> : null}
         </div >
     );
 }

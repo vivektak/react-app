@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import ReactExport from "react-export-excel";
+import { Button } from '@material-ui/core';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -25,7 +26,7 @@ const Export = (props) => {
     }, [props])
 
 
-    return (<ExcelFile name="skills">
+    return (<ExcelFile filename="Report" element={(<Button bsStyle="info"> Export Excel </Button>)}>
 
         {props.data[0] && props.data[0].mandatorySkills ?
             <ExcelSheet data={props.data} name='Openings'>

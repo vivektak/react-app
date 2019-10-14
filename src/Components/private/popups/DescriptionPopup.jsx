@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReferAFriendPopup from './ReferAFriendPopup';
 import http from '../../../services/httpService';
 import * as Constants from '../../../Constants/Constants';
@@ -21,10 +21,18 @@ const DescriptionPopup = (props) => {
     const { title, location, jobType, skills, type, mandatorySkills, goodToHaveSkills, description, noOfPositions } = props.rowData;
     const [showPopup, setShowPopup] = useState(true);
     const [addEditDisable, setAddEditDisable] = useState(false);
+    const [roleData, setRoleData] = useState('');
 
 
     const referTogglePopup = () => {
         setShowPopup(!showPopup)
+    }
+
+    const getUserInfo = () => {
+        http.getWithHeader('user/info').then(res => {
+            console.log(res.data.data);
+            setRoleData(res.data.data);
+        })
     }
 
     const handleSubmit = (data, header) => {
@@ -40,6 +48,10 @@ const DescriptionPopup = (props) => {
         });
 
     }
+
+    useEffect(() => {
+        getUserInfo();
+    }, [])
 
     return (
         <div>
@@ -61,13 +73,14 @@ const DescriptionPopup = (props) => {
 
                     </DialogContent>
                     <DialogActions>
-                        <Button
+
+                        {roleData.role === 'admin' ? null : <Button
                             onClick={() => referTogglePopup()}
                             color="primary"
                             variant="contained"
                         >
                             {Constants.REFER_FRIEND}
-                        </Button>
+                        </Button>}
                         <Button
                             onClick={props.togglePopup}
                             color="secondary"

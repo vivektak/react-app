@@ -12,7 +12,7 @@ import {
 import MaterialTable from "material-table";
 import AddOpening from './AddOpening';
 import ConfirmPopup from './popups/ConfirmPopup';
-import { toBase64, getUserInfo } from '../../services/commonHandler';
+import { toBase64 } from '../../services/commonHandler';
 import { success } from '../../services/notificationService';
 import errorResponseHandler from './../../services/errorHandler';
 import Export from './exportToExcel';
@@ -34,10 +34,16 @@ const Openings = props => {
     const fileInput = useRef();
 
     useEffect(() => {
-        console.log(props);
-        setRoleData(getUserInfo());
+        getUserInfo();
         getOpenings();
     }, []);
+
+    const getUserInfo = () => {
+        http.getWithHeader('user/info').then(res => {
+            console.log(res.data.data);
+            setRoleData(res.data.data);
+        })
+    }
 
     const handleEdit = (e, rowData) => {
         if (rowData.mandatorySkills.length > 1) {
@@ -160,18 +166,20 @@ const Openings = props => {
                             onChange(e);
                         }}
                     />
-                    <Button
+
+                    {roleData.role === 'admin' ? <React.Fragment><Button
                         onClick={() => handleImport()}
                         color="secondary"
                         variant="contained"
                     >{Constants.IMPORT_EXCEL}</Button>
-                    <Export data={Opening}></Export>
-                    <Button
-                        onClick={() => handleAdd(true)}
-                        color="secondary"
-                        variant="contained"
-                    >{Constants.ADD_OPENING}</Button>
+                        <Export data={Opening}></Export>
+                        <Button
+                            onClick={() => handleAdd(true)}
+                            color="secondary"
+                            variant="contained"
+                        >{Constants.ADD_OPENING}</Button></React.Fragment> : null}
                 </div>
+
                 <MaterialTable
                     columns={[
                         { title: Constants.ID, field: "_id" },
@@ -185,7 +193,7 @@ const Openings = props => {
                     ]}
                     data={Opening}
                     title={Constants.JOB_OPENINGS}
-                    actions={[
+                    actions={roleData.role === 'admin' ? [
                         {
 
                             icon: Constants.EDIT.toLowerCase(),
@@ -216,7 +224,15 @@ const Openings = props => {
                                 toggleReferrals(event, rowData);
                             }
                         }
-                    ]}
+                    ] : [
+                            {
+                                icon: "remove_red_eye",
+                                tooltip: Constants.VIEW_DETAILS,
+                                onClick: (event, rowData) => {
+                                    handleDetailsView(event, rowData);
+                                }
+                            }
+                        ]}
                     options={{
                         actionsColumnIndex: -1,
                         pageSize: 10
