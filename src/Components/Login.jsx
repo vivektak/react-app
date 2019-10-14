@@ -41,7 +41,12 @@ export const Login = (props) => {
                 success(Constants.LOGGED_IN_SUCCESS)
                 localStorage.set(Constants.TOKEN, res.data.data.token);
                 setData(res.data.data)
-                props.history.push('/openings');
+                if (res.data.data.role === 'admin') {
+                    props.history.push('/openings')
+                } else {
+                    props.history.push('/dashboard')
+                }
+
             }
         })
     };

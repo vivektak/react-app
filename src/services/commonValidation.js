@@ -67,7 +67,7 @@ export const checkMandatorySkillsValidation = (mandatorySkills) => {
 
 export const checkNoOfPositionsValidation = (noOfPositions) => {
 
-    if (noOfPositions === "0") {
+    if (noOfPositions === "1" || noOfPositions === "") {
         return Constants.NO_OF_POSITIONS_REQUIRE;
 
     } else {

@@ -12,17 +12,14 @@ import {
 import MaterialTable from "material-table";
 import AddOpening from './AddOpening';
 import ConfirmPopup from './popups/ConfirmPopup';
-import { toBase64 } from '../../services/commonHandler';
+import { toBase64, getUserInfo } from '../../services/commonHandler';
 import { success } from '../../services/notificationService';
 import errorResponseHandler from './../../services/errorHandler';
 import Export from './exportToExcel';
 
 
 const Openings = props => {
-    useEffect(() => {
-        console.log(props);
-        getOpenings();
-    }, []);
+
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -32,8 +29,15 @@ const Openings = props => {
     const [excelImport, setExcelImport] = useState('');
     const [Opening, setOpening] = useState([]);
     const [rowData, setRowData] = useState([]);
+    const [roleData, setRoleData] = useState('');
 
     const fileInput = useRef();
+
+    useEffect(() => {
+        console.log(props);
+        setRoleData(getUserInfo());
+        getOpenings();
+    }, []);
 
     const handleEdit = (e, rowData) => {
         if (rowData.mandatorySkills.length > 1) {
@@ -59,6 +63,8 @@ const Openings = props => {
 
     }
 
+
+
     const togglePopup = () => {
         setDescriptionPopup(!descriptionPopup)
     }
@@ -69,15 +75,16 @@ const Openings = props => {
     }
 
     const getOpenings = () => {
+
         console.log('opening called')
         let url = 'job/latest'
         if (props.location && props.location.state && props.location.state.path) {
             console.log(props.location.state.path);
-            url = url + '&type=' + props.location.state.path;
+            url = url + '?type=' + props.location.state.path;
         }
         const data = http.getWithHeader(url)
         data.then(res => {
-            console.log(res.data)
+
             if (res) {
                 res.data.data.map(row => {
                     if (row.mandatorySkills.length > 1) {
@@ -89,6 +96,7 @@ const Openings = props => {
                 })
                 setOpening(res.data.data);
             }
+
 
         }).catch((error) => {
 
@@ -133,9 +141,6 @@ const Openings = props => {
         fileInput.current.click();
     }
 
-    // const handleExport = () => {
-    //     console.log(fileInput.current);
-    // }
 
     return (
         <div>
@@ -161,12 +166,6 @@ const Openings = props => {
                         variant="contained"
                     >{Constants.IMPORT_EXCEL}</Button>
                     <Export data={Opening}></Export>
-                    {/* <Button
-                        onClick={() => handleExport()}
-                        color="secondary"
-                        variant="contained"
-                        className="m-2"
-                    >{Constants.EXPORT_EXCEL}</Button> */}
                     <Button
                         onClick={() => handleAdd(true)}
                         color="secondary"
@@ -188,6 +187,7 @@ const Openings = props => {
                     title={Constants.JOB_OPENINGS}
                     actions={[
                         {
+
                             icon: Constants.EDIT.toLowerCase(),
                             tooltip: Constants.EDIT_USER,
                             onClick: (event, rowData) => {

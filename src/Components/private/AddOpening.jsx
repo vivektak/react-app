@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Chips from 'react-chips'
 import http from '../../services/httpService';
 import * as Constants from '../../Constants/Constants';
+import '../../styles/App.css';
 
 
 import {
@@ -27,7 +28,7 @@ const AddOpening = (props) => {
     const [jobType, setJobType] = useState('');
     const [type, setType] = useState('');
     const [location, setLocation] = useState('');
-    const [noOfPositions, setNoOfPositions] = useState(0);
+    const [noOfPositions, setNoOfPositions] = useState(1);
     const [mandatorySkills, setMandatorySkills] = useState([]);
     const [goodToHaveSkills, setGoodToHaveSkills] = useState([]);
     const [skills, setSkills] = useState([]);
@@ -133,7 +134,7 @@ const AddOpening = (props) => {
             setJobType(dataToEdit.jobType);
             setNoOfPositions(dataToEdit.noOfPositions);
             setMandatorySkills(dataToEdit.mandatorySkills.split(','));
-            setGoodToHaveSkills(dataToEdit.goodToHaveSkills.split(','));
+            setGoodToHaveSkills(dataToEdit.goodToHaveSkills.length > 0 ? dataToEdit.goodToHaveSkills.split(',') : dataToEdit.goodToHaveSkills)
         }
     }, []);
 
@@ -267,6 +268,8 @@ const AddOpening = (props) => {
                     helperText={noOfPositionsError}
                     fullWidth={true}
                     value={noOfPositions}
+                    min='1'
+                    max='100'
                     error={noOfPositionsError ? true : false}
                     onChange={e => {
                         setNoOfPositions(e.target.value);
@@ -301,7 +304,6 @@ const AddOpening = (props) => {
                 >
                     {Object.keys(props.rowData).length > 0 ? "Update" : "Save"}
                 </Button>
-                {titleError}{typeError}{jobTypeError}{locationError}{mandatorySkillsError}{noOfPositionsError}
                 <Button
                     onClick={props.handleCloseModal}
                     color="secondary"

@@ -66,3 +66,7 @@
   background-color: dimgrey !important;
   color: white !important;
 }
+
+.MuiFormHelperText-contained {
+  margin: 8px 0 0 0 !important;
+}

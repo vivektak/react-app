@@ -16,8 +16,9 @@ import { success } from '../../../services/notificationService';
 
 
 const DescriptionPopup = (props) => {
+    console.log(props);
 
-    const { title, location, jobType, skills } = props.rowData;
+    const { title, location, jobType, skills, type, mandatorySkills, goodToHaveSkills, description, noOfPositions } = props.rowData;
     const [showPopup, setShowPopup] = useState(true);
     const [addEditDisable, setAddEditDisable] = useState(false);
 
@@ -50,10 +51,13 @@ const DescriptionPopup = (props) => {
             >
                 {showPopup ? <React.Fragment><DialogTitle id="alert-dialog-slide-title">Job Details</DialogTitle>
                     <DialogContent>
-                        <p><strong>{title}</strong></p>
+                        <p>Hiring for <strong>{title}</strong> Position as a <strong>{type}</strong> Developer</p>
                         <p><strong>Location : </strong>{location}</p>
-                        <p><strong>{jobType}</strong></p>
-                        <p><strong>{skills}</strong></p>
+                        <p><strong>Job Type : </strong>{jobType}</p>
+                        <p><strong>Mandatory Skills : </strong>{mandatorySkills}</p>
+                        <p><strong>Good To Have Skills : </strong>{goodToHaveSkills}</p>
+                        <p><strong>No of Positions : </strong>{noOfPositions}</p>
+                        <p><strong>Job Description : </strong>{description}</p>
 
                     </DialogContent>
                     <DialogActions>

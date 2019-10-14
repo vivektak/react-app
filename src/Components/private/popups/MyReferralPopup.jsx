@@ -144,6 +144,7 @@ const MyReferralPopup = (props) => {
                     label="Choose File"
                     type="file"
                     name="file"
+                    accept=".doc,.docx,.pdf"
                     onChange={e => {
                         onChange(e);
                     }}
