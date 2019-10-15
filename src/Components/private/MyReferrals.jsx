@@ -24,6 +24,7 @@ const MyReferrals = () => {
         data.then(res => {
             setIsLoading(false);
             setMyReferrals(res.data.data);
+            console.log(res.data.data);
         }).catch(error => {
 
         })

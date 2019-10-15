@@ -275,8 +275,7 @@ const AddOpening = (props) => {
                     helperText={noOfPositionsError}
                     fullWidth={true}
                     value={noOfPositions}
-                    min='1'
-                    max='100'
+                    inputProps={{ min: "0", max: "10", step: "1" }}
                     error={noOfPositionsError ? true : false}
                     onChange={e => {
                         setNoOfPositions(e.target.value);

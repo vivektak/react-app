@@ -63,14 +63,13 @@ const DescriptionPopup = (props) => {
             >
                 {showPopup ? <React.Fragment><DialogTitle id="alert-dialog-slide-title">Job Details</DialogTitle>
                     <DialogContent>
-                        {typeof (goodToHaveSkills)}
-                        <p>Hiring for <strong>{title}</strong> Position as a <strong>{type}</strong> Developer</p>
-                        <p><strong>Location : </strong>{location}</p>
-                        <p><strong>Job Type : </strong>{jobType}</p>
-                        <p><strong>Mandatory Skills : </strong>{mandatorySkills}</p>
-                        <p><strong>Good To Have Skills : </strong>{goodToHaveSkills.split(',').join(', ')}</p>
+                        <p>Hiring for <strong>{title}</strong> Position (<strong style={{ textTransform: 'capitalize' }}>{type}</strong>) </p>
+                        <p><strong>Location : </strong><span style={{ textTransform: 'capitalize' }}>{location}</span></p>
+                        <p><strong>Job Type : </strong><span style={{ textTransform: 'capitalize' }}>{jobType}</span></p>
+                        <p><strong>Mandatory Skills : </strong><span style={{ textTransform: 'capitalize' }}>{mandatorySkills}</span></p>
+                        <p><strong>Good To Have Skills : </strong><span style={{ textTransform: 'capitalize' }}>{goodToHaveSkills.split(',').join(', ')}</span></p>
                         <p><strong>No of Positions : </strong>{noOfPositions}</p>
-                        <p><strong>Job Description : </strong>{description}</p>
+                        <p><strong>Job Description : </strong><span style={{ textTransform: 'capitalize' }}>{description}</span></p>
 
                     </DialogContent>
                     <DialogActions>

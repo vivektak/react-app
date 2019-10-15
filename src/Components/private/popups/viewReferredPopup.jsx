@@ -66,7 +66,7 @@ const ViewReferredPopup = (props) => {
                             { title: "Name", field: "name", editable: 'never' },
                             { title: "Email", field: "email", editable: 'never' },
                             { title: "Mobile", field: "mobile", editable: 'never' },
-                            { title: "Status", field: "status", editable: 'onUpdate', lookup: { 1: 'pending', 2: 'No Current Match Found', 3: 'Invalid Profile', 4: 'Not Reachable', 5: 'Not Selected', 6: 'Resume Shortlisted', 7: 'Offered', 8: 'Deferred' } },
+                            { title: "Status", field: "status", editable: 'onUpdate', lookup: { 'Open': 'Open', 'pending': 'pending', 'No Current Match Found': 'No Current Match Found', 'Invalid Profile': 'Invalid Profile', 'Not Reachable': 'Not Reachable', 'Not Selected': 'Not Selected', 'Resume Shortlisted': 'Resume Shortlisted', 'Offered': 'Offered', 'Deferred': 'Deferred' } },
                         ]}
                         data={referrals}
                         title="Referrals"
