@@ -147,12 +147,6 @@ const Skills = (props) => {
                     ]}
                     data={skills}
                     title="SKILLS"
-                    // localization={{
-                    //     pagination: {
-                    //         labelRowsPerPage: '10',
-                    //         labelRowsSelect: "10"
-                    //     }
-                    // }}
                     actions={[
                         {
                             icon: "edit",

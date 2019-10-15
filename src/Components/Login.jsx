@@ -54,26 +54,32 @@ export const Login = (props) => {
         })
     };
 
-    const checkValidation = e => {
-
-
-        if (emailError && passError) {
-            setSubmitState(true)
-        } else if (emailError === '' || passError === '') {
-
-            setSubmitState(true)
-        } else {
-            setSubmitState(false);
-        }
-    }
-
-    const handleKeyPress = e => {
-        console.log(e)
-        console.log(e.keyCode)
+    const handleKeyUp = e => {
         if (e.keyCode === 13) {
-            handleSubmit();
+            handleSubmit()
         }
     }
+
+    // const checkValidation = e => {
+
+
+    //     if (emailError && passError) {
+    //         setSubmitState(true)
+    //     } else if (emailError === '' || passError === '') {
+
+    //         setSubmitState(true)
+    //     } else {
+    //         setSubmitState(false);
+    //     }
+    // }
+
+    // const handleKeyPress = e => {
+    //     console.log(e)
+    //     console.log(e.keyCode)
+    //     if (e.keyCode === 13) {
+    //         handleSubmit();
+    //     }
+    // }
 
     return (
         <div
@@ -117,13 +123,12 @@ export const Login = (props) => {
                         fullWidth={true}
                         value={email}
                         error={emailError ? true : false}
-                        //onKeyUp={e => handleKeyPress(e)}
                         onChange={e => {
                             setEmail(e.target.value);
                         }}
                         onBlur={e => {
                             setEmailError(checkEmailValidation(email));
-                            checkValidation(e)
+                            //checkValidation(e)
                         }}
                         margin="normal"
                     ></TextField>
@@ -136,12 +141,13 @@ export const Login = (props) => {
                         value={password}
                         error={passError ? true : false}
                         helperText={passError}
+                        onKeyUp={e => { handleKeyUp(e) }}
                         onChange={e => {
                             setPassword(e.target.value.trim() === '' ? '' : e.target.value);
                         }}
                         onBlur={e => {
-                            setPassError(checkPasswordValidation(password));
-                            checkValidation(e)
+                            //setPassError(checkPasswordValidation(password));
+                            //checkValidation(e)
                         }}
                     />
                 </CardContent>
@@ -155,7 +161,7 @@ export const Login = (props) => {
                         color="secondary"
                         variant="contained"
                         onClick={handleSubmit}
-                        disabled={emailError && passError ? true : emailError === null && passError === null ? false : true}
+                        disabled={emailError && password.length < 8 ? true : emailError === null && password.length >= 8 ? false : true}
                     >{Constants.LOG_IN}</Button>
                 </CardActions>
             </Card>

@@ -41,28 +41,31 @@ span.psw {
 
 .cancelContainer {}
 
-.total-jobs{
+.total-jobs {
     background: #0288d1;
     background: -webkit-linear-gradient(45deg, #0288d1, #26c6da) !important;
     background: -moz- oldlinear-gradient(45deg, #0288d1, #26c6da) !important;
     background: -o-linear-gradient(45deg, #0288d1, #26c6da) !important;
     background: linear-gradient(45deg, #0288d1, #26c6da) !important;
 }
-.frontend-jobs{
+
+.frontend-jobs {
     background: #ff5252;
     background: -webkit-linear-gradient(45deg, #ff5252, #f48fb1) !important;
     background: -moz- oldlinear-gradient(45deg, #ff5252, #f48fb1) !important;
     background: -o-linear-gradient(45deg, #ff5252, #f48fb1) !important;
     background: linear-gradient(45deg, #ff5252, #f48fb1) !important;
 }
-.backend-jobs{
+
+.backend-jobs {
     background: #ff6f00;
     background: -webkit-linear-gradient(45deg, #ff6f00, #ffca28) !important;
     background: -moz- oldlinear-gradient(45deg, #ff6f00, #ffca28) !important;
     background: -o-linear-gradient(45deg, #ff6f00, #ffca28) !important;
     background: linear-gradient(45deg, #ff6f00, #ffca28) !important;
 }
-.fullstak{
+
+.fullstak {
     background: #43a047;
     background: -webkit-linear-gradient(45deg, #43a047, #1de9b6) !important;
     background: -moz- oldlinear-gradient(45deg, #43a047, #1de9b6) !important;
@@ -70,11 +73,12 @@ span.psw {
     background: linear-gradient(45deg, #43a047, #1de9b6) !important;
 }
 
-.MuiPaper-root{
+.MuiPaper-root {
     -webkit-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .5) !important;
     box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .15) !important;
 }
-.qa-jobs{
+
+.qa-jobs {
     background: #8e24aa;
     background: -webkit-linear-gradient(45deg, #8e24aa, #ff6e40) !important;
     background: -moz- oldlinear-gradient(45deg, #8e24aa, #ff6e40) !important;
@@ -82,7 +86,7 @@ span.psw {
     background: linear-gradient(45deg, #8e24aa, #ff6e40) !important;
 }
 
-.admin-jobs{
+.admin-jobs {
     background: #7b1fa2;
     background: -webkit-linear-gradient(45deg, #7b1fa2, #7c4dff) !important;
     background: -moz- oldlinear-gradient(45deg, #7b1fa2, #7c4dff) !important;
@@ -196,7 +200,9 @@ span.psw {
       background-color: #f50057;
 } */
 
-.container-fluid > div > span > button, .MuiButton-containedSecondary {
+
+.container-fluid>div>span>button,
+.MuiButton-containedSecondary {
     background: #f6ac3d !important;
     font-size: 12px !important;
     color: #000 !important;
@@ -204,13 +210,13 @@ span.psw {
     border-radius: 4px;
     text-transform: uppercase;
     border: 0;
-    font-size: 12px!important;
+    font-size: 12px !important;
     font-weight: 500;
-    text-transform: uppercase!important;
-    margin-right: 10px!important;
+    text-transform: uppercase !important;
+    margin-right: 10px !important;
     border-radius: 4px !important;
     line-height: 1.75 !important;
-    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
 }
 
 .MuiToolbar-gutters,
@@ -246,21 +252,35 @@ span.psw {
     width: 800px;
 }
 
-.MuiInputLabel-outlined{
+.MuiInputLabel-outlined {
     transform: translate(0px, 0px) scale(.75) !important;
 }
 
-.MuiOutlinedInput-notchedOutline{
-    border:none !important;
-    border-color:transparent !important;
+.MuiOutlinedInput-notchedOutline {
+    border: none !important;
+    border-color: transparent !important;
     padding-left: 0px !important;
     border-bottom: solid 1px #333 !important;
     border-radius: 0px !important;
 }
-.MuiOutlinedInput-input{
+
+.MuiOutlinedInput-input {
     padding: 20px 0px 10px !important;
 }
-.MuiDialogActions-root{
+
+.MuiDialogActions-root {
     justify-content: flex-start !important;
     padding-left: 20px !important;
 }
+
+/* .container-fluid>div>span>button,
+.Mui-disabled {
+    background: #cecece !important;
+    color: #585858 !important;
+}
+
+.container-fluid>.MuiInputAdornment-root>div>span>button,
+.Mui-disabled {
+    background: #000 !important;
+    color: #583243 !important;
+} */

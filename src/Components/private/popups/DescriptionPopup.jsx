@@ -63,24 +63,25 @@ const DescriptionPopup = (props) => {
             >
                 {showPopup ? <React.Fragment><DialogTitle id="alert-dialog-slide-title">Job Details</DialogTitle>
                     <DialogContent>
+                        {typeof (goodToHaveSkills)}
                         <p>Hiring for <strong>{title}</strong> Position as a <strong>{type}</strong> Developer</p>
                         <p><strong>Location : </strong>{location}</p>
                         <p><strong>Job Type : </strong>{jobType}</p>
                         <p><strong>Mandatory Skills : </strong>{mandatorySkills}</p>
-                        <p><strong>Good To Have Skills : </strong>{goodToHaveSkills}</p>
+                        <p><strong>Good To Have Skills : </strong>{goodToHaveSkills.split(',').join(', ')}</p>
                         <p><strong>No of Positions : </strong>{noOfPositions}</p>
                         <p><strong>Job Description : </strong>{description}</p>
 
                     </DialogContent>
                     <DialogActions>
 
-                        {roleData.role === 'admin' ? null : <Button
+                        <Button
                             onClick={() => referTogglePopup()}
                             color="primary"
                             variant="contained"
                         >
                             {Constants.REFER_FRIEND}
-                        </Button>}
+                        </Button>
                         <Button
                             onClick={props.togglePopup}
                             color="secondary"

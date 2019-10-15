@@ -42,6 +42,12 @@ const Register = props => {
         })
     };
 
+    const handleKeyUp = e => {
+        if (e.keyCode === 13) {
+            handleSubmit()
+        }
+    }
+
     const checkValidation = e => {
 
 
@@ -110,7 +116,7 @@ const Register = props => {
                         }}
                         onBlur={e => {
                             setEmailError(checkEmailValidation(email));
-                            checkValidation(e)
+                            //checkValidation(e)
                         }}
                         margin="normal"
                     ></TextField>
@@ -122,13 +128,14 @@ const Register = props => {
                         fullWidth={true}
                         value={password}
                         error={passError ? true : false}
+                        onKeyUp={e => { handleKeyUp(e) }}
                         helperText={passError}
                         onChange={e => {
                             setPassword(e.target.value.trim() === '' ? '' : e.target.value);
                         }}
                         onBlur={e => {
-                            setPassError(checkPasswordValidation(password));
-                            checkValidation(e)
+                            // setPassError(checkPasswordValidation(password));
+                            // checkValidation(e)
                         }}
                     />
                 </CardContent>
@@ -143,7 +150,7 @@ const Register = props => {
                         color="secondary"
                         variant="contained"
                         onClick={handleSubmit}
-                        disabled={emailError && passError ? true : emailError === null && passError === null ? false : true}
+                        disabled={emailError && password.length < 8 ? true : emailError === null && password.length >= 8 ? false : true}
                     >
                         {Constants.REGISTER}
                     </Button>

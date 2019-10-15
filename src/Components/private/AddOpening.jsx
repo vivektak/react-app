@@ -28,7 +28,7 @@ const AddOpening = (props) => {
     const [jobType, setJobType] = useState('');
     const [type, setType] = useState('');
     const [location, setLocation] = useState('');
-    const [noOfPositions, setNoOfPositions] = useState(1);
+    const [noOfPositions, setNoOfPositions] = useState(0);
     const [mandatorySkills, setMandatorySkills] = useState([]);
     const [goodToHaveSkills, setGoodToHaveSkills] = useState([]);
     const [skills, setSkills] = useState([]);
@@ -135,6 +135,13 @@ const AddOpening = (props) => {
             setNoOfPositions(dataToEdit.noOfPositions);
             setMandatorySkills(dataToEdit.mandatorySkills.split(','));
             setGoodToHaveSkills(dataToEdit.goodToHaveSkills.length > 0 ? dataToEdit.goodToHaveSkills.split(',') : dataToEdit.goodToHaveSkills)
+
+            setTitleError(null);
+            setTypeError(null);
+            setJobTypeError(null);
+            setLocationError(null);
+            setNoOfPositionsError(null);
+            //titleError === null && typeError === null && jobTypeError === null && locationError === null && noOfPositionsError === null
         }
     }, []);
 
