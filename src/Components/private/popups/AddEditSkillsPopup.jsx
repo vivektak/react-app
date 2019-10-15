@@ -73,7 +73,7 @@ const AddEditSkillsPopup = (props) => {
                     }
 
                 }).catch(error => {
-
+                    setSkillError('Skill already available with this name')
                 })
             }
         } else {

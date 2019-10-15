@@ -273,13 +273,18 @@ span.psw {
     padding-left: 20px !important;
 }
 
-/* .container-fluid>div>span>button,
-.Mui-disabled {
+
+.MuiButton-containedSecondary:disabled {
     background: #cecece !important;
     color: #585858 !important;
 }
 
-.container-fluid>.MuiInputAdornment-root>div>span>button,
+.MuiButton-containedPrimary:disabled {
+    background: #cecece !important;
+    color: #585858 !important;
+}
+
+/*.container-fluid>.MuiInputAdornment-root>div>span>button,
 .Mui-disabled {
     background: #000 !important;
     color: #583243 !important;

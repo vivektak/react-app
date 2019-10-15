@@ -184,13 +184,13 @@ const Openings = props => {
                 <MaterialTable
                     columns={[
                         { title: Constants.ID, field: "_id" },
-                        { title: Constants.TITLE, field: "title" },
-                        { title: Constants.TYPE, field: "type" },
-                        { title: Constants.JOBTYPE, field: "jobType" },
-                        { title: Constants.LOCATION, field: "location" },
-                        { title: Constants.MANDATORYSKILLS, field: "mandatorySkills" },
-                        { title: Constants.GOODTOHAVESKILLS, field: "goodToHaveSkills" },
-                        { title: Constants.NOOFPOSITIONS, field: "noOfPositions" },
+                        { title: Constants.TITLE, field: "title", render: row => <span style={{ textTransform: 'capitalize' }}>{row.title}</span> },
+                        { title: Constants.TYPE, field: "type", render: row => <span style={{ textTransform: 'capitalize' }}>{row.type}</span> },
+                        { title: Constants.JOBTYPE, field: "jobType", render: row => <span style={{ textTransform: 'capitalize' }}>{row.jobType}</span> },
+                        { title: Constants.LOCATION, field: "location", render: row => <span style={{ textTransform: 'capitalize' }}>{row.location}</span> },
+                        { title: Constants.MANDATORYSKILLS, field: "mandatorySkills", render: row => <span style={{ textTransform: 'capitalize' }}>{row.mandatorySkills}</span> },
+                        { title: Constants.GOODTOHAVESKILLS, field: "goodToHaveSkills", render: row => <span style={{ textTransform: 'capitalize' }}>{row.goodToHaveSkills}</span> },
+                        { title: Constants.NOOFPOSITIONS, field: "noOfPositions", render: row => <span style={{ textTransform: 'capitalize' }}>{row.noOfPositions}</span> },
                     ]}
                     data={Opening}
                     title={Constants.JOB_OPENINGS.toUpperCase()}

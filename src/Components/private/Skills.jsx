@@ -127,12 +127,6 @@ const Skills = (props) => {
                     >{Constants.IMPORT_EXCEL}</Button>
                     <Export data={skills} className="">Handle Export </Export>
 
-                    {/* <Button
-                        onClick={() => handleExport()}
-                        color="secondary"
-                        variant="contained"
-                        className="m-2"
-                    >{Constants.EXPORT_EXCEL}</Button> */}
                     <Button
                         onClick={() => handleAdd(true)}
                         color="secondary"
@@ -142,7 +136,7 @@ const Skills = (props) => {
                 <MaterialTable
                     columns={[
                         { title: 'ID', field: '_id' },
-                        { title: "Skill", field: "name" },
+                        { title: "Skill", field: "name", render: row => <span style={{ textTransform: 'capitalize' }}>{row.name}</span> },
 
                     ]}
                     data={skills}

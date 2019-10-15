@@ -50,11 +50,11 @@ const AddLocation = (props) => {
                         setAddEditDisable(false);
                     }
                 }).catch(error => {
-
+                    setLocationError(error.response.data.message)
                 })
             }
         } else {
-            // setLocationError('Location is Required')
+            setLocationError('Location is Required')
         }
 
     }
