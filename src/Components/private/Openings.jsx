@@ -102,6 +102,7 @@ const Openings = props => {
                     }
                 })
                 setOpening(res.data.data);
+                console.log(res.data.data)
             }
 
 
@@ -154,7 +155,6 @@ const Openings = props => {
             <Header {...props} />
             <div className="container-fluid" >
                 <div style={{ textAlign: "right", margin: "30px 0 15px 0" }}>
-
                     <input
                         ref={fileInput}
                         style={{ display: "none" }}
@@ -187,6 +187,7 @@ const Openings = props => {
                         { title: Constants.TITLE, field: "title", render: row => <span style={{ textTransform: 'capitalize' }}>{row.title}</span> },
                         { title: Constants.TYPE, field: "type", render: row => <span style={{ textTransform: 'capitalize' }}>{row.type}</span> },
                         { title: Constants.JOBTYPE, field: "jobType", render: row => <span style={{ textTransform: 'capitalize' }}>{row.jobType}</span> },
+                        { title: 'Experience(in years)', field: "experience", render: row => <span style={{ textTransform: 'capitalize' }}>{row.experience}</span> },
                         { title: Constants.LOCATION, field: "location", render: row => <span style={{ textTransform: 'capitalize' }}>{row.location}</span> },
                         { title: Constants.MANDATORYSKILLS, field: "mandatorySkills", render: row => <span style={{ textTransform: 'capitalize' }}>{row.mandatorySkills}</span> },
                         { title: Constants.GOODTOHAVESKILLS, field: "goodToHaveSkills", render: row => <span style={{ textTransform: 'capitalize' }}>{row.goodToHaveSkills}</span> },

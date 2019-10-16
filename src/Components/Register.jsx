@@ -44,7 +44,7 @@ const Register = props => {
 
     const handleKeyUp = e => {
         if (e.keyCode === 13) {
-            handleSubmit()
+            handleSubmit(e)
         }
     }
 
@@ -83,6 +83,7 @@ const Register = props => {
                     backgroundColor: "#E6A13A", height: "65px",
                     borderRadius: "50px"
                 }}
+                    title='Login'
                     size="small"
                     color="secondary"
                     variant="contained"

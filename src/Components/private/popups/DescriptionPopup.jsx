@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReferAFriendPopup from './ReferAFriendPopup';
 import http from '../../../services/httpService';
 import * as Constants from '../../../Constants/Constants';
-
+import ReactHtmlParser from 'react-html-parser';
 
 import {
     Button,
@@ -69,7 +69,7 @@ const DescriptionPopup = (props) => {
                         <p><strong>Mandatory Skills : </strong><span style={{ textTransform: 'capitalize' }}>{mandatorySkills}</span></p>
                         <p><strong>Good To Have Skills : </strong><span style={{ textTransform: 'capitalize' }}>{goodToHaveSkills.split(',').join(', ')}</span></p>
                         <p><strong>No of Positions : </strong>{noOfPositions}</p>
-                        <p><strong>Job Description : </strong><span style={{ textTransform: 'capitalize' }}>{description}</span></p>
+                        <p><strong>Job Description : </strong><span style={{ textTransform: 'capitalize' }}>{ReactHtmlParser(description)}</span></p>
 
                     </DialogContent>
                     <DialogActions>

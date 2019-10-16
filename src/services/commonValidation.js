@@ -46,6 +46,14 @@ export const checkJobTypeValidation = (jobType) => {
     }
 }
 
+export const checkExpValidation = (exp) => {
+    if (exp === '') {
+        return Constants.EXP_REQUIRE;
+    } else {
+        return null;
+    }
+}
+
 export const checkDescriptionValidation = (description) => {
     if (description === '') {
         console.log(description)

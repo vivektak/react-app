@@ -3,7 +3,9 @@ import Chips from 'react-chips'
 import http from '../../services/httpService';
 import * as Constants from '../../Constants/Constants';
 import '../../styles/App.css';
-
+//import MUIRichTextEditor from 'mui-rte';
+//import RichTextEditor, { createEmptyValue } from 'react-rte-material';
+import CKEditor from "react-ckeditor-component";
 
 import {
     Button,
@@ -19,14 +21,15 @@ import {
     FormHelperText
 } from "@material-ui/core";
 import { success } from '../../services/notificationService';
-import { checkTitleValidation, checkJobTypeValidation, checkDescriptionValidation, checkMandatorySkillsValidation, checkNoOfPositionsValidation, checkLocationValidation, checkTypeValidation } from '../../services/commonValidation';
-import { TYPE_REQUIRE } from './../../Constants/Constants';
+import { checkTitleValidation, checkJobTypeValidation, checkExpValidation, checkDescriptionValidation, checkMandatorySkillsValidation, checkNoOfPositionsValidation, checkLocationValidation, checkTypeValidation } from '../../services/commonValidation';
+
 
 const AddOpening = (props) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [jobType, setJobType] = useState('');
     const [type, setType] = useState('');
+    const [experience, setExperience] = useState('');
     const [location, setLocation] = useState('');
     const [noOfPositions, setNoOfPositions] = useState(0);
     const [mandatorySkills, setMandatorySkills] = useState([]);
@@ -37,6 +40,7 @@ const AddOpening = (props) => {
 
     const [titleError, setTitleError] = useState('');
     const [typeError, setTypeError] = useState('');
+    const [expError, setExpError] = useState('');
     const [descError, setDescError] = useState('');
     const [jobTypeError, setJobTypeError] = useState('');
     const [locationError, setLocationError] = useState('');
@@ -44,8 +48,14 @@ const AddOpening = (props) => {
     const [mandatorySkillsError, setMandatorySkillsError] = useState('');
     //    const [goodToHaveSkillsError, setGoodToHaveSkillsError] = useState('');
 
+    //const [value, setValue] = useState(RichTextEditor.createEmptyValue());
+    // state = {
+    //     value: RichTextEditor.createEmptyValue()
+    //   }
+
     const jobTypes = ['Permanent', 'Contractual'];
     const types = ['Frontend', 'Backend', 'QA', 'Administrative'];
+    const experiences = ['0 - 1', '1 - 2.5', '2.5 - 6', '6 - 10', '10 Above']
 
 
     const getSkills = () => {
@@ -91,6 +101,7 @@ const AddOpening = (props) => {
             title,
             type,
             description,
+            experience,
             jobType,
             location,
             noOfPositions,
@@ -122,13 +133,16 @@ const AddOpening = (props) => {
     }
 
     useEffect(() => {
+
         getSkills();
         getLocations();
+        console.log(props.rowData)
         if (Object.keys(props.rowData).length > 0) {
             setSubmitDisable(false);
             const dataToEdit = props.rowData;
             setType(dataToEdit.type);
             setTitle(dataToEdit.title);
+            setExperience(dataToEdit.experience)
             setDescription(dataToEdit.description);
             setLocation(dataToEdit.location);
             setJobType(dataToEdit.jobType);
@@ -144,6 +158,10 @@ const AddOpening = (props) => {
             //titleError === null && typeError === null && jobTypeError === null && locationError === null && noOfPositionsError === null
         }
     }, []);
+
+    const save = () => {
+        console.log('save');
+    }
 
     return (
 
@@ -191,6 +209,28 @@ const AddOpening = (props) => {
                         }
                     </Select>
                     {typeError ? <FormHelperText >{Constants.TYPE_REQUIRE}</FormHelperText> : null}
+                </FormControl>
+
+                <FormControl error={expError ? true : null} variant="outlined" className="opening-box" style={{
+                    width: "100%",
+                }}>
+                    <InputLabel htmlFor="filled-jobType-simple">Total Experience (in years)</InputLabel>
+                    <Select
+                        value={experience}
+                        onChange={e => setExperience(e.target.value)}
+                        onBlur={e => { setExpError(checkExpValidation(e.target.value)) }}
+                        inputProps={{
+                            name: 'exp',
+                            id: 'filled-exp-simple',
+                        }}
+                    >
+                        {
+                            experiences.map(exp => {
+                                return <MenuItem value={exp}>{exp}</MenuItem>
+                            })
+                        }
+                    </Select>
+                    {expError ? <FormHelperText >{Constants.EXP_REQUIRE}</FormHelperText> : null}
                 </FormControl>
 
                 <FormControl error={jobTypeError ? true : null} variant="outlined" className="opening-box" style={{
@@ -286,7 +326,7 @@ const AddOpening = (props) => {
                     margin="normal"
                 ></TextField>
 
-                <textarea
+                {/* <textarea
                     placeholder="Description"
                     value={description}
                     onChange={e => setDescription(e.target.value)}
@@ -297,7 +337,31 @@ const AddOpening = (props) => {
                     aria-label="Label"
                     onBlur={e => {
                         setDescError(checkDescriptionValidation(e.target.value));
-                    }}></textarea>
+                    }}></textarea> */}
+                {/* <MUIRichTextEditor
+                    label="Description"
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                    style={{ width: "100%" }}
+                    onBlur={save}
+                /> */}
+                {/* <RichTextEditor
+                    // label="Description"
+                    value={description}
+                //  onChange={e => setDescription(e.target.value)}
+                // style={{ width: "100%" }}
+
+                /> */}
+
+                <CKEditor
+                    activeClass="p10"
+                    content={description}
+                    events={{
+                        //"blur": this.onBlur,
+                        //"afterPaste": this.afterPaste,
+                        "change": e => { setDescription(e.editor.getData()) }
+                    }}
+                />
             </DialogContent>
             <DialogActions>
                 <Button

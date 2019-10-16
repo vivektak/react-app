@@ -98,6 +98,7 @@ export const Login = (props) => {
                     backgroundColor: "#E6A13A", height: "65px",
                     borderRadius: "50px"
                 }}
+                    title='Register'
                     size="small"
                     color="secondary"
                     variant="contained"

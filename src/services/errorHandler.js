@@ -5,6 +5,8 @@ import localStorage from './../../src/services/storageService';
 import { Redirect } from 'react-router';
 
 function errorResponseHandler(err) {
+    console.log(err)
+    console.log(err.status)
     if (err.response === undefined) {
         error('Please Check your internet Connection')
     } else if (err.response.data.message === 'Location already available with this name' || err.response.data.message === 'Skill already available with this name') {

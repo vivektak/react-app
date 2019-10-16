@@ -18,7 +18,7 @@ import {
     Divider
 
 } from "@material-ui/core";
-import { Menu as MenuIcon, AccountCircle, ExitToApp, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
+import { Menu as MenuIcon, Work as WorkIcon, AccountCircle, ExitToApp, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
 import http from '../../services/httpService';
 import { useEffect } from 'react';
 
@@ -47,7 +47,7 @@ const Header = (props) => {
             if (res.data.data.role === 'admin') {
                 setDrawerData([{ name: 'Home', url: '/Openings', icon: HomeIcon }, { name: 'Skills', url: '/skills', icon: 'HomeIcon' }, { name: 'Locations', url: '/locations', icon: 'HomeIcon' }, { name: 'My Referral', url: '/my-referrals', icon: 'HomeIcon' }])
             } else {
-                setDrawerData([{ name: 'Home', url: '/Openings', icon: HomeIcon }, { name: 'My Referral', url: '/my-referrals', icon: 'HomeIcon' }])
+                setDrawerData([{ name: 'Home', url: '/Dashboard', icon: HomeIcon }, { name: 'Job Openings', url: '/Openings', icon: WorkIcon }, { name: 'My Referral', url: '/my-referrals', icon: 'HomeIcon' }])
             }
         })
     }

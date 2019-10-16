@@ -48,6 +48,8 @@ export const REFER_FRIEND = 'Refer a Friend';
 export const VIEW_REFERRALS = 'View Referrals';
 //My Referral
 export const MY_REFERRALS = 'My Referrals'
+
+export const EXP_REQUIRE = 'Experience is Required';
 export const NAME_REQUIRE = 'Name is Required';
 export const EMAIL_REQUIRE = 'Email is Required';
 export const INVALID_EMAIL = 'Please Enter Valid Email';
