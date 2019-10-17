@@ -40,6 +40,7 @@ const MyTickets = props => {
             setIsLoading(false);
             if (res) {
                 console.log(res.data.data)
+                //console.log(Object.keys(res.data.data) => )
                 setHrData(res.data.data);
 
             }
@@ -80,7 +81,7 @@ const MyTickets = props => {
                         { title: 'Mobile', field: "mobile", editable: 'never' },
                         { title: 'Refer By', field: "referBy", render: row => <span style={{ textTransform: 'capitalize' }}>{row.referBy.name}</span>, editable: 'never' },
                         { title: 'Status', field: "status", editable: 'onUpdate', lookup: { 'Open': 'Open', 'pending': 'pending', 'No Current Match Found': 'No Current Match Found', 'Invalid Profile': 'Invalid Profile', 'Not Reachable': 'Not Reachable', 'Not Selected': 'Not Selected', 'Resume Shortlisted': 'Resume Shortlisted', 'Offered': 'Offered', 'Deferred': 'Deferred' } },
-                        { title: 'Assign to', field: "assignTo", editable: 'onUpdate', lookup: hrData },
+                        { title: 'Assign to', field: 'assignedTo', editable: 'onUpdate', lookup: hrData },
                         { title: 'Priority', field: "priority", editable: 'onUpdate', lookup: { 'High': 'High', 'Medium': 'Medium', 'Low': 'Low' } },
 
                     ]}
