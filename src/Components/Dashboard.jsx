@@ -14,8 +14,15 @@ const Dashboard = props => {
 
     const handleClick = path => {
         console.log(path);
-        props.history.replace('/openings', { path })
+        props.history.push('/openings', { path })
     }
+
+    const onBackButtonEvent = (e) => {
+        e.preventDefault()
+        if (props.history.location.pathname === '/login')
+            props.history.go(1);
+    }
+
 
     const dashboardCount = () => {
         const data = http.getWithHeader('api/dashboard')
@@ -30,6 +37,7 @@ const Dashboard = props => {
     }
 
     useEffect(() => {
+        window.onpopstate = onBackButtonEvent;
         dashboardCount()
     }, [])
 
@@ -39,7 +47,7 @@ const Dashboard = props => {
 
     return (
         <React.Fragment>
-            
+
             <Header />
             <Card className="dashboard-card total-jobs" onClick={e => handleClick('all')}>
                 <CardContent>

@@ -34,7 +34,14 @@ const Openings = props => {
 
     const fileInput = useRef();
 
+    const onBackButtonEvent = (e) => {
+        e.preventDefault()
+        if (props.history.location.pathname === '/login')
+            props.history.go(1);
+    }
+
     useEffect(() => {
+        window.onpopstate = onBackButtonEvent;
         getUserInfo();
         getOpenings();
     }, []);
