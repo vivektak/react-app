@@ -43,12 +43,16 @@ const ReferAFriendPopup = (props) => {
     const onChange = async (e) => {
         console.log(e);
         console.log(e.target.files[0]);
-        let filename = e.target.files[0].name;
-        let ext = filename.split('.').pop();
-        if (ext === "pdf" || ext === "docx" || ext === "doc") {
-            const resume = await toBase64(e.target.files[0]);
-            setResume(resume);
-            setResumeError(null);
+        if (e.target.files[0]) {
+            let filename = e.target.files[0].name;
+            let ext = filename.split('.').pop();
+            if (ext === "pdf" || ext === "docx" || ext === "doc") {
+                const resume = await toBase64(e.target.files[0]);
+                setResume(resume);
+                setResumeError(null);
+            } else {
+                setResumeError('Please select .pdf, .docx or .doc files');
+            }
         } else {
             setResumeError('Please select .pdf, .docx or .doc files');
         }
