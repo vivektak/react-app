@@ -44,7 +44,7 @@ export const Login = (props) => {
                 localStorage.set(Constants.TOKEN, res.data.data.token);
                 setData(res.data.data)
                 setIsLoading(false);
-                if (res.data.data.role === 'admin') {
+                if (res.data.data.role === 'admin' || res.data.data.role === 'superadmin') {
                     props.history.push('/openings')
                 } else {
                     props.history.push('/dashboard')

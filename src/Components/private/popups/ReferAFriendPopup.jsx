@@ -25,6 +25,7 @@ const ReferAFriendPopup = (props) => {
     const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [mobileNumberError, setMobileNumberError] = useState('');
+    const [resumeError, setResumeError] = useState('')
 
     const handleSubmit = () => {
         console.log(props)
@@ -42,8 +43,16 @@ const ReferAFriendPopup = (props) => {
     const onChange = async (e) => {
         console.log(e);
         console.log(e.target.files[0]);
-        const resume = await toBase64(e.target.files[0]);
-        setResume(resume);
+        let filename = e.target.files[0].name;
+        let ext = filename.split('.').pop();
+        if (ext === "pdf" || ext === "docx" || ext === "doc") {
+            const resume = await toBase64(e.target.files[0]);
+            setResume(resume);
+            setResumeError(null);
+        } else {
+            setResumeError('Please select .pdf, .docx or .doc files');
+        }
+
     }
 
     return (
@@ -97,11 +106,14 @@ const ReferAFriendPopup = (props) => {
                     label="Choose File"
                     type="file"
                     name="file"
-                    accept=".doc,.docx,.pdf"
+                    helperText={resumeError}
+                    error={resumeError ? true : false}
+                    accept=".doc,.pdf"
                     onChange={e => {
                         onChange(e);
                     }}
                 />
+                {}
             </DialogContent>
 
             <DialogActions>
@@ -109,7 +121,7 @@ const ReferAFriendPopup = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
-                    disabled={nameError && emailError && mobileNumberError ? true : nameError === null && emailError === null && mobileNumberError === null ? false : true}
+                    disabled={nameError && emailError && mobileNumberError && resumeError ? true : nameError === null && emailError === null && mobileNumberError === null && resumeError === null ? false : true}
                 >
                     {Constants.SAVE}
                 </Button>

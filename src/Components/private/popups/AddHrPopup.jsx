@@ -13,47 +13,38 @@ import {
 } from "@material-ui/core";
 
 import { success } from '../../../services/notificationService';
-import { checkSkillValidation } from '../../../services/commonValidation';
+import { checkHRNameValidation } from '../../../services/commonValidation';
 
-const AddEditSkillsPopup = (props) => {
+const AddHrPopup = props => {
 
-    const [skill, setSkill] = useState();
-    const [skillError, setSkillError] = useState('');
+    const [hrName, setHrName] = useState();
+    const [hrNameError, setHrNameError] = useState('');
     const [isEdit, setIsEdit] = useState(Constants.ADD)
     // const [addEditDisable, setAddEditDisable] = useState(true);
 
     useEffect(() => {
         if (props.editData) {
-            setSkillError(null);
-            setSkill(props.editData.name);
+            setHrNameError(null);
+            setHrName(props.editData.name);
             setIsEdit(Constants.EDIT)
         }
     }, []);
-
-    const blockSpecialChar = (e) => {
-        console.log(e.keyCode)
-        var k;
-        document.all ? k = e.keyCode : k = e.which;
-        return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57) || k == 190 || k == 188);
-
-    }
-
     const handleSubmit = () => {
         //setAddEditDisable(true);
 
         const request = {
-            name: skill
+            name: hrName
         }
 
-        if (skill.trim().length > 0) {
+        if (hrName.trim().length > 0) {
 
             if (props.editData) {
                 const data = http.putWithHeader(`skill/edit/${props.editData._id}`, request)
                 data.then(res => {
                     if (res.status === 200 || res.status === 201) {
                         handleClose();
-                        props.getSkills();
-                        success(Constants.SKILL_EDIT_SUCCESS);
+                        props.getHrData();
+                        success('HR Name Updated Successfully');
                         //setAddEditDisable(false);
                     }
 
@@ -65,17 +56,17 @@ const AddEditSkillsPopup = (props) => {
                 data.then(res => {
                     if (res.status === 200 || res.status === 201) {
                         handleClose();
-                        props.getSkills();
-                        success(Constants.SKILL_ADD_SUCCESS);
+                        props.getHrData();
+                        success('HR Name Added Successfully');
                         //setAddEditDisable(false);
                     }
 
                 }).catch(error => {
-                    setSkillError('Skill already available with this name')
+                    setHrNameError('HR Name already available with this name')
                 })
             }
         } else {
-            setSkillError('Skill is Required')
+            setHrNameError('HR Name is Required')
         }
 
     }
@@ -98,22 +89,22 @@ const AddEditSkillsPopup = (props) => {
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle id="alert-dialog-slide-title">{props.editData ? 'Edit' : 'Add'} Skill</DialogTitle>
+            <DialogTitle id="alert-dialog-slide-title">{props.editData ? 'Edit' : 'Add'} HR</DialogTitle>
             <DialogContent>
                 <TextField
                     id="standard-name"
-                    label="Skill"
-                    name={Constants.SKILL.toLowerCase()}
-                    helperText={skillError}
+                    label="Name"
+                    name='hrName'
+                    helperText={hrNameError}
                     fullWidth={true}
-                    value={skill}
-                    error={skillError ? true : false}
+                    value={hrName}
+                    error={hrNameError ? true : false}
                     onChange={e => {
-                        setSkill(e.target.value.trim() === '' ? '' : e.target.value);
+                        setHrName(e.target.value.trim() === '' ? '' : e.target.value);
                     }}
-                    onKeyPress={e => blockSpecialChar(e)}
-                    onKeyUp={e => { handleKeyUp(e); blockSpecialChar(e) }}
-                    onBlur={e => setSkillError(checkSkillValidation(e.target.value))}
+
+                    onKeyUp={e => { handleKeyUp(e) }}
+                    onBlur={e => setHrNameError(checkHRNameValidation(e.target.value))}
                     margin="normal"
                 ></TextField>
             </DialogContent>
@@ -123,7 +114,7 @@ const AddEditSkillsPopup = (props) => {
                     color="primary"
                     variant="contained"
                     //disabled={skillError ? true : skillError === null ? false : true}
-                    disabled={skill ? false : true}
+                    disabled={hrName ? false : true}
                 >
                     {props.editData ? 'Update' : 'Save'}
                 </Button>
@@ -139,4 +130,4 @@ const AddEditSkillsPopup = (props) => {
     );
 }
 
-export default AddEditSkillsPopup;
+export default AddHrPopup;

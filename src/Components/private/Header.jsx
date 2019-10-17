@@ -45,9 +45,11 @@ const Header = (props) => {
             console.log(res.data.data);
             setRoleData(res.data.data);
             if (res.data.data.role === 'admin') {
-                setDrawerData([{ name: 'Home', url: '/Openings', icon: HomeIcon }, { name: 'Skills', url: '/skills', icon: 'HomeIcon' }, { name: 'Locations', url: '/locations', icon: 'HomeIcon' }, { name: 'My Referral', url: '/my-referrals', icon: 'HomeIcon' }])
+                setDrawerData([{ name: 'Home', url: '/Openings' }, { name: 'My Referrals', url: '/my-referrals' }, { name: 'My Tickets', url: '/my-tickets' }])
+            } else if (res.data.data.role === 'superadmin') {
+                setDrawerData([{ name: 'Home', url: '/Openings' }, { name: 'Skills', url: '/skills' }, { name: 'Locations', url: '/locations' }, { name: 'HR Management', url: '/hr-management' }, { name: 'My Referrals', url: '/my-referrals' }, { name: 'My Tickets', url: '/my-tickets' }])
             } else {
-                setDrawerData([{ name: 'Home', url: '/Dashboard', icon: HomeIcon }, { name: 'Job Openings', url: '/Openings', icon: WorkIcon }, { name: 'My Referral', url: '/my-referrals', icon: 'HomeIcon' }])
+                setDrawerData([{ name: 'Home', url: '/Dashboard' }, { name: 'Job Openings', url: '/Openings', icon: WorkIcon }, { name: 'My Referrals', url: '/my-referrals' }])
             }
         })
     }
@@ -80,7 +82,7 @@ const Header = (props) => {
                         <ListItem button >
                             <ListItemIcon>
                                 {
-                                    index === 0 ? <HomeIcon /> : index === 1 ? <MenuBookIcon /> : index === 2 ? <LocationOnIcon /> : <PeopleOutlineIcon />
+                                    text.name === 'Home' ? <HomeIcon /> : text.name === 'Skills' ? <MenuBookIcon /> : text.name === 'Locations' ? <LocationOnIcon /> : text.name === 'My Referrals' ? <PeopleOutlineIcon /> : text.name === 'Job Openings' ? <WorkIcon /> : <HomeIcon />
 
                                 }
                             </ListItemIcon>

@@ -21,6 +21,7 @@ const MyReferralPopup = (props) => {
     const [mobileError, setMobileError] = useState('');
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [resumeError, setResumeError] = useState('');
     const [resume, setResume] = useState('');
     const [isEdit, setIsEdit] = useState(Constants.ADD);
     const [addEditDisable, setAddEditDisable] = useState(false);
@@ -76,8 +77,15 @@ const MyReferralPopup = (props) => {
     }, [])
 
     const onChange = async (e) => {
-        const resume = await toBase64(e.target.files[0]);
-        setResume(resume);
+        let filename = e.target.files[0].name;
+        let ext = filename.split('.').pop();
+        if (ext === "pdf" || ext === "docx" || ext === "doc") {
+            const resume = await toBase64(e.target.files[0]);
+            setResume(resume);
+            setResumeError(null);
+        } else {
+            setResumeError('Please select .pdf, .docx or .doc files');
+        }
     }
 
     const handleClose = () => {
@@ -144,6 +152,8 @@ const MyReferralPopup = (props) => {
                     label="Choose File"
                     type="file"
                     name="file"
+                    helperText={resumeError}
+                    error={resumeError ? true : false}
                     accept=".doc,.docx,.pdf"
                     onChange={e => {
                         onChange(e);
@@ -156,7 +166,7 @@ const MyReferralPopup = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
-                    disabled={nameError && emailError && mobileError ? true : nameError === null && emailError === null && mobileError === null ? false : true}
+                    disabled={nameError && emailError && mobileError && resumeError ? true : nameError === null && emailError === null && mobileError === null && resumeError === null ? false : true}
                 >
                     {Object.keys(props.rowData).length > 0 ? 'Update' : 'Save'}
                 </Button>

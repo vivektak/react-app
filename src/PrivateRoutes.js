@@ -1,23 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router';
 import localStorage from './services/storageService';
+import http from './services/httpService';
 
 
 
-export const PrivateRoutes = ({ component: Component, ...rest }) => (
+const PrivateRoutes = ({ component: Component, ...rest }) => {
 
-    < Route
-        {...rest}
-        render={
-            props =>
-                localStorage.get('token') ? (
-                    <Component {...props} />
+    const [roleData, setRoleData] = useState('');
 
-                ) : <Redirect to={{ pathname: '/login', state: { from: props.location } }}
-                    />
+    const getUserInfo = () => {
+        http.getWithHeader('user/info').then(res => {
+            console.log(res.data.data);
+            setRoleData(res.data.data);
+        })
+    }
 
-        }
-    />
-)
+    useEffect(() => {
+        getUserInfo();
+    }, []);
+
+    return (
+
+        < Route
+            {...rest}
+            render={
+                props =>
+                    !localStorage.get('token') ? <Redirect to={{ pathname: '/login', state: { from: props.location } }}
+                    /> : roleData.role === 'superadmin' ? (
+                        <Component {...props} />
+
+                    ) : props.location.pathname === '/skills' || props.location.pathname === '/locations' ? <Redirect to={{ pathname: '/login', state: { from: props.location } }}
+                    /> : (
+                                    <Component {...props} />
+                                )
+
+            }
+        />
+    )
+}
+
+export default PrivateRoutes;
 
 

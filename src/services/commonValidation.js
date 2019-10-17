@@ -132,3 +132,15 @@ export const checkTypeValidation = type => {
         return null;
     }
 }
+
+
+
+export const checkHRNameValidation = (skill) => {
+    console.log(skill)
+    if (skill === '') {
+        return Constants.SKILL_REQUIRE;
+
+    } else {
+        return null;
+    }
+}

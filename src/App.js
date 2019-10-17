@@ -8,7 +8,7 @@ import Openings from './Components/private/Openings';
 //import Header from './Components/Header';
 import { Route, Redirect, Switch } from 'react-router';
 import NotFound from './Components/NotFound';
-import { PrivateRoutes } from './PrivateRoutes';
+import PrivateRoutes from './PrivateRoutes';
 //import Description from './Components/private/Description';
 import Skills from './Components/private/Skills';
 import Locations from './Components/private/locations';
@@ -23,6 +23,8 @@ import Alert from 'react-s-alert'
 import Dashboard from './Components/Dashboard';
 import { getThemeProps } from '@material-ui/styles';
 import { info } from './services/notificationService';
+import MyTickets from './Components/private/MyTickets';
+import HrManagement from './Components/private/HrManagement';
 
 function App(props) {
   const [data, setData] = useState();
@@ -66,20 +68,10 @@ function App(props) {
             <PrivateRoutes path="/openings/:id" component={AddOpening} key='1' />
             <PrivateRoutes path="/openings" component={Openings} key='2' />
             <PrivateRoutes path="/my-referrals" component={MyReferrals} key='3' />
+            <PrivateRoutes path="/my-tickets" component={MyTickets} key='3' />
             <PrivateRoutes path="/skills" component={Skills} key='4' />
+            <PrivateRoutes path="/hr-management" component={HrManagement} key='4' />
             <PrivateRoutes path="/locations" component={Locations} key='5' />
-            {/* <Route path="/skills" render={props => {
-              if (data && data.role === 'admin') { return <Skills {...props}></Skills> }
-
-            }} />
-            <Route path="/locations" render={props => {
-              if (data && data.role === 'admin')
-                return <Locations {...props}></Locations>
-
-
-            }} /> */}
-
-            {/* <PrivateRoutes path="/description/:id" exact component={Description} /> */}
             <PrivateRoutes path="/add-opening" component={AddOpening} key='6' />
             <Route path="/not-found" component={NotFound} />
             <Route path="/" exact component={Login} />
