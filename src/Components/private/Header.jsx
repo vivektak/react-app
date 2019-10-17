@@ -18,9 +18,10 @@ import {
     Divider
 
 } from "@material-ui/core";
-import { Menu as MenuIcon, Work as WorkIcon, AccountCircle, ExitToApp, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
+import { Menu as MenuIcon, Work as WorkIcon, FormatListBulleted as FormatListBulletedIcon, AccountCircle, ExitToApp, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
 import http from '../../services/httpService';
 import { useEffect } from 'react';
+
 
 
 const Header = (props) => {
@@ -47,7 +48,7 @@ const Header = (props) => {
             if (res.data.data.role === 'admin') {
                 setDrawerData([{ name: 'Home', url: '/Openings' }, { name: 'My Referrals', url: '/my-referrals' }, { name: 'My Tickets', url: '/my-tickets' }])
             } else if (res.data.data.role === 'superadmin') {
-                setDrawerData([{ name: 'Home', url: '/Openings' }, { name: 'Skills', url: '/skills' }, { name: 'Locations', url: '/locations' }, { name: 'HR Management', url: '/hr-management' }, { name: 'My Referrals', url: '/my-referrals' }, { name: 'My Tickets', url: '/my-tickets' }])
+                setDrawerData([{ name: 'Home', url: '/Openings' }, { name: 'Skills', url: '/skills' }, { name: 'Locations', url: '/locations' }, { name: 'My Referrals', url: '/my-referrals' }, { name: 'My Tickets', url: '/my-tickets' }])
             } else {
                 setDrawerData([{ name: 'Home', url: '/Dashboard' }, { name: 'Job Openings', url: '/Openings', icon: WorkIcon }, { name: 'My Referrals', url: '/my-referrals' }])
             }
@@ -82,12 +83,9 @@ const Header = (props) => {
                         <ListItem button >
                             <ListItemIcon>
                                 {
-                                    text.name === 'Home' ? <HomeIcon /> : text.name === 'Skills' ? <MenuBookIcon /> : text.name === 'Locations' ? <LocationOnIcon /> : text.name === 'My Referrals' ? <PeopleOutlineIcon /> : text.name === 'Job Openings' ? <WorkIcon /> : <HomeIcon />
-
+                                    text.name === 'Home' ? <HomeIcon /> : text.name === 'Skills' ? <MenuBookIcon /> : text.name === 'Locations' ? <LocationOnIcon /> : text.name === 'My Referrals' ? <PeopleOutlineIcon /> : text.name === 'Job Openings' ? <WorkIcon /> : <FormatListBulletedIcon />
                                 }
                             </ListItemIcon>
-
-
                             <ListItemText primary={text.name} />
                         </ListItem>
                     </Link>

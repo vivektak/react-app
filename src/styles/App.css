@@ -79,3 +79,7 @@
 .MUIRichTextEditor-root-381 {
   border: 1px solid grey;
 }
+
+.opening-box>div {
+  border-color: red;
+}

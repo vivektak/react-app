@@ -24,7 +24,7 @@ import Dashboard from './Components/Dashboard';
 import { getThemeProps } from '@material-ui/styles';
 import { info } from './services/notificationService';
 import MyTickets from './Components/private/MyTickets';
-import HrManagement from './Components/private/HrManagement';
+
 
 function App(props) {
   const [data, setData] = useState();
@@ -70,7 +70,6 @@ function App(props) {
             <PrivateRoutes path="/my-referrals" component={MyReferrals} key='3' />
             <PrivateRoutes path="/my-tickets" component={MyTickets} key='3' />
             <PrivateRoutes path="/skills" component={Skills} key='4' />
-            <PrivateRoutes path="/hr-management" component={HrManagement} key='4' />
             <PrivateRoutes path="/locations" component={Locations} key='5' />
             <PrivateRoutes path="/add-opening" component={AddOpening} key='6' />
             <Route path="/not-found" component={NotFound} />

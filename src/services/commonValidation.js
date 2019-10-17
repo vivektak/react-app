@@ -64,14 +64,15 @@ export const checkDescriptionValidation = (description) => {
     }
 }
 
-export const checkMandatorySkillsValidation = (mandatorySkills) => {
-    if (mandatorySkills.length === 0) {
-        return Constants.SKILLS_REQUIRE;
+// export const checkMandatorySkillsValidation = (mandatorySkills) => {
+//     console.log(mandatorySkills)
+//     if (mandatorySkills.length === 0) {
+//         return Constants.SKILLS_REQUIRE;
 
-    } else {
-        return null;
-    }
-}
+//     } else {
+//         return null;
+//     }
+// }
 
 export const checkNoOfPositionsValidation = (noOfPositions) => {
 

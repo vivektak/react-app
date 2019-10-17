@@ -168,7 +168,7 @@ const Openings = props => {
                         }}
                     />
 
-                    {roleData.role === 'admin' ? <React.Fragment><Button
+                    {roleData.role === 'admin' || roleData.role === 'superadmin' ? <React.Fragment><Button
                         onClick={() => handleImport()}
                         color="secondary"
                         variant="contained"
@@ -195,7 +195,7 @@ const Openings = props => {
                     ]}
                     data={Opening}
                     title={Constants.JOB_OPENINGS.toUpperCase()}
-                    actions={roleData.role === 'admin' ? [
+                    actions={roleData.role === 'admin' || roleData.role === 'superadmin' ? [
                         {
 
                             icon: Constants.EDIT.toLowerCase(),

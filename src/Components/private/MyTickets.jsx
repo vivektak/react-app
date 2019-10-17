@@ -8,6 +8,7 @@ import Header from './../../../src/Components/private/Header';
 const MyTickets = props => {
 
     const [tickets, setTickets] = useState([])
+    const [hrData, setHrData] = useState([])
     const [isLoading, setIsLoading] = useState(false);
     const [roleData, setRoleData] = useState('');
 
@@ -30,9 +31,27 @@ const MyTickets = props => {
         });
     }
 
+    const getHrDetails = () => {
+        setIsLoading(true);
+
+        let url = 'user/allhr'
+        const data = http.getWithHeader(url)
+        data.then(res => {
+            setIsLoading(false);
+            if (res) {
+                console.log(res.data.data)
+                setHrData(res.data.data);
+
+            }
+
+
+        }).catch((error) => {
+
+        });
+    }
+
     const getUserInfo = () => {
         http.getWithHeader('user/info').then(res => {
-            console.log(res.data.data);
             setRoleData(res.data.data);
         })
     }
@@ -40,26 +59,28 @@ const MyTickets = props => {
     useEffect(() => {
         getUserInfo();
         getTickets();
+        getHrDetails();
     }, []);
 
     return (<div>
         <Header {...props} />
         <div className="container-fluid" style={{ margin: "30px 0 15px 0" }}>
+
             <MaterialTable
                 columns={roleData.role === 'admin' ? [
                     { title: 'Job ID', field: "jobId", editable: 'never' },
                     { title: 'Name', render: row => <span style={{ textTransform: 'capitalize' }}>{row.name}</span>, editable: 'never' },
                     { title: 'Mobile', field: "mobile", editable: 'never' },
-                    { title: 'Refer By', field: "jobType", render: row => <span style={{ textTransform: 'capitalize' }}>{row.referBy}</span>, editable: 'never' },
+                    { title: 'Refer By', field: "referBy", render: row => <span style={{ textTransform: 'capitalize' }}>{row.referBy.name}</span>, editable: 'never' },
                     { title: 'Status', field: "status", editable: 'onUpdate', lookup: { 'Open': 'Open', 'pending': 'pending', 'No Current Match Found': 'No Current Match Found', 'Invalid Profile': 'Invalid Profile', 'Not Reachable': 'Not Reachable', 'Not Selected': 'Not Selected', 'Resume Shortlisted': 'Resume Shortlisted', 'Offered': 'Offered', 'Deferred': 'Deferred' } },
 
                 ] : [
                         { title: 'Job ID', field: "jobId", editable: 'never' },
                         { title: 'Name', render: row => <span style={{ textTransform: 'capitalize' }}>{row.name}</span>, editable: 'never' },
                         { title: 'Mobile', field: "mobile", editable: 'never' },
-                        { title: 'Refer By', field: "jobType", render: row => <span style={{ textTransform: 'capitalize' }}>{row.referBy}</span>, editable: 'never' },
+                        { title: 'Refer By', field: "referBy", render: row => <span style={{ textTransform: 'capitalize' }}>{row.referBy.name}</span>, editable: 'never' },
                         { title: 'Status', field: "status", editable: 'onUpdate', lookup: { 'Open': 'Open', 'pending': 'pending', 'No Current Match Found': 'No Current Match Found', 'Invalid Profile': 'Invalid Profile', 'Not Reachable': 'Not Reachable', 'Not Selected': 'Not Selected', 'Resume Shortlisted': 'Resume Shortlisted', 'Offered': 'Offered', 'Deferred': 'Deferred' } },
-                        { title: 'Assign to', field: "assignTo", editable: 'onUpdate', lookup: { 'pooja gupta': 'pooja gupta', 'jai kumar': 'jai kumar', 'Ayushi': 'Ayushi' } },
+                        { title: 'Assign to', field: "assignTo", editable: 'onUpdate', lookup: hrData },
                         { title: 'Priority', field: "priority", editable: 'onUpdate', lookup: { 'High': 'High', 'Medium': 'Medium', 'Low': 'Low' } },
 
                     ]}
@@ -67,8 +88,9 @@ const MyTickets = props => {
                 title='My Tickets'
                 editable={{
                     onRowUpdate: (newData, oldData) =>
+
                         new Promise((resolve, reject) => {
-                            http.patchWithHeader(`refer/status/${newData._id}`, { status: newData.status }).then(res => {
+                            http.patchWithHeader(`refer/status/${newData._id}`, { status: newData.status, priority: newData.priority, assignedTo: newData.assignedTo }).then(res => {
                                 getTickets();
                                 resolve();
                             })

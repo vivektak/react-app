@@ -67,7 +67,7 @@ const DescriptionPopup = (props) => {
                         <p><strong>Location : </strong><span style={{ textTransform: 'capitalize' }}>{location}</span></p>
                         <p><strong>Job Type : </strong><span style={{ textTransform: 'capitalize' }}>{jobType}</span></p>
                         <p><strong>Mandatory Skills : </strong><span style={{ textTransform: 'capitalize' }}>{mandatorySkills}</span></p>
-                        <p><strong>Good To Have Skills : </strong><span style={{ textTransform: 'capitalize' }}>{goodToHaveSkills.split(',').join(', ')}</span></p>
+                        {goodToHaveSkills.length > 1 ? <p><strong>Good To Have Skills : </strong><span style={{ textTransform: 'capitalize' }}>{goodToHaveSkills.split(',').join(', ')}</span></p> : <p><strong>Good To Have Skills : </strong><span style={{ textTransform: 'capitalize' }}>{goodToHaveSkills}</span></p>}
                         <p><strong>No of Positions : </strong>{noOfPositions}</p>
                         <p><strong>Job Description : </strong><span style={{ textTransform: 'capitalize' }}>{ReactHtmlParser(description)}</span></p>
 

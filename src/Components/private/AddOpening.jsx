@@ -55,7 +55,7 @@ const AddOpening = (props) => {
 
     const jobTypes = ['Permanent', 'Contractual'];
     const types = ['Frontend', 'Backend', 'QA', 'Administrative'];
-    const experiences = ['0 - 1', '1 - 2.5', '2.5 - 6', '6 - 10', '10 Above']
+    const experiences = ['Fresher', '0 - 1', '1 - 2.5', '2.5 - 6', '6 - 10', '10 Above']
 
 
     const getSkills = () => {
@@ -96,39 +96,44 @@ const AddOpening = (props) => {
 
 
     const handleSubmit = e => {
-        setSubmitDisable(true);
-        let data = {
-            title,
-            type,
-            description,
-            experience,
-            jobType,
-            location,
-            noOfPositions,
-            mandatorySkills,
-            goodToHaveSkills
-        }
-        if (Object.keys(props.rowData).length > 0) {
-            http.putWithHeader(`job/edit/${props.rowData._id}`, data).then(res => {
-                success(Constants.OPENING_EDIT_SUCCESS);
-                props.getOpenings();
-                setSubmitDisable(false);
-                props.handleCloseModal();
-
-            }).catch(error => {
-
-            });
+        if (mandatorySkills.length === 0) {
+            setMandatorySkillsError('Please Select atleast 1 Mandatory Skill');
         } else {
-            http.postWithHeader('job/add', data).then(res => {
-                props.history.replace(`/${Constants.OPENINGS}`);
-                props.handleCloseModal()
-                success(Constants.OPENING_ADD_SUCCESS);
-                props.getOpenings();
-                setSubmitDisable(false);
+            setMandatorySkillsError(null);
+            setSubmitDisable(true);
+            let data = {
+                title,
+                type,
+                description,
+                experience,
+                jobType,
+                location,
+                noOfPositions,
+                mandatorySkills,
+                goodToHaveSkills
+            }
+            if (Object.keys(props.rowData).length > 0) {
+                http.putWithHeader(`job/edit/${props.rowData._id}`, data).then(res => {
+                    success(Constants.OPENING_EDIT_SUCCESS);
+                    props.getOpenings();
+                    setSubmitDisable(false);
+                    props.handleCloseModal();
 
-            }).catch(error => {
+                }).catch(error => {
 
-            });
+                });
+            } else {
+                http.postWithHeader('job/add', data).then(res => {
+                    props.history.replace(`/${Constants.OPENINGS}`);
+                    props.handleCloseModal()
+                    success(Constants.OPENING_ADD_SUCCESS);
+                    props.getOpenings();
+                    setSubmitDisable(false);
+
+                }).catch(error => {
+
+                });
+            }
         }
     }
 
@@ -155,6 +160,7 @@ const AddOpening = (props) => {
             setJobTypeError(null);
             setLocationError(null);
             setNoOfPositionsError(null);
+            //setMandatorySkills(null);
             //titleError === null && typeError === null && jobTypeError === null && locationError === null && noOfPositionsError === null
         }
     }, []);
@@ -254,9 +260,7 @@ const AddOpening = (props) => {
                     </Select>
                     {jobTypeError ? <FormHelperText >{Constants.JOB_TYPE_REQUIRE}</FormHelperText> : null}
                 </FormControl>
-                {/* {jobTypeError &&
-                    <div className="alert alert-danger">{jobTypeError}</div>
-                } */}
+
 
                 <FormControl error={locationError ? true : false} variant="outlined" className="opening-box" style={{
                     width: "100%",
@@ -271,7 +275,6 @@ const AddOpening = (props) => {
                             id: 'filled-location-simple',
                         }}
                     >
-                        <MenuItem value={location}>Select Location</MenuItem>
                         {
                             locations.map(loc => {
                                 return <MenuItem value={loc}>{loc}</MenuItem>
@@ -287,14 +290,15 @@ const AddOpening = (props) => {
                         placeholder="Mandatory Skills"
                         onChange={(e) => onMandatoryChange(e)}
                         id={Constants.MANDATORY_SKILLS}
-                        onBlur={e => setMandatorySkillsError(checkMandatorySkillsValidation(e.target.value))}
+                        //onBlur={e => setMandatorySkillsError(checkMandatorySkillsValidation(e.target.value))}
                         suggestions={skills}
 
                     />
-                    {/* {mandatorySkillsError &&
-                        <div className="alert alert-danger">{mandatorySkillsError}</div>
-                    } */}
-                    {mandatorySkillsError ? <FormHelperText >Error</FormHelperText> : null}
+                    {mandatorySkillsError &&
+                        <span style={{ color: '#f44336' }}>{mandatorySkillsError}</span>
+
+                    }
+
                 </div>
 
                 <div className="opening-box">
