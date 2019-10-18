@@ -12,7 +12,7 @@ import MaterialTable from "material-table";
 import ConfirmPopup from './popups/ConfirmPopup';
 import { success } from '../../services/notificationService';
 import Export from './exportToExcel';
-
+import { error } from '../../services/notificationService';
 
 const Locations = (props) => {
 
@@ -78,7 +78,17 @@ const Locations = (props) => {
 
 
     useEffect(() => {
-        getLocations();
+        http.getWithHeader('user/info').then(res => {
+            // setRoleData(res.data.data);
+            if (res.data.data.role === 'superadmin') {
+                getLocations();
+            }
+            else {
+                error('UnAuthorized Access')
+                props.history.replace('/login')
+            }
+        })
+
 
     }, []);
 

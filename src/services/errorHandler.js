@@ -11,8 +11,11 @@ function errorResponseHandler(err) {
         error('Please Check your internet Connection')
     } else if (err.response.data.message === 'Location already available with this name' || err.response.data.message === 'Skill already available with this name') {
 
+    } else if (err.response.data.message === 'Unauthorised Access') {
+        error('Session Timeout');
+        //error(err.response.data.message)
     } else {
-        error(err.response.data.message)
+        error(err.response.data.message);
     }
     // const expectedError = err.response && err.response.status >= 400 && err.response.status < 500;
     // console.log(props)

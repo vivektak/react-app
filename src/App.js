@@ -56,7 +56,7 @@ function App(props) {
         onIdle={onIdle}
         //onAction={onAction}
         debounce={250}
-        timeout={1000 * 60 * 10} />
+        timeout={1000 * 60 * 1} />
       <Alert stack={{ limit: 1 }} html={true} />
       <userContext.Provider value={{ data, setData }}>
         <div className="App">

@@ -5,7 +5,7 @@ import AddEditSkillsPopup from '../private/popups/AddEditSkillsPopup';
 import '../../styles/App.css';
 import * as Constants from '../../Constants/Constants';
 import Loader from 'react-loader-spinner';
-
+//import { Redirect } from 'react-router';
 import {
     Button,
 } from "@material-ui/core";
@@ -14,6 +14,7 @@ import ConfirmPopup from './popups/ConfirmPopup';
 import { toBase64 } from '../../services/commonHandler';
 import { success } from '../../services/notificationService';
 import Export from './exportToExcel';
+import { error } from '../../services/notificationService';
 //import { ExcelFile, ExcelSheet } from "react-export-excel";
 
 const Skills = (props) => {
@@ -26,10 +27,12 @@ const Skills = (props) => {
     //const [exportExcel, setExportExcel] = useState(false);
 
     const [isDelete, setIsDelete] = useState(false);
+    //const [roleData, setRoleData] = useState('');
 
     const fileInput = useRef();
 
     const getSkills = () => {
+        //console.log(roleData.role)
         setIsLoading(true);
         const data = http.getWithHeader('skill/all')
         data.then(res => {
@@ -66,9 +69,26 @@ const Skills = (props) => {
         setPopup(!popup)
     }
 
+    // const getUserInfo = async () => {
+    //     await http.getWithHeader('user/info').then(res => {
+    //         setRoleData(res.data.data);
+    //     })
+    // }
+
 
     useEffect(() => {
-        getSkills();
+        //getUserInfo();
+        http.getWithHeader('user/info').then(res => {
+            // setRoleData(res.data.data);
+            if (res.data.data.role === 'superadmin') {
+                getSkills();
+            }
+            else {
+                error('UnAuthorized Access')
+                props.history.replace('/login')
+            }
+        })
+
     }, []);
 
 
