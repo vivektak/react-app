@@ -26,10 +26,12 @@ import { info } from './services/notificationService';
 import MyTickets from './Components/private/MyTickets';
 //import { localStorage } from 'local-storage';
 
+console.log = () => { };
 
 function App(props) {
   const [data, setData] = useState();
   let [idleTimer, setIdleTimer] = useState(null);
+
 
   const getUserInfo = () => {
     console.log(props)
@@ -62,7 +64,7 @@ function App(props) {
         onIdle={onIdle}
         //onAction={onAction}
         debounce={250}
-        timeout={1000 * 60 * 0.10} />
+        timeout={1000 * 60 * 10} />
       <Alert stack={{ limit: 1 }} html={true} />
       <userContext.Provider value={{ data, setData }}>
         <div className="App">
