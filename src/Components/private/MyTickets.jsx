@@ -3,7 +3,7 @@ import http from '../../services/httpService';
 import MaterialTable from "material-table";
 import * as Constants from '../../Constants/Constants';
 import Header from './../../../src/Components/private/Header';
-
+import { error } from '../../services/notificationService';
 
 const MyTickets = props => {
 
@@ -54,13 +54,20 @@ const MyTickets = props => {
     const getUserInfo = () => {
         http.getWithHeader('user/info').then(res => {
             setRoleData(res.data.data);
+            if (res.data.data.role === 'superadmin' || res.data.data.role === 'admin') {
+                getTickets();
+                getHrDetails();
+            }
+            else {
+                error('UnAuthorized Access')
+                props.history.replace('/login')
+            }
         })
     }
 
     useEffect(() => {
         getUserInfo();
-        getTickets();
-        getHrDetails();
+
     }, []);
 
     return (<div>
@@ -70,16 +77,16 @@ const MyTickets = props => {
             <MaterialTable
                 columns={roleData.role === 'admin' ? [
                     { title: 'Job ID', field: "jobId", editable: 'never' },
-                    { title: 'Name', render: row => <span style={{ textTransform: 'capitalize' }}>{row.name}</span>, editable: 'never' },
+                    { title: 'Name', field: "name", render: row => <span style={{ textTransform: 'capitalize' }}>{row.name}</span>, editable: 'never' },
                     { title: 'Mobile', field: "mobile", editable: 'never' },
-                    { title: 'Refer By', field: "referBy", render: row => <span style={{ textTransform: 'capitalize' }}>{row.referBy.name}</span>, editable: 'never' },
+                    { title: 'Refer By', field: "referBy.firstName", render: row => <span style={{ textTransform: 'capitalize' }}>{row.referBy.firstName}</span>, editable: 'never' },
                     { title: 'Status', field: "status", editable: 'onUpdate', lookup: { 'Open': 'Open', 'pending': 'pending', 'No Current Match Found': 'No Current Match Found', 'Invalid Profile': 'Invalid Profile', 'Not Reachable': 'Not Reachable', 'Not Selected': 'Not Selected', 'Resume Shortlisted': 'Resume Shortlisted', 'Offered': 'Offered', 'Deferred': 'Deferred' } },
 
                 ] : [
                         { title: 'Job ID', field: "jobId", editable: 'never' },
-                        { title: 'Name', render: row => <span style={{ textTransform: 'capitalize' }}>{row.name}</span>, editable: 'never' },
+                        { title: 'Name', field: "name", render: row => <span style={{ textTransform: 'capitalize' }}>{row.name}</span>, editable: 'never' },
                         { title: 'Mobile', field: "mobile", editable: 'never' },
-                        { title: 'Refer By', field: "referBy", render: row => <span style={{ textTransform: 'capitalize' }}>{row.referBy.name}</span>, editable: 'never' },
+                        { title: 'Refer By', field: "referBy.firstName", render: row => <span style={{ textTransform: 'capitalize' }}>{row.referBy.firstName}</span>, editable: 'never' },
                         { title: 'Status', field: "status", editable: 'onUpdate', lookup: { 'Open': 'Open', 'pending': 'pending', 'No Current Match Found': 'No Current Match Found', 'Invalid Profile': 'Invalid Profile', 'Not Reachable': 'Not Reachable', 'Not Selected': 'Not Selected', 'Resume Shortlisted': 'Resume Shortlisted', 'Offered': 'Offered', 'Deferred': 'Deferred' } },
                         { title: 'Assign to', field: 'assignedTo', editable: 'onUpdate', lookup: hrData },
                         { title: 'Priority', field: "priority", editable: 'onUpdate', lookup: { 'High': 'High', 'Medium': 'Medium', 'Low': 'Low' } },

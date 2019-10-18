@@ -67,21 +67,42 @@ const MyReferralPopup = (props) => {
 
     }
 
+    function dataURLtoFile(dataurl, filename) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime });
+    }
+
     useEffect(() => {
+        console.log(props.rowData)
         if (Object.keys(props.rowData).length > 0) {
             setName(props.rowData.name);
             setMobile(props.rowData.mobile);
             setEmail(props.rowData.email);
+            console.log(dataURLtoFile(props.rowData.resume, props.rowData.name));
+            setResume(dataURLtoFile(props.rowData.resume, props.rowData.name));
             setIsEdit(Constants.EDIT);
+            setNameError(null);
+            setMobileError(null);
+            setEmailError(null);
+            setResumeError(null)
+            let e = { target: { files: [] } }
+            e.target.files[0] = dataURLtoFile(props.rowData.resume, 'shilpi.pdf')
+            onChange(e)
         }
     }, [])
 
     const onChange = async (e) => {
+        console.log(e.target.files[0]);
         if (e.target.files[0]) {
             let filename = e.target.files[0].name;
             let ext = filename.split('.').pop();
             if (ext === "pdf" || ext === "docx" || ext === "doc") {
                 const resume = await toBase64(e.target.files[0]);
+                console.log(resume)
                 setResume(resume);
                 setResumeError(null);
             } else {
@@ -156,6 +177,7 @@ const MyReferralPopup = (props) => {
                     label="Choose File"
                     type="file"
                     name="file"
+                    //value={resume.name}
                     helperText={resumeError}
                     error={resumeError ? true : false}
                     accept=".doc,.docx,.pdf"

@@ -55,7 +55,7 @@ const AddOpening = (props) => {
 
     const jobTypes = ['Permanent', 'Contractual'];
     const types = ['Frontend', 'Backend', 'Fullstack', 'QA', 'Administrative'];
-    const experiences = ['Fresher', '0 - 1', '1 - 2.5', '2.5 - 6', '6 - 10', '10 Above']
+    const experiences = ['Fresher', '0 - 1', '1 - 2.5', '2.5 - 6', '6 - 10', '10+']
 
 
     const getSkills = () => {
@@ -66,6 +66,7 @@ const AddOpening = (props) => {
             res.data.data.map(res => {
                 data.push(res.name.charAt(0).toUpperCase() + res.name.slice(1));
             })
+            console.log(data)
             setSkills(data);
         }).catch(error => {
 
@@ -156,21 +157,15 @@ const AddOpening = (props) => {
             setJobType(dataToEdit.jobType);
             setNoOfPositions(dataToEdit.noOfPositions);
             setMandatorySkills(dataToEdit.mandatorySkills.split(','));
-            setGoodToHaveSkills(dataToEdit.goodToHaveSkills.length > 0 ? dataToEdit.goodToHaveSkills.split(',') : dataToEdit.goodToHaveSkills)
+            setGoodToHaveSkills(dataToEdit.goodToHaveSkills.length > 0 ? dataToEdit.goodToHaveSkills.split(',') : [])
 
             setTitleError(null);
             setTypeError(null);
             setJobTypeError(null);
             setLocationError(null);
             setNoOfPositionsError(null);
-            //setMandatorySkills(null);
-            //titleError === null && typeError === null && jobTypeError === null && locationError === null && noOfPositionsError === null
         }
     }, []);
-
-    const save = () => {
-        console.log('save');
-    }
 
     return (
 
@@ -332,33 +327,6 @@ const AddOpening = (props) => {
                     }}
                     margin="normal"
                 ></TextField>
-
-                {/* <textarea
-                    placeholder="Description"
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                    className="mdc-text-field__input mt-2"
-                    style={{ width: "100%" }}
-                    rows="4"
-                    cols="40"
-                    aria-label="Label"
-                    onBlur={e => {
-                        setDescError(checkDescriptionValidation(e.target.value));
-                    }}></textarea> */}
-                {/* <MUIRichTextEditor
-                    label="Description"
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                    style={{ width: "100%" }}
-                    onBlur={save}
-                /> */}
-                {/* <RichTextEditor
-                    // label="Description"
-                    value={description}
-                //  onChange={e => setDescription(e.target.value)}
-                // style={{ width: "100%" }}
-
-                /> */}
 
                 <CKEditor
                     activeClass="p10"

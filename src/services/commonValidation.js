@@ -79,6 +79,8 @@ export const checkNoOfPositionsValidation = (noOfPositions) => {
     if (noOfPositions === "0" || noOfPositions === "") {
         return Constants.NO_OF_POSITIONS_REQUIRE;
 
+    } else if (noOfPositions % 1 !== 0) {
+        return 'Should Be Numeric Only';
     } else {
         return null;
     }

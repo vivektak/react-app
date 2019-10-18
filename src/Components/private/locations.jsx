@@ -63,13 +63,16 @@ const Locations = (props) => {
     }
 
     const onChange = async (e) => {
+        console.log(e.target.files[0])
         const excel = await toBase64(e.target.files[0]);
         setExcelImport(excel);
         importExcelApi(excel);
     }
 
     const importExcelApi = (data) => {
+        console.log(data);
         http.postWithHeader('location/bulk', { file: data }).then(res => {
+            console.log(res)
             getLocations();
         }).catch(error => {
 
@@ -79,7 +82,6 @@ const Locations = (props) => {
 
     useEffect(() => {
         http.getWithHeader('user/info').then(res => {
-            // setRoleData(res.data.data);
             if (res.data.data.role === 'superadmin') {
                 getLocations();
             }
