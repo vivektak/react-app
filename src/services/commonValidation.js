@@ -112,6 +112,8 @@ export const checkMobileValidation = mobile => {
         return Constants.MOBILE_REQUIRE;
     } else if (!mobileRegex.test(parseInt(mobile))) {
         return Constants.INVALID_MOBILE;
+    } else if (mobile.length > 10) {
+        return Constants.INVALID_MOBILE;
     } else {
         return null;
     }

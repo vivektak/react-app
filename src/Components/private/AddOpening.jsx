@@ -78,8 +78,10 @@ const AddOpening = (props) => {
         data.then(res => {
             let data = [];
             res.data.data.map(res => {
+                console.log(res)
                 data.push(res.name.charAt(0).toUpperCase() + res.name.slice(1));
             })
+            console.log(data)
             setLocations(data);
         }).catch(error => {
 
@@ -96,6 +98,7 @@ const AddOpening = (props) => {
 
 
     const handleSubmit = e => {
+        console.log(location)
         if (mandatorySkills.length === 0) {
             setMandatorySkillsError('Please Select atleast 1 Mandatory Skill');
         } else {
@@ -267,8 +270,8 @@ const AddOpening = (props) => {
                 }}>
                     <InputLabel htmlFor="filled-location-simple">Location</InputLabel>
                     <Select
-                        value={locations}
-                        onChange={e => setLocation(e.target.value)}
+                        value={location}
+                        onChange={e => { console.log(locations); console.log(e.target); setLocation(e.target.value) }}
                         onBlur={e => setLocationError(checkLocationValidation(e.target.value))}
                         inputProps={{
                             name: 'location',

@@ -26,7 +26,7 @@ import { info } from './services/notificationService';
 import MyTickets from './Components/private/MyTickets';
 //import { localStorage } from 'local-storage';
 
-console.log = () => { };
+//console.log = () => { };
 
 function App(props) {
   const [data, setData] = useState();
