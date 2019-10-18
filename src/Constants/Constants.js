@@ -40,7 +40,7 @@ export const ADD_SKILL = 'Add Skill';
 //Location
 export const LOCATION_REQUIRE = 'Location is Required';
 export const LOCATION_EDIT_SUCCESS = 'Location Edited Successfully'
-export const LOCATION_ADD_SUCCESS = 'Location Edited Successfully'
+export const LOCATION_ADD_SUCCESS = 'Location Added Successfully'
 export const LOCATION_DELETE_SUCCESS = 'Location deleted Successfully'
 //Refer
 export const REFERRED_SUCCESS = 'Referred Successfully';

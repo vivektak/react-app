@@ -24,6 +24,7 @@ import Dashboard from './Components/Dashboard';
 import { getThemeProps } from '@material-ui/styles';
 import { info } from './services/notificationService';
 import MyTickets from './Components/private/MyTickets';
+//import { localStorage } from 'local-storage';
 
 
 function App(props) {
@@ -31,6 +32,7 @@ function App(props) {
   let [idleTimer, setIdleTimer] = useState(null);
 
   const getUserInfo = () => {
+    console.log(props)
     http.getWithHeader('user/info').then(res => {
       setData(res.data.data)
     })
@@ -42,9 +44,13 @@ function App(props) {
   }, [])
 
   const onIdle = () => {
-    localStorage.removeItem('token');
-    info('You are idle from last 10 minutes, Please Login again.')
-    return <Redirect to='/login' />
+
+    if (localStorage.get('token')) {
+      localStorage.removeItem('token');
+      info('You are idle from last 10 minutes, Please Login again.')
+      window.location.href = '/login';
+    }
+
   }
 
   return (
@@ -56,12 +62,12 @@ function App(props) {
         onIdle={onIdle}
         //onAction={onAction}
         debounce={250}
-        timeout={1000 * 60 * 1} />
+        timeout={1000 * 60 * 0.10} />
       <Alert stack={{ limit: 1 }} html={true} />
       <userContext.Provider value={{ data, setData }}>
         <div className="App">
           <Switch>
-            <Route path="/login" component={Login} />
+            <Route path="/login" component={Login} {...props} />
             <Redirect from="/" exact to="/login" />
             <Route path="/register" component={Register} />
             <Route path="/dashboard" component={Dashboard} />
@@ -73,7 +79,7 @@ function App(props) {
             <PrivateRoutes path="/locations" component={Locations} key='5' />
             <PrivateRoutes path="/add-opening" component={AddOpening} key='6' />
             <Route path="/not-found" component={NotFound} />
-            <Route path="/" exact component={Login} />
+            <Route path="/" exact component={Login} {...props} />
             <Redirect to="/not-found" />
           </Switch>
 

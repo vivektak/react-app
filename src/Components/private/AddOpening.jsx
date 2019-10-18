@@ -54,7 +54,7 @@ const AddOpening = (props) => {
     //   }
 
     const jobTypes = ['Permanent', 'Contractual'];
-    const types = ['Frontend', 'Backend', 'QA', 'Administrative'];
+    const types = ['Frontend', 'Backend', 'Fullstack', 'QA', 'Administrative'];
     const experiences = ['Fresher', '0 - 1', '1 - 2.5', '2.5 - 6', '6 - 10', '10 Above']
 
 
@@ -64,7 +64,7 @@ const AddOpening = (props) => {
         data.then(res => {
             let data = [];
             res.data.data.map(res => {
-                data.push(res.name);
+                data.push(res.name.charAt(0).toUpperCase() + res.name.slice(1));
             })
             setSkills(data);
         }).catch(error => {
@@ -78,7 +78,7 @@ const AddOpening = (props) => {
         data.then(res => {
             let data = [];
             res.data.data.map(res => {
-                data.push(res.name);
+                data.push(res.name.charAt(0).toUpperCase() + res.name.slice(1));
             })
             setLocations(data);
         }).catch(error => {
@@ -267,7 +267,7 @@ const AddOpening = (props) => {
                 }}>
                     <InputLabel htmlFor="filled-location-simple">Location</InputLabel>
                     <Select
-                        value={location}
+                        value={locations}
                         onChange={e => setLocation(e.target.value)}
                         onBlur={e => setLocationError(checkLocationValidation(e.target.value))}
                         inputProps={{
