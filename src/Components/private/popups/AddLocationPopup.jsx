@@ -22,7 +22,7 @@ const AddLocation = (props) => {
 
 
     const handleSubmit = () => {
-        setAddEditDisable(true);
+        setAddEditDisable(false);
         const request = {
             name: location
         }
@@ -34,7 +34,7 @@ const AddLocation = (props) => {
                         handleClose();
                         props.getLocations();
                         success(Constants.LOCATION_EDIT_SUCCESS);
-                        setAddEditDisable(false);
+                        setAddEditDisable(true);
                     }
 
                 }).catch(error => {
@@ -47,7 +47,7 @@ const AddLocation = (props) => {
                         handleClose();
                         props.getLocations();
                         success(Constants.LOCATION_ADD_SUCCESS);
-                        setAddEditDisable(false);
+                        setAddEditDisable(true);
                     }
                 }).catch(error => {
                     setLocationError(error.response.data.message)
@@ -117,7 +117,7 @@ const AddLocation = (props) => {
                     color="primary"
                     variant="contained"
                     //disabled={locationError ? true : locationError === null ? false : true}
-                    disabled={location ? false : true}
+                    disabled={location && addEditDisable ? false : true}
                 >
                     {props.editData ? 'Update' : 'Save'}
                 </Button>

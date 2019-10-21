@@ -25,10 +25,11 @@ const ReferAFriendPopup = (props) => {
     const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [mobileNumberError, setMobileNumberError] = useState('');
-    const [resumeError, setResumeError] = useState('')
+    const [resumeError, setResumeError] = useState('');
+    const [buttonDisable, setButtonDisable] = useState(true);
 
     const handleSubmit = () => {
-        console.log(props)
+        setButtonDisable(false);
         let data = {
             jobId: props.data._id,
             name,
@@ -127,7 +128,7 @@ const ReferAFriendPopup = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
-                    disabled={nameError && emailError && mobileNumberError && resumeError ? true : nameError === null && emailError === null && mobileNumberError === null && resumeError === null ? false : true}
+                    disabled={nameError && emailError && mobileNumberError && resumeError ? true : nameError === null && emailError === null && mobileNumberError === null && resumeError === null && buttonDisable ? false : true}
                 >
                     {Constants.SAVE}
                 </Button>

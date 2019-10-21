@@ -100,12 +100,14 @@ const AddOpening = (props) => {
 
     const handleSubmit = e => {
         //e.target.disabled = true;
+
         console.log(location)
         if (mandatorySkills.length === 0) {
             setMandatorySkillsError('Please Select atleast 1 Mandatory Skill');
+
         } else {
             setMandatorySkillsError(null);
-            setSubmitDisable(true);
+            setSubmitDisable(false)
             let data = {
                 title,
                 type,
@@ -121,7 +123,7 @@ const AddOpening = (props) => {
                 http.putWithHeader(`job/edit/${props.rowData._id}`, data).then(res => {
                     success(Constants.OPENING_EDIT_SUCCESS);
                     props.getOpenings();
-                    setSubmitDisable(false);
+                    setSubmitDisable(true);
                     props.handleCloseModal();
 
                 }).catch(error => {
@@ -133,7 +135,7 @@ const AddOpening = (props) => {
                     props.handleCloseModal()
                     success(Constants.OPENING_ADD_SUCCESS);
                     props.getOpenings();
-                    setSubmitDisable(false);
+                    setSubmitDisable(true);
 
                 }).catch(error => {
 
@@ -148,7 +150,7 @@ const AddOpening = (props) => {
         getLocations();
         console.log(props.rowData)
         if (Object.keys(props.rowData).length > 0) {
-            setSubmitDisable(false);
+            setSubmitDisable(true);
             const dataToEdit = props.rowData;
             setType(dataToEdit.type);
             setTitle(dataToEdit.title);
@@ -345,7 +347,7 @@ const AddOpening = (props) => {
                     onClick={e => handleSubmit(e)}
                     color="primary"
                     variant="contained"
-                    disabled={titleError && typeError && jobTypeError && locationError && noOfPositionsError ? true : titleError === null && typeError === null && jobTypeError === null && locationError === null && noOfPositionsError === null ? false : true}
+                    disabled={titleError && typeError && jobTypeError && locationError && noOfPositionsError ? true : titleError === null && typeError === null && jobTypeError === null && locationError === null && noOfPositionsError === null && submitDisable ? false : true}
 
 
                 >

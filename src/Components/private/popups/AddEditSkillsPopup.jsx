@@ -20,7 +20,7 @@ const AddEditSkillsPopup = (props) => {
     const [skill, setSkill] = useState();
     const [skillError, setSkillError] = useState('');
     const [isEdit, setIsEdit] = useState(Constants.ADD)
-    // const [addEditDisable, setAddEditDisable] = useState(true);
+    const [addEditDisable, setAddEditDisable] = useState(true);
 
     useEffect(() => {
         if (props.editData) {
@@ -39,7 +39,7 @@ const AddEditSkillsPopup = (props) => {
     }
 
     const handleSubmit = () => {
-        //setAddEditDisable(true);
+        setAddEditDisable(false);
 
         const request = {
             name: skill
@@ -54,7 +54,7 @@ const AddEditSkillsPopup = (props) => {
                         handleClose();
                         props.getSkills();
                         success(Constants.SKILL_EDIT_SUCCESS);
-                        //setAddEditDisable(false);
+                        setAddEditDisable(true);
                     }
 
                 }).catch(error => {
@@ -67,7 +67,7 @@ const AddEditSkillsPopup = (props) => {
                         handleClose();
                         props.getSkills();
                         success(Constants.SKILL_ADD_SUCCESS);
-                        //setAddEditDisable(false);
+                        setAddEditDisable(true);
                     }
 
                 }).catch(error => {
@@ -124,7 +124,7 @@ const AddEditSkillsPopup = (props) => {
                     color="primary"
                     variant="contained"
                     //disabled={skillError ? true : skillError === null ? false : true}
-                    disabled={skill ? false : true}
+                    disabled={skill && addEditDisable ? false : true}
                 >
                     {props.editData ? 'Update' : 'Save'}
                 </Button>
