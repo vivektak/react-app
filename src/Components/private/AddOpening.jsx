@@ -99,6 +99,7 @@ const AddOpening = (props) => {
 
 
     const handleSubmit = e => {
+        //e.target.disabled = true;
         console.log(location)
         if (mandatorySkills.length === 0) {
             setMandatorySkillsError('Please Select atleast 1 Mandatory Skill');

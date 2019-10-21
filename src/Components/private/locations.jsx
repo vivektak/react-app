@@ -136,7 +136,7 @@ const Locations = (props) => {
                 <MaterialTable
                     columns={[
                         { title: 'ID', field: '_id' },
-                        { title: "Location", field: "name", render: row => <span style={{ textTransform: 'capitalize' }}>{row.name}</span> },
+                        { title: "Location", field: "name" },
 
                     ]}
                     data={locations}
