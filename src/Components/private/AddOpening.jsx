@@ -181,6 +181,7 @@ const AddOpening = (props) => {
                     className="opening-box"
                     id="standard-name"
                     label="Title"
+                    inputProps={{ maxLength: "25" }}
                     name={Constants.TITLE.toLowerCase()}
                     helperText={titleError}
                     fullWidth={true}
@@ -320,7 +321,7 @@ const AddOpening = (props) => {
                     inputProps={{ min: "0", max: "10", step: "1" }}
                     error={noOfPositionsError ? true : false}
                     onChange={e => {
-                        setNoOfPositions(e.target.value);
+                        setNoOfPositions(parseInt(e.target.value));
                     }}
                     onBlur={e => {
                         setNoOfPositionsError(checkNoOfPositionsValidation(e.target.value))

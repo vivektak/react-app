@@ -67,6 +67,7 @@ const ReferAFriendPopup = (props) => {
                     label="Name"
                     name="name"
                     helperText={nameError}
+                    inputProps={{ maxLength: "25" }}
                     fullWidth={true}
                     value={name}
                     error={nameError ? true : false}
@@ -82,6 +83,7 @@ const ReferAFriendPopup = (props) => {
                     type="email"
                     name="email"
                     fullWidth={true}
+                    inputProps={{ maxLength: "30" }}
                     value={email}
                     error={emailError ? true : false}
                     helperText={emailError}

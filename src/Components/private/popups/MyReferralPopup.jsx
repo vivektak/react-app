@@ -131,6 +131,7 @@ const MyReferralPopup = (props) => {
                     label="Name"
                     name={Constants.NAME.toLowerCase()}
                     helperText={nameError}
+                    inputProps={{ maxLength: "25" }}
                     fullWidth={true}
                     value={name}
                     error={nameError ? true : false}
@@ -146,6 +147,7 @@ const MyReferralPopup = (props) => {
                     label="Email"
                     name={Constants.EMAIL.toLowerCase()}
                     helperText={emailError}
+                    inputProps={{ maxLength: "30" }}
                     fullWidth={true}
                     value={email}
                     error={emailError ? true : false}

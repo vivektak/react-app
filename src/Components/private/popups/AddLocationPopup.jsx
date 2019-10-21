@@ -94,6 +94,7 @@ const AddLocation = (props) => {
                     name={Constants.LOCATION.toLowerCase()}
                     helperText={locationError}
                     fullWidth={true}
+                    inputProps={{ maxLength: "25" }}
                     value={location}
                     error={locationError ? true : false}
                     onChange={e => {

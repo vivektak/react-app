@@ -106,6 +106,7 @@ const AddEditSkillsPopup = (props) => {
                     name={Constants.SKILL.toLowerCase()}
                     helperText={skillError}
                     fullWidth={true}
+                    inputProps={{ maxLength: "20" }}
                     value={skill}
                     error={skillError ? true : false}
                     onChange={e => {
