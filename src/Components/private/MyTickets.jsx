@@ -4,6 +4,7 @@ import MaterialTable from "material-table";
 import * as Constants from '../../Constants/Constants';
 import Header from './../../../src/Components/private/Header';
 import { error } from '../../services/notificationService';
+import { success } from './../../services/notificationService';
 
 const MyTickets = props => {
 
@@ -65,6 +66,19 @@ const MyTickets = props => {
         })
     }
 
+    const handleDelete = (e, rowData) => {
+        http.deleteWithHeader(`refer/delete/${rowData._id}`).then(res => {
+            if (res && res.status === 200) {
+                success(Constants.OPENING_DELETE_SUCCESS);
+                getTickets();
+                getHrDetails();
+
+            }
+        }).catch(error => {
+
+        });
+    }
+
     useEffect(() => {
         getUserInfo();
 
@@ -104,6 +118,16 @@ const MyTickets = props => {
                             })
                         }),
                 }}
+                actions={roleData.role === 'superadmin' ? [
+
+                    {
+                        icon: 'delete',
+                        tooltip: Constants.EDIT_USER,
+                        onClick: (event, rowData) => {
+                            handleDelete(event, rowData)
+                        }
+                    },
+                ] : []}
                 options={{
                     actionsColumnIndex: -1,
                     pageSize: 10

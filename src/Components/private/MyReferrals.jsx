@@ -106,13 +106,15 @@ const MyReferrals = () => {
                                 handleResume(event, rowData)
                             }
                         },
-                        {
-                            icon: Constants.EDIT.toLowerCase(),
-                            tooltip: Constants.EDIT_USER,
-                            onClick: (event, rowData) => {
-                                handleEdit(event, rowData)
-                            }
-                        },
+                        rowData => (
+                            {
+                                icon: Constants.EDIT.toLowerCase(),
+                                tooltip: Constants.EDIT_USER,
+                                hidden: rowData.isUpdated,
+                                onClick: (event, rowData) => {
+                                    handleEdit(event, rowData)
+                                }
+                            }),
                     ]}
                     options={{
                         actionsColumnIndex: -1

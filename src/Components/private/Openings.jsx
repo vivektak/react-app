@@ -196,8 +196,8 @@ const Openings = props => {
                         { title: Constants.JOBTYPE, field: "jobType", render: row => <span style={{ textTransform: 'capitalize' }}>{row.jobType}</span> },
                         { title: 'Experience(in years)', field: "experience", render: row => <span style={{ textTransform: 'capitalize' }}>{row.experience}</span> },
                         { title: Constants.LOCATION, field: "location", render: row => <span style={{ textTransform: 'capitalize' }}>{row.location}</span> },
-                        { title: Constants.MANDATORYSKILLS, field: "mandatorySkills", render: row => <span style={{ textTransform: 'capitalize' }}>{row.mandatorySkills}</span> },
-                        { title: Constants.GOODTOHAVESKILLS, field: "goodToHaveSkills", render: row => <span style={{ textTransform: 'capitalize' }}>{row.goodToHaveSkills}</span> },
+                        { title: Constants.MANDATORYSKILLS, field: "mandatorySkills" },
+                        { title: Constants.GOODTOHAVESKILLS, field: "goodToHaveSkills" },
                         { title: Constants.NOOFPOSITIONS, field: "noOfPositions", render: row => <span style={{ textTransform: 'capitalize' }}>{row.noOfPositions}</span> },
                     ]}
                     data={Opening}
