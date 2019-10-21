@@ -24,10 +24,10 @@ const MyReferralPopup = (props) => {
     const [resumeError, setResumeError] = useState('');
     const [resume, setResume] = useState('');
     const [isEdit, setIsEdit] = useState(Constants.ADD);
-    const [addEditDisable, setAddEditDisable] = useState(false);
+    const [addEditDisable, setAddEditDisable] = useState(true);
 
     const handleSubmit = () => {
-        setAddEditDisable(true);
+        setAddEditDisable(false);
         const request = {
             jobId: props.editData ? props.editData.jobId : 1,
             email,
@@ -43,7 +43,7 @@ const MyReferralPopup = (props) => {
                     handleClose();
                     props.getReferrals();
                     success(Constants.REFERRAL_EDIT_SUCCESS);
-                    setAddEditDisable(false);
+                    setAddEditDisable(true);
                 }
 
             }).catch(error => {
@@ -56,7 +56,7 @@ const MyReferralPopup = (props) => {
                     handleClose();
                     props.getReferrals();
                     success(Constants.REFERRAL_ADD_SUCCESS);
-                    setAddEditDisable(false);
+                    setAddEditDisable(true);
                 }
             }).catch(error => {
 
@@ -194,7 +194,7 @@ const MyReferralPopup = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
-                    disabled={nameError && emailError && mobileError && resumeError ? true : nameError === null && emailError === null && mobileError === null && resumeError === null ? false : true}
+                    disabled={nameError && emailError && mobileError && resumeError ? true : nameError === null && emailError === null && mobileError === null && resumeError === null && addEditDisable ? false : true}
                 >
                     {Object.keys(props.rowData).length > 0 ? 'Update' : 'Save'}
                 </Button>

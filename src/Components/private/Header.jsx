@@ -15,30 +15,58 @@ import {
     ListItem,
     ListItemText,
     ListItemIcon,
-    Divider
+    Divider,
+    Badge,
+    Menu,
+    MenuItem
 
 } from "@material-ui/core";
-import { Menu as MenuIcon, Work as WorkIcon, FormatListBulleted as FormatListBulletedIcon, AccountCircle, ExitToApp, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
+import { Menu as MenuIcon, Work as WorkIcon, Notifications as NotificationsIcon, FormatListBulleted as FormatListBulletedIcon, AccountCircle, ExitToApp, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
 import http from '../../services/httpService';
 import { useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
+    },
+    margin: {
+        margin: theme.spacing(1),
+    },
+    divider: {
+        margin: theme.spacing(2, 0),
+        width: '100%',
+    },
+    row: {
+        marginTop: theme.spacing(2),
+    },
+}));
 
 
 
 const Header = (props) => {
+    const classes = useStyles();
     const { data, setData } = useContext(userContext);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDrawer, setOpenDrawer] = useState(false);
     const [roleData, setRoleData] = useState('');
     const [drawerData, setDrawerData] = useState([]);
-
+    const open = Boolean(anchorEl);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
     }
 
-    const handleMenu = event => {
+    const handleNotifications = event => {
         setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
     const getUserInfo = () => {
@@ -119,12 +147,39 @@ const Header = (props) => {
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
-                        onClick={handleMenu}
                         color="inherit"
                     >
                         <AccountCircle />
                         <span className="nav-link">{data ? data.firstName + ' ' + data.lastName : null}</span>
                     </IconButton>
+                    <IconButton
+
+                        onClick={handleNotifications}
+                    >
+                        <Badge color="secondary" badgeContent={4} className={classes.margin}>
+                            {/*  */}
+                            <NotificationsIcon />
+                            {/* </IconButton> */}
+                        </Badge>
+                    </IconButton>
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={open}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={handleClose}>You have a new Notification</MenuItem>
+                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                    </Menu>
                     <Link to="/login" className="sdfsd" style={{ color: "white" }}>
                         <IconButton
                             aria-label="account of current user"
@@ -141,7 +196,7 @@ const Header = (props) => {
             <Drawer open={openDrawer} onClose={toggleDrawer('left', false)}>
                 {sideList('left')}
             </Drawer>
-        </AppBar>
+        </AppBar >
     );
 }
 
