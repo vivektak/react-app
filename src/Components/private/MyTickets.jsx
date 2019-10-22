@@ -76,14 +76,13 @@ const MyTickets = props => {
     return (<div>
         <Header {...props} />
         <div className="container-fluid" style={{ margin: "30px 0 15px 0" }}>
-
             <MaterialTable
                 columns={roleData.role === 'admin' ? [
                     { title: 'Job ID', field: "jobId", editable: 'never' },
                     { title: 'Name', field: "name", render: row => <span style={{ textTransform: 'capitalize' }}>{row.name}</span>, editable: 'never' },
                     { title: 'Mobile', field: "mobile", editable: 'never' },
                     { title: 'Refer By', field: "referBy.firstName", render: row => <span style={{ textTransform: 'capitalize' }}>{row.referBy.firstName}</span>, editable: 'never' },
-                    { title: 'Status', field: "status", editable: 'onUpdate', lookup: { 'Open': 'Open', 'pending': 'pending', 'No Current Match Found': 'No Current Match Found', 'Invalid Profile': 'Invalid Profile', 'Not Reachable': 'Not Reachable', 'Not Selected': 'Not Selected', 'Resume Shortlisted': 'Resume Shortlisted', 'Offered': 'Offered', 'Deferred': 'Deferred' } },
+                    { title: 'Status', field: "status", editable: 'onUpdate', lookup: { 'Open': 'Open', 'Pending': 'Pending', 'No Current Match Found': 'No Current Match Found', 'Invalid Profile': 'Invalid Profile', 'Not Reachable': 'Not Reachable', 'Not Selected': 'Not Selected', 'Resume Shortlisted': 'Resume Shortlisted', 'Offered': 'Offered', 'Deferred': 'Deferred' } },
 
                 ] : [
                         { title: 'Job ID', field: "jobId", editable: 'never' },

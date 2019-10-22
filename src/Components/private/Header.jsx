@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import localStorage from '../../services/storageService';
 import '../../styles/login.css';
@@ -23,7 +23,7 @@ import {
 } from "@material-ui/core";
 import { Menu as MenuIcon, Work as WorkIcon, Notifications as NotificationsIcon, FormatListBulleted as FormatListBulletedIcon, AccountCircle, ExitToApp, Home as HomeIcon, LocationOn as LocationOnIcon, MenuBook as MenuBookIcon, PeopleOutline as PeopleOutlineIcon, } from "@material-ui/icons";
 import http from '../../services/httpService';
-import { useEffect } from 'react';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -55,6 +55,8 @@ const Header = (props) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [roleData, setRoleData] = useState('');
     const [drawerData, setDrawerData] = useState([]);
+    const [notificationCount, setNotificationCount] = useState(0);
+    const [notifications, setNotifications] = useState([]);
     const open = Boolean(anchorEl);
 
     const handleLogout = () => {
@@ -62,8 +64,23 @@ const Header = (props) => {
     }
 
     const handleNotifications = event => {
+        console.log('clicked')
         setAnchorEl(event.currentTarget);
+        http.deleteWithHeader('notification/deleteMyNotification').then(res => {
+            setNotificationCount(0);
+
+        })
+
     };
+
+    const getNotification = () => {
+
+        http.getWithHeader('notification/myNotifications').then(res => {
+            setNotifications(res.data.data);
+            setNotificationCount(res.data.data.length);
+        })
+
+    }
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -84,7 +101,17 @@ const Header = (props) => {
 
     useEffect(() => {
         getUserInfo();
+        getNotification();
     }, [])
+
+
+    // const handleNotification = () => {
+
+    //     http.getWithHeader('notification/deleteMyNotification').then(res => {
+    //        console.log(res);
+    //     })
+
+    // }
 
     const toggleDrawer = (side, open) => event => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -150,11 +177,8 @@ const Header = (props) => {
                         <AccountCircle />
                         <span className="nav-link">{data ? data.firstName + ' ' + data.lastName : null}</span>
                     </IconButton>
-                    <IconButton
-
-                        onClick={handleNotifications}
-                    >
-                        <Badge color="secondary" badgeContent={4} className={classes.margin}>
+                    <IconButton onClick={handleNotifications}>
+                        <Badge color="secondary" badgeContent={notificationCount} className={classes.margin} >
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
@@ -173,8 +197,13 @@ const Header = (props) => {
                         open={open}
                         onClose={handleClose}
                     >
-                        <MenuItem onClick={handleClose}>You have a new Notification</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <Link to='my-tickets'>
+                            {notifications.map(notifications => (
+                                <MenuItem onClick={handleClose}>{notifications.message}</MenuItem>
+                            ))}
+                        </Link>
+
+
                     </Menu>
                     <Link to="/login" className="sdfsd" style={{ color: "white" }}>
                         <IconButton
