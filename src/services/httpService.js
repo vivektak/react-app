@@ -2,19 +2,11 @@ import Axios from 'axios';
 import localStorage from './storageService';
 import * as Constants from '../Constants/Constants';
 
-
-
-
-// const getHeaders = () => {
-//     return localStorage.get(Constants.TOKEN)
-// }
-
 const http = {
     getWithHeader: async function (url) {
         const headers = {
             token: localStorage.get(Constants.TOKEN)
         }
-
         return await Axios.get(process.env.REACT_APP_API_URL + url, { headers })
     },
 

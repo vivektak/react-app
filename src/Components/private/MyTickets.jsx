@@ -15,18 +15,13 @@ const MyTickets = props => {
 
     const getTickets = () => {
         setIsLoading(true);
-        console.log('opening called')
         let url = 'refer/all'
-
         const data = http.getWithHeader(url)
         data.then(res => {
             setIsLoading(false);
             if (res) {
                 setTickets(res.data.data);
-                console.log(res.data.data)
             }
-
-
         }).catch((error) => {
 
         });
@@ -34,19 +29,13 @@ const MyTickets = props => {
 
     const getHrDetails = () => {
         setIsLoading(true);
-
         let url = 'user/allhr'
         const data = http.getWithHeader(url)
         data.then(res => {
             setIsLoading(false);
             if (res) {
-                console.log(res.data.data)
-                //console.log(Object.keys(res.data.data) => )
                 setHrData(res.data.data);
-
             }
-
-
         }).catch((error) => {
 
         });

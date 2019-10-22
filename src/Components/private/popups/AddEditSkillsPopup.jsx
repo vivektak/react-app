@@ -30,14 +30,6 @@ const AddEditSkillsPopup = (props) => {
         }
     }, []);
 
-    const blockSpecialChar = (e) => {
-        console.log(e.keyCode)
-        var k;
-        document.all ? k = e.keyCode : k = e.which;
-        return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57) || k == 190 || k == 188);
-
-    }
-
     const handleSubmit = () => {
         setAddEditDisable(false);
 
@@ -112,8 +104,7 @@ const AddEditSkillsPopup = (props) => {
                     onChange={e => {
                         setSkill(e.target.value.trim() === '' ? '' : e.target.value);
                     }}
-                    onKeyPress={e => blockSpecialChar(e)}
-                    onKeyUp={e => { handleKeyUp(e); blockSpecialChar(e) }}
+                    onKeyUp={e => { handleKeyUp(e); }}
                     onBlur={e => setSkillError(checkSkillValidation(e.target.value))}
                     margin="normal"
                 ></TextField>
@@ -123,7 +114,6 @@ const AddEditSkillsPopup = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
-                    //disabled={skillError ? true : skillError === null ? false : true}
                     disabled={skill && addEditDisable ? false : true}
                 >
                     {props.editData ? 'Update' : 'Save'}

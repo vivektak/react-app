@@ -13,7 +13,6 @@ const Dashboard = props => {
     const [fullstackJobs, setfullstackJobs] = useState(0);
 
     const handleClick = path => {
-        console.log(path);
         props.history.push('/openings', { path })
     }
 
@@ -41,13 +40,8 @@ const Dashboard = props => {
         dashboardCount()
     }, [])
 
-
-
-
-
     return (
         <React.Fragment>
-
             <Header />
             <Card className="dashboard-card total-jobs" onClick={e => handleClick('all')}>
                 <CardContent>
@@ -79,7 +73,6 @@ const Dashboard = props => {
                     Administrative <h3>{adminJobs}</h3>
                 </CardContent>
             </Card>
-            {/* </div> */}
         </React.Fragment>
     );
 }

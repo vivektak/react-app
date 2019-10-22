@@ -1,45 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-//import $ from 'jquery/dist/jquery.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap-table/dist/bootstrap-table.js';
-// import 'bootstrap-table/dist/bootstrap-table-locale-all.js';
-// import 'bootstrap-table/dist/bootstrap-table-vue.js';
-// import 'bootstrap-table/dist/bootstrap-table-vue.esm.js'
-// import 'bootstrap-table/dist/bootstrap-table.css';
 import { BrowserRouter } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-//https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css;
-//https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css;
-
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
-import { userContext } from "./services/Context";
 import "@material/react-chips/dist/chips.css";
 import '@material/react-material-icon/dist/material-icon.css';
 
-// mandatory
 require('react-s-alert/dist/s-alert-default.css');
-
-// optional - you can choose the effect you want
-// require('react-s-alert/dist/s-alert-css-effects/slide.css');
-// require('react-s-alert/dist/s-alert-css-effects/scale.css');
 require('react-s-alert/dist/s-alert-css-effects/bouncyflip.css');
-// require('react-s-alert/dist/s-alert-css-effects/flip.css');
-// require('react-s-alert/dist/s-alert-css-effects/genie.css');
-// require('react-s-alert/dist/s-alert-css-effects/jelly.css');
-// require('react-s-alert/dist/s-alert-css-effects/stackslide.css');
 
 ReactDOM.render(
-
     <BrowserRouter>
         <ToastContainer />
-
         <App />
-
     </BrowserRouter>
     , document.getElementById('root'));
 

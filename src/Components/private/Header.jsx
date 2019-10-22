@@ -71,7 +71,6 @@ const Header = (props) => {
 
     const getUserInfo = () => {
         http.getWithHeader('user/info').then(res => {
-            console.log(res.data.data);
             setRoleData(res.data.data);
             if (res.data.data.role === 'admin') {
                 setDrawerData([{ name: 'Home', url: '/Openings' }, { name: 'My Referrals', url: '/my-referrals' }, { name: 'My Tickets', url: '/my-tickets' }])
@@ -93,7 +92,6 @@ const Header = (props) => {
         }
         setOpenDrawer(open);
     };
-
 
     const sideList = side => (
         <div
@@ -157,9 +155,7 @@ const Header = (props) => {
                         onClick={handleNotifications}
                     >
                         <Badge color="secondary" badgeContent={4} className={classes.margin}>
-                            {/*  */}
                             <NotificationsIcon />
-                            {/* </IconButton> */}
                         </Badge>
                     </IconButton>
                     <Menu

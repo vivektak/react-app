@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
-import { userContext } from '../../services/Context';
+import React, { useEffect, useState, useRef } from 'react';
 import Header from './Header';
 import http from "../../services/httpService";
 import DescriptionPopup from '../private/popups/DescriptionPopup';
@@ -14,15 +13,13 @@ import AddOpening from './AddOpening';
 import ConfirmPopup from './popups/ConfirmPopup';
 import { toBase64 } from '../../services/commonHandler';
 import { success } from '../../services/notificationService';
-import errorResponseHandler from './../../services/errorHandler';
+
 import Export from './exportToExcel';
 
 
 const Openings = props => {
 
-
     const [openModal, setOpenModal] = useState(false);
-
     const [descriptionPopup, setDescriptionPopup] = useState(false);
     const [showReferralPopup, setShowReferralPopup] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
@@ -31,7 +28,6 @@ const Openings = props => {
     const [rowData, setRowData] = useState([]);
     const [roleData, setRoleData] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-
     const fileInput = useRef();
 
     const onBackButtonEvent = (e) => {
@@ -48,7 +44,6 @@ const Openings = props => {
 
     const getUserInfo = () => {
         http.getWithHeader('user/info').then(res => {
-            console.log(res.data.data);
             setRoleData(res.data.data);
         })
     }
@@ -77,8 +72,6 @@ const Openings = props => {
 
     }
 
-
-
     const togglePopup = () => {
         setDescriptionPopup(!descriptionPopup)
     }
@@ -90,10 +83,8 @@ const Openings = props => {
 
     const getOpenings = () => {
         setIsLoading(true);
-        console.log('opening called')
         let url = 'job/latest'
         if (props.location && props.location.state && props.location.state.path) {
-            console.log(props.location.state.path);
             url = url + '?type=' + props.location.state.path;
         }
         const data = http.getWithHeader(url)
@@ -109,10 +100,7 @@ const Openings = props => {
                     }
                 })
                 setOpening(res.data.data);
-                console.log(res.data.data)
             }
-
-
         }).catch((error) => {
 
         });
@@ -121,14 +109,12 @@ const Openings = props => {
     const handleDetailsView = (e, rowData) => {
         setRowData(rowData);
         togglePopup();
-
     }
 
     const toggleReferrals = (e, data) => {
         setRowData(data);
         setShowReferralPopup(!showReferralPopup);
     }
-
 
     const handleCloseModal = () => {
         setOpenModal(false);
@@ -261,8 +247,7 @@ const Openings = props => {
                 color="#000"
                 height={50}
                 width={50}
-                timeout={5000} //3 secs
-
+                timeout={5000}
             /> : null}
         </div >
     );

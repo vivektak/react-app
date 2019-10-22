@@ -60,9 +60,7 @@ const AddLocation = (props) => {
     }
 
     useEffect(() => {
-        console.log(props)
         if (props.editData) {
-            console.log('error free')
             setLocationError(null);
             setLocation(props.editData.name);
             setIsEdit(Constants.EDIT);
@@ -100,7 +98,6 @@ const AddLocation = (props) => {
                     onChange={e => {
                         setLocation(e.target.value.trim() === '' ? '' : e.target.value);
                     }}
-                    //onBlur={checkNameValidation}
                     onBlur={e => {
                         setLocationError(checkLocationValidation(location))
 
@@ -116,7 +113,6 @@ const AddLocation = (props) => {
                     onClick={handleSubmit}
                     color="primary"
                     variant="contained"
-                    //disabled={locationError ? true : locationError === null ? false : true}
                     disabled={location && addEditDisable ? false : true}
                 >
                     {props.editData ? 'Update' : 'Save'}

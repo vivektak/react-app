@@ -62,9 +62,6 @@ const MyReferralPopup = (props) => {
 
             })
         }
-
-        // }
-
     }
 
     function dataURLtoFile(dataurl, filename) {
@@ -77,12 +74,10 @@ const MyReferralPopup = (props) => {
     }
 
     useEffect(() => {
-        console.log(props.rowData)
         if (Object.keys(props.rowData).length > 0) {
             setName(props.rowData.name);
             setMobile(props.rowData.mobile);
             setEmail(props.rowData.email);
-            console.log(dataURLtoFile(props.rowData.resume, props.rowData.name));
             setResume(dataURLtoFile(props.rowData.resume, props.rowData.name));
             setIsEdit(Constants.EDIT);
             setNameError(null);
@@ -96,13 +91,11 @@ const MyReferralPopup = (props) => {
     }, [])
 
     const onChange = async (e) => {
-        console.log(e.target.files[0]);
         if (e.target.files[0]) {
             let filename = e.target.files[0].name;
             let ext = filename.split('.').pop();
             if (ext === "pdf" || ext === "docx" || ext === "doc") {
                 const resume = await toBase64(e.target.files[0]);
-                console.log(resume)
                 setResume(resume);
                 setResumeError(null);
             } else {
@@ -179,7 +172,6 @@ const MyReferralPopup = (props) => {
                     label="Choose File"
                     type="file"
                     name="file"
-                    //value={resume.name}
                     helperText={resumeError}
                     error={resumeError ? true : false}
                     accept=".doc,.docx,.pdf"

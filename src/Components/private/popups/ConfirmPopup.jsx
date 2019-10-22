@@ -19,7 +19,6 @@ const ConfirmPopup = props => {
 
     return (
         <Dialog
-            //style={{ width: '500px' }}
             open={true}
             keepMounted
             aria-labelledby="alert-dialog-slide-title"
@@ -28,8 +27,6 @@ const ConfirmPopup = props => {
             <DialogTitle id="alert-dialog-slide-title"> Confirmation</DialogTitle>
             <DialogContent>
                 Are You sure, You want to Delete it ?
-
-
             </DialogContent>
             <DialogActions>
                 <Button

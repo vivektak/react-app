@@ -1,7 +1,5 @@
 import React from 'react';
-import * as Constants from '../Constants/Constants'
 import { Card, CardContent, CardActions, Divider, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 
 
 const NotFound = props => {

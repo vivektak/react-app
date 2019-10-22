@@ -42,8 +42,6 @@ const ReferAFriendPopup = (props) => {
     }
 
     const onChange = async (e) => {
-        console.log(e);
-        console.log(e.target.files[0]);
         if (e.target.files[0]) {
             let filename = e.target.files[0].name;
             let ext = filename.split('.').pop();

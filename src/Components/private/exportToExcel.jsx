@@ -9,10 +9,8 @@ const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 const Export = (props) => {
 
     useEffect(() => {
-        console.log(props.data[0] && props.data[0].mandatorySkills)
         if (props.data[0] && props.data[0].mandatorySkills) {
             props.data.map(row => {
-                console.log(row);
                 if (row.mandatorySkills.length > 0) {
                     row.mandatorySkills = row.mandatorySkills.toString();
                 }
@@ -27,7 +25,6 @@ const Export = (props) => {
             })
         }
     }, [props])
-
 
     return (<ExcelFile filename="Report" element={(<Button> Export Excel </Button>)}>
 

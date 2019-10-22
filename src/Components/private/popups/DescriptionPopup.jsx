@@ -18,7 +18,7 @@ import { success } from '../../../services/notificationService';
 const DescriptionPopup = (props) => {
     console.log(props);
 
-    const { title, location, jobType, skills, type, mandatorySkills, goodToHaveSkills, description, noOfPositions } = props.rowData;
+    const { title, location, jobType, type, mandatorySkills, goodToHaveSkills, description, noOfPositions } = props.rowData;
     const [showPopup, setShowPopup] = useState(true);
     const [addEditDisable, setAddEditDisable] = useState(false);
     const [roleData, setRoleData] = useState('');

@@ -27,14 +27,6 @@ const PrivateRoutes = ({ component: Component, ...rest }) => {
                 props =>
                     !localStorage.get('token') ? <Redirect to={{ pathname: '/login', state: { from: props.location } }}
                     /> : (<Component {...props} />)
-                //roleData.role === 'superadmin' ? (<Component {...props} />) : props.location.pathname === '/skills' || props.location.pathname === '/locations' ? <Redirect to={{ pathname: '/login' }} /> : (<Component {...props} />)
-
-
-                // console.log('super') : props.location.pathname === '/skills' || props.location.pathname === '/locations' ? <Redirect to={{ pathname: '/login', state: { from: props.location } }}
-                // /> : (
-                //         <Component {...props} />
-                //     )
-
             }
         />
     )

@@ -5,7 +5,6 @@ import AddEditSkillsPopup from '../private/popups/AddEditSkillsPopup';
 import '../../styles/App.css';
 import * as Constants from '../../Constants/Constants';
 import Loader from 'react-loader-spinner';
-//import { Redirect } from 'react-router';
 import {
     Button,
 } from "@material-ui/core";
@@ -15,7 +14,6 @@ import { toBase64 } from '../../services/commonHandler';
 import { success } from '../../services/notificationService';
 import Export from './exportToExcel';
 import { error } from '../../services/notificationService';
-//import { ExcelFile, ExcelSheet } from "react-export-excel";
 
 const Skills = (props) => {
 
@@ -24,15 +22,10 @@ const Skills = (props) => {
     const [editData, setEditData] = useState('');
     const [excelImport, setExcelImport] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    //const [exportExcel, setExportExcel] = useState(false);
-
     const [isDelete, setIsDelete] = useState(false);
-    //const [roleData, setRoleData] = useState('');
-
     const fileInput = useRef();
 
     const getSkills = () => {
-        //console.log(roleData.role)
         setIsLoading(true);
         const data = http.getWithHeader('skill/all')
         data.then(res => {
@@ -69,17 +62,8 @@ const Skills = (props) => {
         setPopup(!popup)
     }
 
-    // const getUserInfo = async () => {
-    //     await http.getWithHeader('user/info').then(res => {
-    //         setRoleData(res.data.data);
-    //     })
-    // }
-
-
     useEffect(() => {
-        //getUserInfo();
         http.getWithHeader('user/info').then(res => {
-            // setRoleData(res.data.data);
             if (res.data.data.role === 'superadmin') {
                 getSkills();
             }
@@ -109,14 +93,6 @@ const Skills = (props) => {
         fileInput.current.click();
     }
 
-    // const handleExport = () => {
-    //     console.log(fileInput.current);
-    //     setExportExcel(true);
-    //     // return <ExcelFile>
-    //     //     <ExcelSheet dataSet={skills} name="Skills" />
-    //     // </ExcelFile>
-    // }
-
     const toggleDeletePopup = () => {
         setIsDelete(false)
     }
@@ -126,8 +102,6 @@ const Skills = (props) => {
             <Header {...props} />
             <div className="container-fluid">
                 <div style={{ textAlign: "right", margin: "30px 0 15px 0" }}>
-
-
                     <input
                         ref={fileInput}
                         style={{ display: "none" }}
@@ -196,8 +170,7 @@ const Skills = (props) => {
                 color="#000"
                 height={50}
                 width={50}
-                timeout={3000} //3 secs
-
+                timeout={3000}
             /> : null}
         </div >
     );

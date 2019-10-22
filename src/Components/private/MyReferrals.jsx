@@ -24,7 +24,6 @@ const MyReferrals = () => {
         data.then(res => {
             setIsLoading(false);
             setMyReferrals(res.data.data);
-            console.log(res.data.data);
         }).catch(error => {
 
         })
@@ -131,8 +130,7 @@ const MyReferrals = () => {
                 color="#000"
                 height={50}
                 width={50}
-                timeout={3000} //3 secs
-
+                timeout={3000}
             /> : null}
         </div>
     );

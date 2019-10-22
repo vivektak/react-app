@@ -17,7 +17,6 @@ const ViewReferredPopup = (props) => {
     const [referrals, setReferrals] = useState([]);
 
     const getReferrals = () => {
-        console.log(props)
         const data = http.getWithHeader(`refer/${props.rowData._id}`)
         data.then(res => {
             setReferrals(res.data.data);

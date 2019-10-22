@@ -6,7 +6,7 @@ import http from '../services/httpService';
 import * as Constants from '../Constants/Constants';
 import { userContext } from '../services/Context';
 import Loader from 'react-loader-spinner';
-import { checkEmailValidation, checkPasswordValidation, checkTypeValidation } from '../services/commonValidation.js'
+import { checkEmailValidation } from '../services/commonValidation.js'
 
 import {
     CardContent,
@@ -35,8 +35,6 @@ export const Login = (props) => {
             email: email,
             password: password
         }
-
-        // setSubmitState(true)
         await http.post('user/login', data).then(res => {
             if (res.status === 200) {
                 setSubmitState(false);
@@ -59,27 +57,6 @@ export const Login = (props) => {
             handleSubmit()
         }
     }
-
-    // const checkValidation = e => {
-
-
-    //     if (emailError && passError) {
-    //         setSubmitState(true)
-    //     } else if (emailError === '' || passError === '') {
-
-    //         setSubmitState(true)
-    //     } else {
-    //         setSubmitState(false);
-    //     }
-    // }
-
-    // const handleKeyPress = e => {
-    //     console.log(e)
-    //     console.log(e.keyCode)
-    //     if (e.keyCode === 13) {
-    //         handleSubmit();
-    //     }
-    // }
 
     return (
         <div
@@ -129,7 +106,6 @@ export const Login = (props) => {
                         }}
                         onBlur={e => {
                             setEmailError(checkEmailValidation(email));
-                            //checkValidation(e)
                         }}
                         margin="normal"
                     ></TextField>
@@ -147,8 +123,6 @@ export const Login = (props) => {
                             setPassword(e.target.value.trim() === '' ? '' : e.target.value);
                         }}
                         onBlur={e => {
-                            //setPassError(checkPasswordValidation(password));
-                            //checkValidation(e)
                         }}
                     />
                 </CardContent>
@@ -172,8 +146,7 @@ export const Login = (props) => {
                 color="#000"
                 height={50}
                 width={50}
-                timeout={3000} //3 secs
-
+                timeout={3000}
             /> : null}
         </div>
     );

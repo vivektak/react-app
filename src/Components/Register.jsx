@@ -14,7 +14,7 @@ import {
 
 import PersonIcon from "@material-ui/icons/Person";
 import { success } from '../services/notificationService';
-import { checkEmailValidation, checkPasswordValidation } from '../services/commonValidation';
+import { checkEmailValidation } from '../services/commonValidation';
 
 
 const Register = props => {
@@ -27,7 +27,6 @@ const Register = props => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        //setButtonState(true);
         const data = {
             email: email,
             password: password
@@ -45,22 +44,6 @@ const Register = props => {
     const handleKeyUp = e => {
         if (e.keyCode === 13) {
             handleSubmit(e)
-        }
-    }
-
-    const checkValidation = e => {
-
-
-        if (emailError && passError) {
-
-            setButtonState(true)
-        } else if (emailError === '' || passError === '') {
-
-            setButtonState(true)
-        } else {
-            console.log(emailError)
-            console.log(passError)
-            setButtonState(false);
         }
     }
 
@@ -117,7 +100,6 @@ const Register = props => {
                         }}
                         onBlur={e => {
                             setEmailError(checkEmailValidation(email));
-                            //checkValidation(e)
                         }}
                         margin="normal"
                     ></TextField>
@@ -134,17 +116,13 @@ const Register = props => {
                         onChange={e => {
                             setPassword(e.target.value.trim() === '' ? '' : e.target.value);
                         }}
-                        onBlur={e => {
-                            // setPassError(checkPasswordValidation(password));
-                            // checkValidation(e)
-                        }}
                     />
                 </CardContent>
                 <CardActions style={{ display: "flex", justifyContent: "center" }}>
                     <Button
                         style={{
                             backgroundColor: "#000",
-                            backgroundColor: "rgb(0, 0, 0)",
+                            // backgroundColor: "rgb(0, 0, 0)",
                             borderRadius: "20px"
                         }}
                         size="small"

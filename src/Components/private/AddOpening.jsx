@@ -3,8 +3,6 @@ import Chips from 'react-chips'
 import http from '../../services/httpService';
 import * as Constants from '../../Constants/Constants';
 import '../../styles/App.css';
-//import MUIRichTextEditor from 'mui-rte';
-//import RichTextEditor, { createEmptyValue } from 'react-rte-material';
 import CKEditor from "react-ckeditor-component";
 
 import {
@@ -42,18 +40,11 @@ const AddOpening = (props) => {
     const [titleError, setTitleError] = useState('');
     const [typeError, setTypeError] = useState('');
     const [expError, setExpError] = useState('');
-    const [descError, setDescError] = useState('');
     const [jobTypeError, setJobTypeError] = useState('');
     const [locationError, setLocationError] = useState('');
     const [statusError, setStatusError] = useState('');
     const [noOfPositionsError, setNoOfPositionsError] = useState('');
     const [mandatorySkillsError, setMandatorySkillsError] = useState('');
-    //    const [goodToHaveSkillsError, setGoodToHaveSkillsError] = useState('');
-
-    //const [value, setValue] = useState(RichTextEditor.createEmptyValue());
-    // state = {
-    //     value: RichTextEditor.createEmptyValue()
-    //   }
 
     const jobTypes = ['Permanent', 'Contractual'];
     const types = ['Frontend', 'Backend', 'Fullstack', 'QA', 'Administrative'];
@@ -69,7 +60,6 @@ const AddOpening = (props) => {
             res.data.data.map(res => {
                 data.push(res.name.charAt(0).toUpperCase() + res.name.slice(1));
             })
-            console.log(data)
             setSkills(data);
         }).catch(error => {
 
@@ -82,10 +72,8 @@ const AddOpening = (props) => {
         data.then(res => {
             let data = [];
             res.data.data.map(res => {
-                console.log(res)
                 data.push(res.name.charAt(0).toUpperCase() + res.name.slice(1));
             })
-            console.log(data)
             setLocations(data);
         }).catch(error => {
 
@@ -100,11 +88,7 @@ const AddOpening = (props) => {
         setGoodToHaveSkills(e);
     }
 
-
     const handleSubmit = e => {
-        //e.target.disabled = true;
-
-        console.log(location)
         if (mandatorySkills.length === 0) {
             setMandatorySkillsError('Please Select atleast 1 Mandatory Skill');
 
@@ -152,7 +136,6 @@ const AddOpening = (props) => {
 
         getSkills();
         getLocations();
-        console.log(props.rowData)
         if (Object.keys(props.rowData).length > 0) {
             setSubmitDisable(true);
             const dataToEdit = props.rowData;
@@ -363,8 +346,6 @@ const AddOpening = (props) => {
                     activeClass="p10"
                     content={description}
                     events={{
-                        //"blur": this.onBlur,
-                        //"afterPaste": this.afterPaste,
                         "change": e => { setDescription(e.editor.getData()) }
                     }}
                 />
@@ -375,8 +356,6 @@ const AddOpening = (props) => {
                     color="primary"
                     variant="contained"
                     disabled={titleError && typeError && jobTypeError && locationError && noOfPositionsError && statusError ? true : titleError === null && typeError === null && jobTypeError === null && locationError === null && statusError === null && noOfPositionsError === null && submitDisable ? false : true}
-
-
                 >
                     {Object.keys(props.rowData).length > 0 ? "Update" : "Save"}
                 </Button>
