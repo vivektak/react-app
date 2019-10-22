@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
     Button,
@@ -9,6 +9,14 @@ import {
 } from "@material-ui/core";
 
 const ConfirmPopup = props => {
+
+    const [isDeleted, setIsDeleted] = useState(false);
+
+    const handleDelete = () => {
+        setIsDeleted(true);
+        props.handleDelete()
+    }
+
     return (
         <Dialog
             //style={{ width: '500px' }}
@@ -19,15 +27,16 @@ const ConfirmPopup = props => {
         >
             <DialogTitle id="alert-dialog-slide-title"> Confirmation</DialogTitle>
             <DialogContent>
-                Are You sure, You want to Delete ?
+                Are You sure, You want to Delete it ?
 
 
             </DialogContent>
             <DialogActions>
                 <Button
-                    onClick={props.handleDelete}
+                    onClick={handleDelete}
                     color="primary"
                     variant="contained"
+                    disabled={isDeleted}
                 >
                     Confirm
                 </Button>

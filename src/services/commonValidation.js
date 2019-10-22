@@ -97,6 +97,17 @@ export const checkLocationValidation = (location) => {
     }
 }
 
+export const checkStatusValidation = (status) => {
+    console.log(status)
+    if (status === '') {
+        console.log('jai')
+        return 'Status is Required';
+    } else {
+        console.log('veeru')
+        return null;
+    }
+}
+
 export const checkSkillValidation = (skill) => {
     console.log(skill)
     if (skill === '') {

@@ -196,6 +196,7 @@ const Openings = props => {
                         { title: Constants.JOBTYPE, field: "jobType", render: row => <span style={{ textTransform: 'capitalize' }}>{row.jobType}</span> },
                         { title: 'Experience(in years)', field: "experience", render: row => <span style={{ textTransform: 'capitalize' }}>{row.experience}</span> },
                         { title: Constants.LOCATION, field: "location", render: row => <span style={{ textTransform: 'capitalize' }}>{row.location}</span> },
+                        { title: 'Status', field: "status", render: row => <span style={{ textTransform: 'capitalize' }}>{row.status}</span> },
                         { title: Constants.MANDATORYSKILLS, field: "mandatorySkills" },
                         { title: Constants.GOODTOHAVESKILLS, field: "goodToHaveSkills" },
                         { title: Constants.NOOFPOSITIONS, field: "noOfPositions", render: row => <span style={{ textTransform: 'capitalize' }}>{row.noOfPositions}</span> },
@@ -206,15 +207,16 @@ const Openings = props => {
                         {
 
                             icon: Constants.EDIT.toLowerCase(),
-                            tooltip: Constants.EDIT_USER,
+                            tooltip: 'Edit Job',
                             onClick: (event, rowData) => {
                                 handleEdit(event, rowData)
                             }
                         },
                         {
                             icon: Constants.DELETE.toLowerCase(),
-                            tooltip: Constants.DELETE_USER,
+                            tooltip: 'Delete Job',
                             onClick: (event, rowData) => {
+                                toggleDeletePopup();
                                 setIsDelete(true);
                                 setRowData(rowData);
                             }

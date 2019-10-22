@@ -31,7 +31,7 @@ const Locations = (props) => {
             setIsLoading(false);
             setLocation(res.data.data);
         }).catch(error => {
-
+            setIsLoading(false);
         })
     }
 
@@ -54,7 +54,7 @@ const Locations = (props) => {
                 setIsDelete(false);
             }
         }).catch(error => {
-
+            setIsDelete(false);
         });
     }
 

@@ -61,7 +61,7 @@ const Skills = (props) => {
                 setIsDelete(false);
             }
         }).catch(error => {
-
+            setIsDelete(false);
         });
     }
 

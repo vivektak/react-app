@@ -21,7 +21,7 @@ import {
     FormHelperText
 } from "@material-ui/core";
 import { success } from '../../services/notificationService';
-import { checkTitleValidation, checkJobTypeValidation, checkExpValidation, checkDescriptionValidation, checkMandatorySkillsValidation, checkNoOfPositionsValidation, checkLocationValidation, checkTypeValidation } from '../../services/commonValidation';
+import { checkTitleValidation, checkStatusValidation, checkJobTypeValidation, checkExpValidation, checkDescriptionValidation, checkMandatorySkillsValidation, checkNoOfPositionsValidation, checkLocationValidation, checkTypeValidation } from '../../services/commonValidation';
 
 
 const AddOpening = (props) => {
@@ -36,6 +36,7 @@ const AddOpening = (props) => {
     const [goodToHaveSkills, setGoodToHaveSkills] = useState([]);
     const [skills, setSkills] = useState([]);
     const [locations, setLocations] = useState([]);
+    const [status, setStatus] = useState('');
     const [submitDisable, setSubmitDisable] = useState(true);
 
     const [titleError, setTitleError] = useState('');
@@ -44,6 +45,7 @@ const AddOpening = (props) => {
     const [descError, setDescError] = useState('');
     const [jobTypeError, setJobTypeError] = useState('');
     const [locationError, setLocationError] = useState('');
+    const [statusError, setStatusError] = useState('');
     const [noOfPositionsError, setNoOfPositionsError] = useState('');
     const [mandatorySkillsError, setMandatorySkillsError] = useState('');
     //    const [goodToHaveSkillsError, setGoodToHaveSkillsError] = useState('');
@@ -55,7 +57,8 @@ const AddOpening = (props) => {
 
     const jobTypes = ['Permanent', 'Contractual'];
     const types = ['Frontend', 'Backend', 'Fullstack', 'QA', 'Administrative'];
-    const experiences = ['Fresher', '0 - 1', '1 - 2.5', '2.5 - 6', '6 - 10', '10+']
+    const experiences = ['Fresher', '0 - 1', '1 - 2.5', '2.5 - 6', '6 - 10', '10+'];
+    const statusList = ['Open', 'On Hold', 'Close'];
 
 
     const getSkills = () => {
@@ -115,6 +118,7 @@ const AddOpening = (props) => {
                 experience,
                 jobType,
                 location,
+                status,
                 noOfPositions,
                 mandatorySkills,
                 goodToHaveSkills
@@ -153,6 +157,7 @@ const AddOpening = (props) => {
             setSubmitDisable(true);
             const dataToEdit = props.rowData;
             setType(dataToEdit.type);
+            setStatus(dataToEdit.status);
             setTitle(dataToEdit.title);
             setExperience(dataToEdit.experience)
             setDescription(dataToEdit.description);
@@ -163,6 +168,7 @@ const AddOpening = (props) => {
             setGoodToHaveSkills(dataToEdit.goodToHaveSkills.length > 0 ? dataToEdit.goodToHaveSkills.split(',') : [])
 
             setTitleError(null);
+            setStatusError(null);
             setTypeError(null);
             setJobTypeError(null);
             setLocationError(null);
@@ -263,7 +269,6 @@ const AddOpening = (props) => {
                     {jobTypeError ? <FormHelperText >{Constants.JOB_TYPE_REQUIRE}</FormHelperText> : null}
                 </FormControl>
 
-
                 <FormControl error={locationError ? true : false} variant="outlined" className="opening-box" style={{
                     width: "100%",
                 }}>
@@ -284,6 +289,28 @@ const AddOpening = (props) => {
                         }
                     </Select>
                     {locationError ? <FormHelperText >{Constants.LOCATION_REQUIRE}</FormHelperText> : null}
+                </FormControl>
+
+                <FormControl error={statusError ? true : false} variant="outlined" className="opening-box" style={{
+                    width: "100%",
+                }}>
+                    <InputLabel htmlFor="filled-location-simple">Status</InputLabel>
+                    <Select
+                        value={status}
+                        onChange={e => { console.log(locations); console.log(e.target); setStatus(e.target.value) }}
+                        onBlur={e => setStatusError(checkStatusValidation(e.target.value))}
+                        inputProps={{
+                            name: 'status',
+                            id: 'filled-location-simple',
+                        }}
+                    >
+                        {
+                            statusList.map(status => {
+                                return <MenuItem value={status}>{status}</MenuItem>
+                            })
+                        }
+                    </Select>
+                    {statusError ? <FormHelperText >Status is Required</FormHelperText> : null}
                 </FormControl>
 
                 <div className="opening-box" >
@@ -347,7 +374,7 @@ const AddOpening = (props) => {
                     onClick={e => handleSubmit(e)}
                     color="primary"
                     variant="contained"
-                    disabled={titleError && typeError && jobTypeError && locationError && noOfPositionsError ? true : titleError === null && typeError === null && jobTypeError === null && locationError === null && noOfPositionsError === null && submitDisable ? false : true}
+                    disabled={titleError && typeError && jobTypeError && locationError && noOfPositionsError && statusError ? true : titleError === null && typeError === null && jobTypeError === null && locationError === null && statusError === null && noOfPositionsError === null && submitDisable ? false : true}
 
 
                 >

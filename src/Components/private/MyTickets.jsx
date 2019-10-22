@@ -122,7 +122,7 @@ const MyTickets = props => {
 
                     {
                         icon: 'delete',
-                        tooltip: Constants.EDIT_USER,
+                        tooltip: 'Delete',
                         onClick: (event, rowData) => {
                             handleDelete(event, rowData)
                         }

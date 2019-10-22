@@ -101,7 +101,7 @@ const MyReferrals = () => {
                     actions={[
                         {
                             icon: "get_app",
-                            tooltip: "Resume",
+                            tooltip: "Download Resume",
                             onClick: (event, rowData) => {
                                 handleResume(event, rowData)
                             }
@@ -109,7 +109,7 @@ const MyReferrals = () => {
                         rowData => (
                             {
                                 icon: Constants.EDIT.toLowerCase(),
-                                tooltip: Constants.EDIT_USER,
+                                tooltip: 'Edit',
                                 hidden: rowData.isUpdated,
                                 onClick: (event, rowData) => {
                                     handleEdit(event, rowData)
