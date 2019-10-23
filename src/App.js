@@ -16,9 +16,9 @@ import http from './services/httpService';
 import IdleTimer from 'react-idle-timer'
 import Alert from 'react-s-alert'
 import Dashboard from './Components/Dashboard';
-
 import { info } from './services/notificationService';
 import MyTickets from './Components/private/MyTickets';
+import errorResponseHandler from './services/errorHandler';
 
 function App(props) {
   const [data, setData] = useState();

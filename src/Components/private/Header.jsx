@@ -64,20 +64,26 @@ const Header = (props) => {
     }
 
     const handleNotifications = event => {
-        console.log('clicked')
-        setAnchorEl(event.currentTarget);
+        if (notificationCount === 0) {
+            setNotifications([]);
+        } else {
+
+            setAnchorEl(event.currentTarget);
+        }
         http.deleteWithHeader('notification/deleteMyNotification').then(res => {
             setNotificationCount(0);
+        }).catch(error => {
 
         })
 
     };
 
     const getNotification = () => {
-
         http.getWithHeader('notification/myNotifications').then(res => {
             setNotifications(res.data.data);
             setNotificationCount(res.data.data.length);
+        }).catch(error => {
+
         })
 
     }
@@ -96,22 +102,17 @@ const Header = (props) => {
             } else {
                 setDrawerData([{ name: 'Home', url: '/Dashboard' }, { name: 'Job Openings', url: '/Openings', icon: WorkIcon }, { name: 'My Referrals', url: '/my-referrals' }])
             }
+        }).catch(error => {
+
         })
     }
 
     useEffect(() => {
         getUserInfo();
         getNotification();
+        setInterval(getNotification, 10000);
     }, [])
 
-
-    // const handleNotification = () => {
-
-    //     http.getWithHeader('notification/deleteMyNotification').then(res => {
-    //        console.log(res);
-    //     })
-
-    // }
 
     const toggleDrawer = (side, open) => event => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

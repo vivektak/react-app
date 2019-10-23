@@ -2,6 +2,7 @@ import axios from 'axios';
 import { error } from '../services/notificationService';
 
 function errorResponseHandler(err) {
+    console.log(err)
     if (err.response === undefined) {
         error('Please Check your internet Connection')
     } else if (err.response.data.message === 'Location already available with this name' || err.response.data.message === 'Skill already available with this name') {
