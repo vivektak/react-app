@@ -18,7 +18,7 @@ import Export from './exportToExcel';
 
 
 const Openings = props => {
-
+    console.log(props.socket)
     const [openModal, setOpenModal] = useState(false);
     const [descriptionPopup, setDescriptionPopup] = useState(false);
     const [showReferralPopup, setShowReferralPopup] = useState(false);

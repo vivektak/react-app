@@ -109,8 +109,15 @@ const Header = (props) => {
 
     useEffect(() => {
         getUserInfo();
-        getNotification();
-        setInterval(getNotification, 10000);
+        // getNotification();
+        //setInterval(getNotification, 10000);
+        console.log(props.socket)
+
+        props.socket.on("myNotification", data => {
+            console.log(data)
+            setNotifications(data);
+            setNotificationCount(data.length);
+        });
     }, [])
 
 

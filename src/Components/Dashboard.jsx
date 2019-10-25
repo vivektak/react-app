@@ -42,7 +42,7 @@ const Dashboard = props => {
 
     return (
         <React.Fragment>
-            <Header />
+            <Header {...props} />
             <Card className="dashboard-card total-jobs" onClick={e => handleClick('all')}>
                 <CardContent>
                     Total Jobs <h3>{totalJobs}</h3>

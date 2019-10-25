@@ -19,6 +19,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { success } from '../services/notificationService';
 
 export const Login = (props) => {
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -41,6 +42,7 @@ export const Login = (props) => {
                 success(Constants.LOGGED_IN_SUCCESS)
                 localStorage.set(Constants.TOKEN, res.data.data.token);
                 setData(res.data.data)
+                props.socket.emit('register', res.data.data.token);
                 setIsLoading(false);
                 if (res.data.data.role === 'admin' || res.data.data.role === 'superadmin') {
                     props.history.push('/openings')

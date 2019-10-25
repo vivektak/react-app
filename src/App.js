@@ -19,6 +19,9 @@ import Dashboard from './Components/Dashboard';
 import { info } from './services/notificationService';
 import MyTickets from './Components/private/MyTickets';
 import errorResponseHandler from './services/errorHandler';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:3000')
 
 function App(props) {
   const [data, setData] = useState();
@@ -56,17 +59,17 @@ function App(props) {
       <userContext.Provider value={{ data, setData }}>
         <div className="App">
           <Switch>
-            <Route path="/login" component={Login} {...props} />
+            <Route path="/login" render={props => <Login {...props} socket={socket} />} />
             <Redirect from="/" exact to="/login" />
             <Route path="/register" component={Register} />
-            <Route path="/dashboard" component={Dashboard} />
-            <PrivateRoutes path="/openings/:id" component={AddOpening} key='1' />
-            <PrivateRoutes path="/openings" component={Openings} key='2' />
-            <PrivateRoutes path="/my-referrals" component={MyReferrals} key='3' />
-            <PrivateRoutes path="/my-tickets" component={MyTickets} key='3' />
-            <PrivateRoutes path="/skills" component={Skills} key='4' />
-            <PrivateRoutes path="/locations" component={Locations} key='5' />
-            <PrivateRoutes path="/add-opening" component={AddOpening} key='6' />
+            <Route path="/dashboard" render={props => <Dashboard {...props} socket={socket} />} />
+            <PrivateRoutes path="/openings/:id" component={AddOpening} socket={socket} />
+            <PrivateRoutes path="/openings" component={Openings} socket={socket} />
+            <PrivateRoutes path="/my-referrals" component={MyReferrals} socket={socket} />
+            <PrivateRoutes path="/my-tickets" component={MyTickets} socket={socket} />
+            <PrivateRoutes path="/skills" component={Skills} socket={socket} />
+            <PrivateRoutes path="/locations" component={Locations} socket={socket} />
+            <PrivateRoutes path="/add-opening" component={AddOpening} socket={socket} />
             <Route path="/not-found" component={NotFound} />
             <Route path="/" exact component={Login} {...props} />
             <Redirect to="/not-found" />
