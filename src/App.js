@@ -21,7 +21,7 @@ import MyTickets from './Components/private/MyTickets';
 import errorResponseHandler from './services/errorHandler';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3000')
+const socket = io.connect(process.env.REACT_APP_API_URL)
 
 function App(props) {
   const [data, setData] = useState();
