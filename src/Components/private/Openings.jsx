@@ -67,7 +67,7 @@ const Openings = props => {
                 setIsDelete(false);
             }
         }).catch(error => {
-
+            setIsDelete(false);
         });
 
     }
@@ -93,10 +93,10 @@ const Openings = props => {
             if (res) {
                 res.data.data.map(row => {
                     if (row.mandatorySkills.length > 1) {
-                        row.mandatorySkills = row.mandatorySkills.toString();
+                        row.mandatorySkills = row.mandatorySkills.toString().split(',').join(', ');;
                     }
                     if (row.goodToHaveSkills.length > 1) {
-                        row.goodToHaveSkills = row.goodToHaveSkills.toString();
+                        row.goodToHaveSkills = row.goodToHaveSkills.toString().split(',').join(', ');;
                     }
                 })
                 setOpening(res.data.data);

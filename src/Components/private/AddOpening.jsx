@@ -18,7 +18,7 @@ import {
     FormControl,
     FormHelperText
 } from "@material-ui/core";
-import { success } from '../../services/notificationService';
+import { success, error } from '../../services/notificationService';
 import { checkTitleValidation, checkStatusValidation, checkJobTypeValidation, checkExpValidation, checkDescriptionValidation, checkMandatorySkillsValidation, checkNoOfPositionsValidation, checkLocationValidation, checkTypeValidation } from '../../services/commonValidation';
 
 
@@ -118,16 +118,22 @@ const AddOpening = (props) => {
 
                 });
             } else {
-                http.postWithHeader('job/add', data).then(res => {
-                    props.history.replace(`/${Constants.OPENINGS}`);
+                if (status === 'Close') {
+                    error("You can't create an Job Opening with Close Status")
                     props.handleCloseModal()
-                    success(Constants.OPENING_ADD_SUCCESS);
-                    props.getOpenings();
-                    setSubmitDisable(true);
+                } else {
+                    http.postWithHeader('job/add', data).then(res => {
+                        props.history.replace(`/${Constants.OPENINGS}`);
+                        props.handleCloseModal()
+                        success(Constants.OPENING_ADD_SUCCESS);
+                        props.getOpenings();
+                        setSubmitDisable(true);
 
-                }).catch(error => {
-
-                });
+                    }).catch(error => {
+                        console.log('klajsdklj')
+                        props.handleCloseModal()
+                    });
+                }
             }
         }
     }

@@ -100,10 +100,18 @@ const MyTickets = props => {
                     onRowUpdate: (newData, oldData) =>
 
                         new Promise((resolve, reject) => {
-                            http.patchWithHeader(`refer/status/${newData._id}`, { status: newData.status, priority: newData.priority, assignedTo: newData.assignedTo }).then(res => {
+                            console.log(newData)
+                            if (oldData.status === 'Not Selected') {
+                                error('you cant update this record as this candidate is not selected')
                                 getTickets();
-                                resolve();
-                            })
+                                resolve()
+
+                            } else {
+                                http.patchWithHeader(`refer/status/${newData._id}`, { status: newData.status, priority: newData.priority, assignedTo: newData.assignedTo }).then(res => {
+                                    getTickets();
+                                    resolve();
+                                })
+                            }
                         }),
                 }}
                 actions={roleData.role === 'superadmin' ? [

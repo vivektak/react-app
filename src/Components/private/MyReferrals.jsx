@@ -11,7 +11,7 @@ import {
 import MaterialTable from "material-table";
 import * as Constants from '../../Constants/Constants';
 
-const MyReferrals = () => {
+const MyReferrals = (props) => {
 
     const [myReferrals, setMyReferrals] = useState([]);
     const [myReferralsPopup, setMyReferralsPopup] = useState(false);
@@ -78,7 +78,7 @@ const MyReferrals = () => {
 
 
         <div>
-            <Header />
+            <Header {...props} />
             <div className="container-fluid" >
                 <div style={{ textAlign: "right", margin: "30px 0 15px 0" }}>
                     <Button

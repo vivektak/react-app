@@ -18,7 +18,7 @@ import { success } from '../../../services/notificationService';
 const DescriptionPopup = (props) => {
     console.log(props);
 
-    const { title, location, jobType, type, mandatorySkills, goodToHaveSkills, description, noOfPositions } = props.rowData;
+    const { title, location, jobType, type, mandatorySkills, experience, status, goodToHaveSkills, description, noOfPositions } = props.rowData;
     const [showPopup, setShowPopup] = useState(true);
     const [addEditDisable, setAddEditDisable] = useState(false);
     const [roleData, setRoleData] = useState('');
@@ -66,9 +66,11 @@ const DescriptionPopup = (props) => {
                         <p>Hiring for <strong>{title}</strong> Position (<strong style={{ textTransform: 'capitalize' }}>{type}</strong>) </p>
                         <p><strong>Location : </strong><span style={{ textTransform: 'capitalize' }}>{location}</span></p>
                         <p><strong>Job Type : </strong><span style={{ textTransform: 'capitalize' }}>{jobType}</span></p>
+                        <p><strong>Experience(in years) : </strong>{experience}</p>
                         <p><strong>Mandatory Skills : </strong><span style={{ textTransform: 'capitalize' }}>{mandatorySkills}</span></p>
                         {goodToHaveSkills.length > 1 ? <p><strong>Good To Have Skills : </strong><span style={{ textTransform: 'capitalize' }}>{goodToHaveSkills.split(',').join(', ')}</span></p> : <p><strong>Good To Have Skills : </strong><span style={{ textTransform: 'capitalize' }}>{goodToHaveSkills}</span></p>}
                         <p><strong>No of Positions : </strong>{noOfPositions}</p>
+                        <p><strong>Status : </strong><span style={{ textTransform: 'capitalize' }}>{status}</span></p>
                         <p><strong>Job Description : </strong><span style={{ textTransform: 'capitalize' }}>{ReactHtmlParser(description)}</span></p>
 
                     </DialogContent>
