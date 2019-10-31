@@ -93,6 +93,7 @@ const MyReferrals = (props) => {
                         { title: "Job Id", field: "jobId" },
                         { title: Constants.NAME, field: Constants.NAME.toLowerCase() },
                         { title: Constants.MOBILE, field: Constants.MOBILE.toLowerCase() },
+                        { title: 'Experience(in years)', field: "experience" },
                         { title: Constants.STATUS, field: Constants.STATUS.toLowerCase() },
                     ]}
                     data={myReferrals}

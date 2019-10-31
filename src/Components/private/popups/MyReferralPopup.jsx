@@ -9,22 +9,36 @@ import {
     DialogContent,
     DialogActions,
     TextField,
+    FormControl,
+    InputLabel,
+    Select,
+    FormHelperText,
+    MenuItem
 } from "@material-ui/core";
 import { success } from '../../../services/notificationService';
 import { toBase64 } from '../../../services/commonHandler';
-import { checkNameValidation, checkEmailValidation, checkMobileValidation } from '../../../services/commonValidation';
+import { checkNameValidation, checkExpValidation, checkEmailValidation, checkMobileValidation } from '../../../services/commonValidation';
 
 const MyReferralPopup = (props) => {
     const [name, setName] = useState('');
     const [nameError, setNameError] = useState('');
+
     const [mobile, setMobile] = useState('');
     const [mobileError, setMobileError] = useState('');
+
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
+
     const [resumeError, setResumeError] = useState('');
     const [resume, setResume] = useState('');
+
+    const [experience, setExperience] = useState('');
+    const [expError, setExpError] = useState('');
+
     const [isEdit, setIsEdit] = useState(Constants.ADD);
     const [addEditDisable, setAddEditDisable] = useState(true);
+
+    const experiences = ['Fresher', '0 - 1', '1 - 2.5', '2.5 - 6', '6 - 10', '10+'];
 
     const handleSubmit = () => {
         setAddEditDisable(false);
@@ -33,6 +47,7 @@ const MyReferralPopup = (props) => {
             email,
             name,
             mobile,
+            experience,
             resume
         }
 
@@ -78,6 +93,7 @@ const MyReferralPopup = (props) => {
             setName(props.rowData.name);
             setMobile(props.rowData.mobile);
             setEmail(props.rowData.email);
+            setExperience(props.rowData.experience)
             setResume(dataURLtoFile(props.rowData.resume, props.rowData.name));
             setIsEdit(Constants.EDIT);
             setNameError(null);
@@ -166,6 +182,27 @@ const MyReferralPopup = (props) => {
                     onBlur={e => setMobileError(checkMobileValidation(e.target.value))}
                     margin="normal"
                 ></TextField>
+                <FormControl error={expError ? true : null} variant="outlined" className="opening-box" style={{
+                    width: "100%",
+                }}>
+                    <InputLabel htmlFor="filled-jobType-simple">Total Experience (in years)</InputLabel>
+                    <Select
+                        value={experience}
+                        onChange={e => setExperience(e.target.value)}
+                        onBlur={e => { setExpError(checkExpValidation(e.target.value)) }}
+                        inputProps={{
+                            name: 'exp',
+                            id: 'filled-exp-simple',
+                        }}
+                    >
+                        {
+                            experiences.map(exp => {
+                                return <MenuItem value={exp}>{exp}</MenuItem>
+                            })
+                        }
+                    </Select>
+                    {expError ? <FormHelperText >{Constants.EXP_REQUIRE}</FormHelperText> : null}
+                </FormControl>
                 <TextField
 
                     id="standard-file"
