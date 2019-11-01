@@ -70,11 +70,11 @@ const Header = (props) => {
 
             setAnchorEl(event.currentTarget);
         }
-        http.deleteWithHeader('notification/deleteMyNotification').then(res => {
-            setNotificationCount(0);
-        }).catch(error => {
+        // http.deleteWithHeader('notification/deleteMyNotification').then(res => {
+        //     setNotificationCount(0);
+        // }).catch(error => {
 
-        })
+        // })
 
     };
 
@@ -109,7 +109,7 @@ const Header = (props) => {
 
     useEffect(() => {
         getUserInfo();
-        // getNotification();
+        getNotification();
         //setInterval(getNotification, 10000);
         console.log(props.socket)
 
@@ -207,7 +207,7 @@ const Header = (props) => {
                     >
                         <Link to='my-tickets'>
                             {notifications.map(notifications => (
-                                <MenuItem onClick={handleClose}>{notifications.message}</MenuItem>
+                                <MenuItem onClick={handleClose}><span style={{ color: 'grey', marginRight: '20px' }}>{notifications.message}</span><span>{new Date(Date.parse(notifications.updatedAt)).getDate()}/{new Date(Date.parse(notifications.updatedAt)).getMonth() + 1}</span></MenuItem>
                             ))}
                         </Link>
 
