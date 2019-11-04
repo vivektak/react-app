@@ -70,11 +70,11 @@ const Header = (props) => {
 
             setAnchorEl(event.currentTarget);
         }
-        // http.deleteWithHeader('notification/deleteMyNotification').then(res => {
-        //     setNotificationCount(0);
-        // }).catch(error => {
+        http.deleteWithHeader('notification/deleteMyNotification').then(res => {
+            setNotificationCount(0);
+        }).catch(error => {
 
-        // })
+        })
 
     };
 
